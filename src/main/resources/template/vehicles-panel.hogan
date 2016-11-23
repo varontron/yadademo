@@ -1,0 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading" data-toggle="collapse" data-target=".vehicles-panel-body">
+    <h3 class="panel-title">Vehicles</h3>
+  </div>
+  <div class="vehicles-panel-body panel-body collapse in">
+
+  </div>
+</div>

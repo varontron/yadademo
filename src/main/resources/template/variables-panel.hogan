@@ -1,0 +1,95 @@
+<div class="panel panel-default">
+  <div class="panel-heading" data-toggle="collapse" data-target=".variables-panel-body">
+    <h3 class="panel-title">Variables</h3>
+  </div>
+  <div class="variables-panel-body panel-body collapse">
+    <form>
+      <table class="table">
+        <tr>
+          <td class="header name" colspan="2">Paid Time Off (PTO)</td>
+        </tr>
+        <tr>
+          <td class="name">Paid Holidays</td>
+          <td class="value">
+            <input class="form-control" type="text" name="paid-holiday" value="{{paid-holiday}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Personal Days</td>
+          <td class="value">
+            <input class="form-control" type="text" name="personal-day" value="{{personal-day}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Vacation Days</td>
+          <td class="value">
+            <input class="form-control" type="text" name="vacation-day" value="{{vacation-day}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="header name" colspan="2">Estimated Annual Savings</td>
+        </tr>
+        <tr>
+          <td class="name">Gym Membership</td>
+          <td class="value">
+            <input class="form-control" type="text" name="gym-membership" value="{{gym-membership}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Life Insurance Premium</td>
+          <td class="value">
+            <input class="form-control" type="text" name="life-ins-prem" value="{{{life-ins-prem}}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="header name" colspan="2">Parking Expenses</td>
+        </tr>
+        <tr>
+          <td class="name">Monthly Employer Subsidy</td>
+          <td class="value">
+            <input class="form-control" type="text" name="monthly-pkg-subsidy" value="{{monthly-pkg-subsidy}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Min Parking Fee Per Day</td>
+          <td class="value">
+            <input class="form-control" type="text" name="min-pkg-day" value="{{min-pkg-day}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Max Parking Fee Per Day</td>
+          <td class="value">
+            <input class="form-control" type="text" name="max-pkg-day" value="{{max-pkg-day}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Max Days per Week Working at Home</td>
+          <td class="value">
+            <input class="form-control" type="text" name="wah-days" value="{{wah-days}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Max Days per Week in Office</td>
+          <td class="value">
+            <input class="form-control" type="text" name="max-io-days" value="{{max-io-days}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="header name" colspan="2">Miscellaneous</td>
+        </tr>
+        <tr>
+          <td class="name">Daily Health Savings</td>
+          <td class="value">
+            <input class="form-control" type="text" name="health-savings" value="{{health-savings}}">
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Commuting Miles Per Day (Round Trip)</td>
+          <td class="value">
+            <input class="form-control" type="text" name="rt-miles" value="{{rt-miles}}">
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+body {
+  margin: 6px;
+}
+
+.constants-box td.name {
+  white-space: nowrap;
+}
+
+.constants-box td.value {
+  text-overflow: ellipsis;
+  text-align: right;
+}
+
+.variables-box td.header {
+  background-color: #ddd;
+  font-weight: bold;
+}
+
+.variables-box td input {
+  width: 50px;
+  text-align: right;
+}
+
+.header {
+  height:70px;
+  width:100%;
+  background: rgba(245, 94, 0, 0.5); /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* Standard syntax (must be last) */
+}
+
+.header span {
+  color: #FFF;
+  font-family: sans-serif;
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 10px 15px;
+}
+
+.header img {
+  width: 68px;
+  height: 68px;
+}
+
+.right-panel .nav-pills {
+  background: #F2F2F2;
+  border: 1px solid #D5D5D5;
+  border-radius: 4px;
+  margin-right: 15px;
+}
+
+.intro {
+  margin-top: 15px;
+}
+
+.intro .panel-body{
+  max-height: 101px;
+  overflow-y: scroll;
+}
+
+.detail-panel {
+  padding: 15px;
+  padding-right:30px;
+}
+
+.detail-panel .tab-pane {
+  padding-top: 15px;
+}
+
+/* Bootstrap Overrrides */
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+    color: #fff;
+    background-color: #F77300;
+}

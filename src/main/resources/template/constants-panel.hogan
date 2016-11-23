@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+  <div class="panel-heading" data-toggle="collapse" data-target=".constants-panel-body">
+    <h3 class="panel-title">Constants</h3>
+  </div>
+  <div class="constants-panel-body panel-body collapse">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td class="name">Days per year</td>
+          <td class="value" data-value="{{days-per-year}}">{{days-per-year}}</td>
+        </tr>
+        <tr>
+          <td class="name">Months per year</td>
+          <td class="value" data-value="{{months-per-year}}">{{months-per-year}}</td>
+        </tr>
+        <tr>
+          <td class="name">Weeks per year</td>
+          <td class="value" data-value="{{weeks-per-year}}">{{weeks-per-year}}</td>
+        </tr>
+        <tr>
+          <td class="name">Weekends per year</td>
+          <td class="value" data-value="{{weekends-per-year}}">{{weekends-per-year}}</td>
+        </tr>
+        <tr>
+          <td class="name">MPS to MPH</td>
+          <td class="value" data-value="{{mps-to-mph}}">{{rounded-mps-to-mph}}</td>
+        </tr>
+        <tr>
+          <td class="name">Meters to Miles</td>
+          <td class="value" data-value="{{meters-to-miles}}">{{rounded-meters-to-miles}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

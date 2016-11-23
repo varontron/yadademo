@@ -1,0 +1,51 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th data-toggle="collapse" data-target=".collapse-{{vehicle}}" colspan="2">Vehicle {{vehicle}}</th>
+    </tr>
+  </thead>
+  <tbody class="collapse-{{vehicle}} collapse">
+    <tr>
+      <td class="name">Year</td>
+      <td class="value">
+        <input class="form-control" type="text" name="year" value="{{year}}">
+      </td>
+    </tr>
+    <tr>
+      <td class="name">Make</td>
+      <td class="value">
+        <input class="form-control" type="text" name="make" value="{{make}}">
+      </td>
+    </tr>
+    <tr>
+      <td class="name">Model</td>
+      <td class="value">
+        <input class="form-control" type="text" name="model" value="{{model}}">
+      </td>
+    </tr>
+    <tr>
+      <td class="name">Start Date</td>
+      <td class="value">
+        <input class="form-control" type="text" name="start" value="{{start}}">
+      </td>
+    </tr>
+    <tr>
+      <td class="name">End Date</td>
+      <td class="value">
+        <input class="form-control" type="text" name="end" value="{{end}}">
+      </td>
+    </tr>
+    <tr>
+      <td class="name">MPG</td>
+      <td class="value">
+        <input class="form-control" type="text" name="year" value="{{mpg}}">
+      </td>
+    </tr>
+    <tr>
+      <td class="name">Yearly Maintenance</td>
+      <td class="value">
+        <input class="form-control" type="text" name="year" value="{{maintenance}}">
+      </td>
+    </tr>
+  </tbody>
+</table>

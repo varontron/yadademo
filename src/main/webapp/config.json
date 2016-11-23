@@ -1,0 +1,116 @@
+{
+  "context": "yadademo",
+  "version": "0.1.0",
+  "environment": { "localhost:7001": {"name":"LOCAL","YADA":"localhost:8081/yada.jsp"} },
+  "content": {
+    "tabs":{
+      "summary":{},
+      "cyc":{"q":"CYC select runs",
+             "cols":[{"data":"route","name":"route","title":"Route"},
+                     {"data":"distance","name":"distance","title":"Distance","className":"dt-body-center"},
+                     {"data":"startTime","name":"starttime","title":"Start","className":"dt-body-center"},
+                     {"data":"stoppedTime","name":"stoppedtime","title":"Stopped","className":"dt-body-center"},
+                     {"data":"runTime","name":"runtime","title":"Runtime","className":"dt-body-center"},
+                     {"data":"elapsedTime","name":"elapsed","title":"Elapsed","className":"dt-body-center"},
+                     {"data":"calories","name":"calories","title":"Calories","visible":false},
+                     {"data":"ascent","name":"ascent","title":"Ascent","visible":false},
+                     {"data":"descent","name":"descent","title":"Descent","visible":false}]
+            },
+      "gas":{"q":"GAS select price"},
+      "expenses":{"q":"EXP select all",
+                  "cols":[{"data":"Location","name":"location","title":"Location"},
+                          {"data":"Date","name":"date","title":"Date","className":"dt-body-right dt-body-nowrap"},
+                          {"data":"Product","name":"product","title":"Product"},
+                          {"data":"Qty","name":"qty","title":"Qty","className":"dt-body-right"},
+                          {"data":"Price","name":"price","title":"Price","className":"dt-body-right"},
+                          {"data":"Category","name":"category","title":"Category"}]},
+      "weather":{"q":"NOAA select all",
+                 "cols":[{"data":"M","name":"m","title":"M"},
+                         {"data":"D","name":"d","title":"D"},
+                         {"data":"YR","name":"yr","title":"YR"},
+                         {"data":"HR","name":"hr","title":"HR"},
+                         {"data":"MIN","name":"min","title":"MIN"},
+                         {"data":"WINDSPD","name":"wind.spd","title":"WIND.SPD"},
+                         {"data":"TEMP","name":"temp","title":"TEMP"}],
+                 "unused":[
+                   {"data":"PRCPDPTH","name":"prcp.dpth","title":"PRCP.DPTH"},
+                   {"data":"LAT","name":"lat","title":"LAT"},
+                   {"data":"LONG","name":"long","title":"LONG"},
+                   {"data":"ADD","name":"add","title":"ADD"},
+                         {"data":"USAFID","name":"usafid","title":"USAFID"},
+                         {"data":"PRCP.ID","name":"prcp.id","title":"PRCP.ID"},
+                         {"data":"PRCP.COND","name":"prcp.cond","title":"PRCP.COND"},
+                         {"data":"PRCP.QC","name":"prcp.qc","title":"PRCP.QC"},
+                         {"data":"PRCP.HRS","name":"prcp.hcs","title":"PRCP.HRS"},
+                         {"data":"ATM.PRES","name":"atm.pres","title":"ATM.PRES"},
+                         {"data":"WBAN","name":"wban","title":"WBAN"},
+                         {"data":"DEW.POINT","name":"dew.point","title":"DEW.POINT"},
+                         {"data":"ELEV","name":"elev","title":"ELEV"},
+                         {"data":"WIND.DIR","name":"wind.dir","title":"WIND.DIR"}
+                         ]},
+      "sleep":{"q":"SLP select all",
+               "cols":[{"data":"Start","name":"start","title":"Start","className":"dt-body-center"},
+                 {"data":"End","name":"end","title":"End","className":"dt-body-center"},
+                 {"data":"Time in bed","name":"time","title":"Time","className":"dt-body-center"},
+                 {"data":"Sleep quality","name":"quality","title":"Quality","className":"dt-body-center"},
+                 {"data":"Heart rate","name":"hr","title":"Heart Rate","className":"dt-body-center"}]}
+    },
+    "constants":{
+      "days-per-year": 365,
+      "months-per-year": 12,
+      "weeks-per-year": 52,
+      "weekends-per-year": 104,
+      "mps-to-mph": 2.2369362920544,
+      "meters-to-miles": 0.00062137119
+    },
+    "variables":{
+      "pto": {
+        "paid-holiday": 12,
+        "personal-day": 5,
+        "vacation-day": 15
+      },
+      "savings": {
+        "gym-membership": 200,
+        "life-ins-prem": 300
+      },
+      "parking": {
+        "monthly-pkg-subsidy": 100,
+        "min-pkg-day": 13,
+        "max-pkg-day": 20,
+        "wah-days": 2,
+        "max-io-days": 5
+      },
+      "miscellaneous": {
+        "health-savings": 2,
+        "rt-miles": 36
+      }
+    },
+    "vehicles": [
+      {
+      "year": 1999,
+      "make": "Honda",
+      "model": "Accord",
+      "start": "",
+      "end": "",
+      "mpg": 25,
+      "maintenance":500
+      },{
+      "year": 2006,
+      "make": "Toyota",
+      "model": "Sienna",
+      "start": "",
+      "end": "",
+      "mpg": 16,
+      "maintenance":500
+      },{
+      "year": 2013,
+      "make": "Nissan",
+      "model": "Rogue",
+      "start": "",
+      "end": "",
+      "mpg": 20,
+      "maintenance":500
+      }
+    ]
+  }
+}

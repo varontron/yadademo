@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="intro col-lg-12 col-md-12 col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading" data-toggle="collapse" data-target=".constants-panel-body">
+        <h3 class="panel-title">Introduction</h3>
+      </div>
+      <div class="constants-panel-body panel-body collapse in">{{{intro}}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="left-panel pull-left col-lg-3 col-md-3 col-sm-4">
+    <div class="vehicles-box"></div>
+    <div class="variables-box"></div>
+    <div class="constants-box"></div>
+  </div>
+  <div class="right-panel pull-right col-lg-9 col-md-9 col-sm-8">
+    <div class="row">
+      <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-pills" role="tablist">
+          <li role="presentation"><a href="#summary" aria-controls="" role="tab" data-toggle="tab">Summary</a></li>
+          <li class="active" role="presentation"><a href="#cyc" aria-controls="" role="tab" data-toggle="tab">Performance</a></li>
+          <li role="presentation"><a href="#expenses" aria-controls="" role="tab" data-toggle="tab">Expenses</a></li>
+          <li role="presentation"><a href="#gas" aria-controls="" role="tab" data-toggle="tab">Car Commuting</a></li>
+          <li role="presentation"><a href="#weather" aria-controls="" role="tab" data-toggle="tab">Weather</a></li>
+          <li role="presentation"><a href="#sleep" aria-controls="" role="tab" data-toggle="tab">Sleep</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div id="summary" class="tab-pane fade" role="tabpanel"></div>
+          <div id="cyc" class="tab-pane fade in active" id="profile" role="tabpanel" ></div>
+          <div id="expenses" class="tab-pane fade" role="tabpanel"></div>
+          <div id="gas" class="tab-pane fade" role="tabpanel"></div>
+          <div id="weather" class="tab-pane fade" role="tabpanel"></div>
+          <div id="sleep" class="tab-pane fade" role="tabpanel"></div>
+        </div>
+      </div>
+
+      <!-- <div class="constants pull-left col-lg-3 col-md-3 col-sm-3"></div>
+      <div class="vitals pull-right col-lg-9 col-md-9 col-sm-9"></div>
+      <div class="cyc pull-right col-lg-9 col-md-9 col-sm-9"></div>
+      <div class="exp pull-right col-lg-9 col-md-9 col-sm-9"></div>
+      <div class="gas pull-right col-lg-9 col-md-9 col-sm-9"></div>
+      <div class="weather pull-right col-lg-9 col-md-9 col-sm-9"></div>
+      <div class="sleep pull-right col-lg-9 col-md-9 col-sm-9"></div> -->
+    </div>
+  </div>
+</div>

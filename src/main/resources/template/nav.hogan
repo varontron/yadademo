@@ -1,0 +1,6 @@
+<nav class="navbar navbar-default" role="navigation">
+  <ul class="nav navbar-nav">
+    <li><a href="#">Menu 1</a></li>
+    <li><a href="#">Menu 2</a></li>
+  </ul>
+</nav>
