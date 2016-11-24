@@ -8,10 +8,10 @@
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div id="#{{tabid}}-look" class="look-tab tab-pane fade" role="tabpanel"></div>
-    <div id="#{{tabid}}-browse" class="browse-tab tab-pane fade in active" role="tabpanel" >
+    <div id="{{tabid}}-look" class="look-tab tab-pane fade" role="tabpanel"></div>
+    <div id="{{tabid}}-browse" class="browse-tab tab-pane fade in active" role="tabpanel" >
       <table class="display cell-border"></table>
     </div>
-    <div id="#{{tabid}}-learn" class="learn-tab tab-pane fade" role="tabpanel"></div>
+    <div id="{{tabid}}-learn" class="learn-tab tab-pane fade" role="tabpanel"></div>
   </div>
 </div>
