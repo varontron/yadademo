@@ -1,6 +1,4 @@
-Welcome to the [YADA](https://github.com/Novartis/YADA) demo application. This 
-site is designed to demonstrate some of the major capabilities of the YADA 
-framework.
+Welcome to the [YADA](https://github.com/Novartis/YADA) demo application &mdash; designed to demonstrate some of the capabilities of the oYADA framework.
 
 The site presents a basic statistical analysis of cycle-commuting
   economics and performance, based on data collected between 2011 and
