@@ -18,7 +18,7 @@
                      {"data":"ascent","name":"ascent","title":"Ascent","visible":false},
                      {"data":"descent","name":"descent","title":"Descent","visible":false}]
             },
-      "gas":{"q":"GAS select price"},
+      "gas": {},
       "expenses":{"q":"EXP select all",
                   "cols":[{"data":"Location","name":"location","title":"Location"},
                           {"data":"Date","name":"date","title":"Date","className":"dt-body-right dt-body-nowrap"},

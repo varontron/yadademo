@@ -10,7 +10,6 @@ define(
     function UI()
     {
       this.defaultAttrs({
-        'q_cyc_runs': 'CYC select runs',
         'nest'      : '.nest',
         'left'      : '.left-panel',
         'vehicles'  : '.vehicles-box',
@@ -90,8 +89,6 @@ define(
             'template':'detail-panel',
             'selector':'#'+tab+'-detail-panel',
             'parent':'#'+tab,
-            // 'event':'detail-attached.renderer',
-            // 'target':'#'+tab+'-detail-panel',
             'tmplvars':{
               'tabid':tab
             }

@@ -1,8 +1,8 @@
 define(
   function(require)
   {
-    return withUIHelper;
-    function withUIHelper() {
+    return withConfig;
+    function withConfig() {
       var moment = require('moment');
       this.table_expenses = function() {
         return {

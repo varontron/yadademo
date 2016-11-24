@@ -2,12 +2,12 @@ define(
   [
      'component/base',
      'datatables',
-     'mixin/withUIHelper'
+     'mixin/withConfig'
   ],
-  function(base,datatables,withUIHelper)
+  function(base,datatables,withConfig)
   {
     'use strict';
-    return base.mixin(DetailsPanel,withUIHelper);
+    return base.mixin(DetailsPanel,withConfig);
     function DetailsPanel()
     {
       this.defaultAttrs({
@@ -17,28 +17,22 @@ define(
         this.enrich();
       });
 
-      /**
-       * bootstrap rich ui
-       */
-      this.enrich = function() {
-
-        var id  = this.$node.attr('id').split('-')[0];
-        var tab = window.yadademo.content.tabs[id];
+      this.enrichTableTab = function(id,tab) {
         if(!!tab.cols)
         {
+          // datatable defaults
           var defaults = {
-            ajax: {
-              //url:'http://'+window.yadademo.env.YADA+'?q='+tab.q,
-              data: {
-                q: tab.q,
-                pz: -1
-              },
-              dataSrc: function(json) {
-                return json.RESULTSET.ROWS;
-              }
-            },
+            data: tab.data,
+            // ajax: {
+            //   data: {
+            //     q: tab.q,
+            //     pz: -1
+            //   },
+            //   dataSrc: function(json) {
+            //     return json.RESULTSET.ROWS;
+            //   }
+            // },
             columns: tab.cols,
-            //columnDefs: this['columnDefs_'+id] ? this['columnDefs_'+id]() : null,
             pagingType: 'simple_numbers',
             dom: '<"top"f>t<"bottom"ip>',
             language: {
@@ -47,7 +41,40 @@ define(
           };
           var conf = !!this['table_'+id] ? $.extend(true,defaults,this['table_'+id]()):defaults;
           this.$node.find('table').dataTable(conf);
-          // this.executeYADAQuery(tab.q);
+        }
+      };
+
+      this.enrichViewTab = function(id,tab) {
+
+      };
+
+      this.enrichLearnTab = function(id,tab) {
+        require(['text!learn_'+id+'.html'],function(html) {
+          $(html).appendTo('#'+id+'-learn');
+        });
+
+      };
+
+      /**
+       * bootstrap rich ui
+       */
+      this.enrich = function() {
+        var that = this;
+        var id  = this.$node.attr('id').split('-')[0];
+        var tab = window.yadademo.content.tabs[id];
+        if(!!tab.q)
+        {
+          var a   = this.executeYADAQuery(tab.q)
+          var aResolve = function(r) {
+            tab['data'] = r.RESULTSET.ROWS;
+            that.enrichTableTab(id,tab);
+            that.enrichLearnTab(id,tab);
+          };
+          var aReject = function(e) {
+            alert("Problem with detail data query:" + e);
+          };
+
+          $.when(a).then(aResolve,aReject);
         }
       };
     }
