@@ -1,4 +1,4 @@
-Welcome to the [https://github.com/Novartis/YADA](YADA) demo application. This 
+Welcome to the [YADA](https://github.com/Novartis/YADA) demo application. This 
 site is designed to demonstrate some of the major capabilities of the YADA 
 framework.
 
@@ -15,7 +15,7 @@ Additional analysis is executed upon cycling performance data, to help with
 The data incorporated in the analysis include:  
 
 * **Performance** data was collected via a variety of onboard
-      sensors connected to the [Cyclemeter](abvio.com/cyclemeter) iPhone app.  Additionally,
+      sensors connected to the [Cyclemeter](http://abvio.com/cyclemeter) iPhone app.  Additionally,
       car-commuting data were recorded to enable evidence-based comparative
       analysis.
 * **Expenses** data is a careful running tally of all expenses
