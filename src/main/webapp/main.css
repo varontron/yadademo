@@ -44,6 +44,16 @@ body {
   height: 68px;
 }
 
+footer {
+  height: 35px;
+  width:100%;
+  background: rgba(245, 94, 0, 0.5); /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(rgba(245, 94, 0, 0.01),#F55D00); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(rgba(245, 94, 0, 0.01),#F55D00); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(rgba(245, 94, 0, 0.01),#F55D00); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(rgba(245, 94, 0, 0.01),#F55D00); /* Standard syntax (must be last) */
+}
+
 .right-panel .nav-pills {
   background: #F2F2F2;
   border: 1px solid #D5D5D5;
@@ -60,6 +70,10 @@ body {
   overflow-y: scroll;
 }
 
+.tab-content {
+  min-height: 600px;
+}
+
 .detail-panel {
   padding: 15px;
   padding-right:30px;
@@ -69,10 +83,64 @@ body {
   padding-top: 15px;
 }
 
+
+.var-header {
+  padding: 10px 15px;
+  line-height: 1.1;
+  font-weight: bold;
+  background: rgba(245, 94, 0, 0.1); /* For browsers that do not support gradients */
+  /*background: -webkit-linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* For Safari 5.1 to 6.0 */*/
+  /*background: -o-linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* For Opera 11.1 to 12.0 */*/
+  /*background: -moz-linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* For Firefox 3.6 to 15 */*/
+  /*background: linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* Standard syntax (must be last) */*/
+}
+
+.copy {
+  overflow-y: scroll;
+  display: inline-block;
+  float: right;
+  width: 450px;
+  height: 282px;
+  vertical-align: middle;
+  padding-top: 8px;
+  padding-right: 15px;
+}
+
 /* Bootstrap Overrrides */
+.nav-pills>li>a {
+    background-color: #FFE4CC;
+}
+
 .nav-pills>li.active>a,
 .nav-pills>li.active>a:focus,
 .nav-pills>li.active>a:hover {
     color: #fff;
     background-color: #F77300;
 }
+/* End */
+
+/* d3 */
+.line {
+  fill: none;
+  stroke: #F77300;
+  stroke-width: 3px;
+}
+
+.tick line {
+  opacity: 0.2;
+}
+
+#summary-look .viz-container {
+  border: 3px solid #D5D5D5;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding-top: 8px;
+  /*background-image: url(http://i.giphy.com/UXK1vi4MkTsxa.gif);*/
+  /*background-image: url(stick-figure-bicycle_large.gif);*/
+  background-repeat: no-repeat;
+}
+
+#summary-look svg {
+  display: inline-block;
+}
+/* End */

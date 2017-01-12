@@ -15,7 +15,7 @@ define(
         'vehicles'  : '.vehicles-box',
         'vehicles-panel':   '.vehicles-panel-body',
         'variables' : '.variables-box',
-        'constants' : '.constants-box',
+        'constants' : '.constants-box'
       });
 
       this.after('initialize', function() {
@@ -82,22 +82,37 @@ define(
       };
 
       this.attachDetailPanels = function() {
+        var that = this;
         var tabs = window.yadademo.content.tabs;
         for (let tab of _.keys(tabs))
         {
-          this.trigger('request.renderer',{
+          var renderPayload = {
             'template':'detail-panel',
             'selector':'#'+tab+'-detail-panel',
             'parent':'#'+tab,
             'tmplvars':{
               'tabid':tab
             }
-          });
+          };
+
+          if(tab == "summary")
+          {
+            renderPayload = _.merge(renderPayload,
+                                {"component" :"summaryViz",
+                                 "selector" :"body"});
+          }
+
+          this.trigger('request.renderer',renderPayload);
         }
       }
 
       this.enrichHeader = function() {
         var html = this.render('header',{});
+        $(html).appendTo(this.attr.nest);
+      };
+
+      this.enrichFooter = function() {
+        var html = this.render('footer',{});
         $(html).appendTo(this.attr.nest);
       };
 
@@ -110,10 +125,12 @@ define(
       this.enrichContent = function() {
         var html = this.render('substrate',{intro:intro});
         $(html).appendTo(this.attr.nest);
+        this.enrichFooter();
         this.attachVehicles();
         this.attachVariables();
         this.attachConstants();
         this.attachDetailPanels();
+
       };
 
 
@@ -125,6 +142,7 @@ define(
         this.enrichHeader();
         // this.enrichNav();
         this.enrichContent();
+
       };
     }
   }

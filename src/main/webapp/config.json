@@ -6,7 +6,7 @@
                  },
   "content": {
     "tabs":{
-      "summary":{},
+      "summary":{"viz":true},
       "cyc":{"q":"CYC select runs",
              "cols":[{"data":"route","name":"route","title":"Route"},
                      {"data":"distance","name":"distance","title":"Distance","className":"dt-body-center"},
@@ -18,44 +18,33 @@
                      {"data":"ascent","name":"ascent","title":"Ascent","visible":false},
                      {"data":"descent","name":"descent","title":"Descent","visible":false}]
             },
-      "gas": {},
+      "gas": {"q":"BLSCDB all rows",
+              "cols":[{"data":"year","name":"year","title":"Year"},
+                {"data":"period","name":"period","title":"Period"},
+                {"data":"value","name":"value","title":"Value"}],
+              "colDefs":[{"targets":[0,1,2],"orderData":[0,1,2]}]
+              },
       "expenses":{"q":"EXP select all",
                   "cols":[{"data":"Location","name":"location","title":"Location"},
-                          {"data":"Date","name":"date","title":"Date","className":"dt-body-right dt-body-nowrap"},
+                          {"data":"Date","name":"date","title":"Date","type":"date","className":"dt-body-right dt-body-nowrap"},
                           {"data":"Product","name":"product","title":"Product"},
-                          {"data":"Qty","name":"qty","title":"Qty","className":"dt-body-right"},
+                          {"data":"Qty","name":"qty","title":"Qty","className":"dt-body-right","visible":false},
                           {"data":"Price","name":"price","title":"Price","className":"dt-body-right"},
-                          {"data":"Category","name":"category","title":"Category"}]},
-      "weather":{"q":"NOAA select all",
-                 "cols":[{"data":"M","name":"m","title":"M"},
-                         {"data":"D","name":"d","title":"D"},
-                         {"data":"YR","name":"yr","title":"YR"},
-                         {"data":"HR","name":"hr","title":"HR"},
-                         {"data":"MIN","name":"min","title":"MIN"},
-                         {"data":"WINDSPD","name":"wind.spd","title":"WIND.SPD"},
-                         {"data":"TEMP","name":"temp","title":"TEMP"}],
-                 "unused":[
-                   {"data":"PRCPDPTH","name":"prcp.dpth","title":"PRCP.DPTH"},
-                   {"data":"LAT","name":"lat","title":"LAT"},
-                   {"data":"LONG","name":"long","title":"LONG"},
-                   {"data":"ADD","name":"add","title":"ADD"},
-                         {"data":"USAFID","name":"usafid","title":"USAFID"},
-                         {"data":"PRCP.ID","name":"prcp.id","title":"PRCP.ID"},
-                         {"data":"PRCP.COND","name":"prcp.cond","title":"PRCP.COND"},
-                         {"data":"PRCP.QC","name":"prcp.qc","title":"PRCP.QC"},
-                         {"data":"PRCP.HRS","name":"prcp.hcs","title":"PRCP.HRS"},
-                         {"data":"ATM.PRES","name":"atm.pres","title":"ATM.PRES"},
-                         {"data":"WBAN","name":"wban","title":"WBAN"},
-                         {"data":"DEW.POINT","name":"dew.point","title":"DEW.POINT"},
-                         {"data":"ELEV","name":"elev","title":"ELEV"},
-                         {"data":"WIND.DIR","name":"wind.dir","title":"WIND.DIR"}
-                         ]},
+                          {"data":"Category","name":"category","title":"Category"}],
+                  "colDefs":[ {"targets": 1,"render": "function (data,type,full,meta) {if(type=='display') {var moment = require('moment'); return moment(new Date(data)).format('DD-MMM-YYYY');} else return data;}"} ]
+                  },
+      "weather":{"ajax":{"j":"[{'qname':'NOAA select all','DATA':[{}]},{'qname':'CYC select startTime','DATA':[{}]}]","join":true},
+                 "cols":[{"data":"starttime","name":"hour","title":"Hour","className":"dt-body-center"},
+                         {"data":"windspd","name":"wind.spd","title":"Wind Speed","className":"dt-body-right"},
+                         {"data":"temp","name":"temp","title":"Temp ºC","className":"dt-body-right"}]
+                       },
       "sleep":{"q":"SLP select all",
                "cols":[{"data":"Start","name":"start","title":"Start","className":"dt-body-center"},
                  {"data":"End","name":"end","title":"End","className":"dt-body-center"},
                  {"data":"Time in bed","name":"time","title":"Time","className":"dt-body-center"},
                  {"data":"Sleep quality","name":"quality","title":"Quality","className":"dt-body-center"},
-                 {"data":"Heart rate","name":"hr","title":"Heart Rate","className":"dt-body-center"}]}
+                 {"data":"Heart rate","name":"hr","title":"Heart Rate","className":"dt-body-center"}]
+               }
     },
     "constants":{
       "days-per-year": 365,
@@ -73,7 +62,8 @@
       },
       "savings": {
         "gym-membership": 200,
-        "life-ins-prem": 300
+        "life-ins-prem": 300,
+        "health-savings": 2
       },
       "parking": {
         "monthly-pkg-subsidy": 100,
@@ -83,7 +73,6 @@
         "max-io-days": 5
       },
       "miscellaneous": {
-        "health-savings": 2,
         "rt-miles": 36
       }
     },
@@ -92,23 +81,23 @@
       "year": 1999,
       "make": "Honda",
       "model": "Accord",
-      "start": "",
-      "end": "",
+      "start": "2011-07-15",
+      "end": "2012-07-15",
       "mpg": 25,
       "maintenance":500
       },{
       "year": 2006,
       "make": "Toyota",
       "model": "Sienna",
-      "start": "",
-      "end": "",
+      "start": "2012-07-16",
+      "end": "2016-07-01",
       "mpg": 16,
       "maintenance":500
       },{
       "year": 2013,
       "make": "Nissan",
       "model": "Rogue",
-      "start": "",
+      "start": "2016-07-02",
       "end": "",
       "mpg": 20,
       "maintenance":500

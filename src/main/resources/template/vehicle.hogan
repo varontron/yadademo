@@ -1,7 +1,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th data-toggle="collapse" data-target=".collapse-{{vehicle}}" colspan="2">Vehicle {{vehicle}}</th>
+      <th class="var-header" data-toggle="collapse" data-target=".collapse-{{vehicle}}" colspan="2">Vehicle {{vehicle}}</th>
     </tr>
   </thead>
   <tbody class="collapse-{{vehicle}} collapse">

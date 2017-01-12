@@ -1,0 +1,20 @@
+<p>As mentioned elsewhere, <strong><em>yadademo</em></strong> derives data from 5 different datasources.</p>
+<p><img src="null" alt="Diagram" /></p>
+<p><strong>Performance</strong> tab data originates in a <a href="http://sqlite.org">SQLite</a> database. </p>
+<p>It's populated by the iPhone app <a href="https://abvio.com/cyclemeter/">Cyclemeter</a>.</p>
+<p>For the purpose of the analysis, the database file is downloaded via iTunes and transferred to the server file system. </p>
+<p>The <strong>YADA</strong> implementation on the server is then configured to access it via the <a href="https://bitbucket.org/xerial/sqlite-jdbc">Xerial SQLite JDBC driver</a>. (A more robust solution might involve an ETL process to load the data into a conventional RDBMS.)</p>
+<p>An advantage of <a href="https://github.com/Novartis.com">YADA</a>, of course, is that once a datasource is configured, its data can be accessed repeatedly via any stored query referenced simply in a URL. Here are a few examples:</p>
+<p>The data used to populate the <strong>View</strong> and <strong>Browse</strong> tabs is derived from the URL: </p>
+<ul>
+<li>http://host<a href="http://localhost:8081/yada/q/CYC select runs">/yada/q/CYC select runs</a> (clicking on this link will retrieve the first 20 rows data in json format). </li>
+</ul>
+<p>Using the same configuration, but adding just one URL parameter (or path element) the data can be delivered as csv: </p>
+<ul>
+<li>http://host<a href="http://localhost:8081/yada/q/CYC select runs/f/csv">/yada/q/CYC select runs/f/csv</a> (clicking on this link will retrieve the first 20 rows data in cvs format)</li>
+</ul>
+<p>Here's a query that retrieves heart rate measurements from a specific run, passed in the <code>p</code> parameter.</p>
+<ul>
+<li>http://host<a href="http://localhost:8081/yada/q/CYC%20select%20heart%20rate/p/444">/yada/q/CYC select heart rate/p/444</a></li>
+</ul>
+<p>See <a href="http://yadadata.com">yadadata.com</a> and the <a href="https://github.com/Novartis/YADA">YADA github repo</a> for more information</p>

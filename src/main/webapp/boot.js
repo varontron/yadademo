@@ -42,8 +42,9 @@ define(
   					url: 'http://'+env.YADA,
   		      type: 'GET',
   		      dataType: 'json',
-  		      data: { pz: -1 } //, r: 'RESTPassThruResponse' }
+  		      data: { pz: -1, c:false } //, r: 'RESTPassThruResponse' }
   				});
+
           // init renderer
           var renderer = require('component/renderer');
   				renderer.attachTo('body');

@@ -20,4 +20,8 @@ Using the same configuration, but adding just one URL parameter (or path element
 
 * http://host[/yada/q/CYC select runs/f/csv](http://localhost:8081/yada/q/CYC select runs/f/csv) (clicking on this link will retrieve the first 20 rows data in cvs format)
 
+Here's a query that retrieves heart rate measurements from a specific run, passed in the `p` parameter.
 
+* http://host[/yada/q/CYC select heart rate/p/444](http://localhost:8081/yada/q/CYC%20select%20heart%20rate/p/444)
+
+See [yadadata.com](http://yadadata.com) and the [YADA github repo](https://github.com/Novartis/YADA) for more information

@@ -1,16 +1,16 @@
-Welcome to the [YADA](https://github.com/Novartis/YADA) demo application &mdash; designed to demonstrate some of the capabilities of the oYADA framework.
+Welcome to the [YADA](https://github.com/Novartis/YADA) demo application &mdash; designed to demonstrate some of the capabilities of the YADA framework.
 
 The site presents a basic statistical analysis of cycle-commuting
   economics and performance, based on data collected between 2011 and
-  2016 while commuting by bicycle from Norwood, MA to Cambridge, MA. The goal of
+  2016 while commuting by bicycle 34 miles (54km) from Norwood, MA to Cambridge, MA. The goal of
   the analysis is to calculate the true cost of bicycle-commuting in terms of
   car-commuting, in order to determine if it is economical, as is commonly
   believed, and how many daily commutes are required to "break even."
-  
+
 Additional analysis is executed upon cycling performance data, to help with
   motivation and fitness.
-  
-The data incorporated in the analysis include:  
+
+The data incorporated in the analysis include:
 
 * **Performance** data was collected via a variety of onboard
       sensors connected to the [Cyclemeter](http://abvio.com/cyclemeter) iPhone app.  Additionally,

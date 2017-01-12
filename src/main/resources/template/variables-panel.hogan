@@ -6,7 +6,7 @@
     <form>
       <table class="table">
         <tr>
-          <td class="header name" colspan="2">Paid Time Off (PTO)</td>
+          <td class="var-header name" colspan="2">Paid Time Off (PTO)</td>
         </tr>
         <tr>
           <td class="name">Paid Holidays</td>
@@ -27,7 +27,7 @@
           </td>
         </tr>
         <tr>
-          <td class="header name" colspan="2">Estimated Annual Savings</td>
+          <td class="var-header name" colspan="2">Estimated Annual Savings</td>
         </tr>
         <tr>
           <td class="name">Gym Membership</td>
@@ -42,7 +42,7 @@
           </td>
         </tr>
         <tr>
-          <td class="header name" colspan="2">Parking Expenses</td>
+          <td class="var-header name" colspan="2">Parking Expenses</td>
         </tr>
         <tr>
           <td class="name">Monthly Employer Subsidy</td>
@@ -75,7 +75,7 @@
           </td>
         </tr>
         <tr>
-          <td class="header name" colspan="2">Miscellaneous</td>
+          <td class="var-header name" colspan="2">Miscellaneous</td>
         </tr>
         <tr>
           <td class="name">Daily Health Savings</td>

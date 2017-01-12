@@ -204,23 +204,22 @@ define(
 
 	    this.getDateFromOracleString = function(s)
 	    {
-	      // 02-OCT-2012: 11
-
-	      var yrLen = s.length == 11 ? 4 : 2;
-	      var y = s.substring(7,7+yrLen);
-	      var d = s.substring(0,2);
+        var rx = /(\d{1,2})-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)-(\d{2,4})/i
+        var matches = rx.exec(s);
+        var y = parseInt(matches[3]);
+        var d = parseInt(matches[1]);
 	      var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-	      var m = s.substring(3,6);
+	      var m = matches[2].toUpperCase();
 	      for (var i in months)
 	      {
 	        if (months[i] === m)
 	        {
-	          m = parseInt(i) + 1;
+	          m = parseInt(i);
 	          break;
 	        }
 	      }
-	      m = m < 10 ? "0"+m : m;
-	      return y+m+d;
+        y = y < 100 ? 2000+y : y;
+	      return new Date(y,m,d)
 	    };
 	  };
 });

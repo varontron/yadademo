@@ -1,0 +1,4 @@
+<div id="{{id}}-viz-box" class="viz-container">
+  <svg id="{{id}}-viz" width="{{width}}" height="{{height}}"></svg>
+  <div id="{{id}}-copy" class="copy"></div>
+</div>

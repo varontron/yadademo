@@ -57,6 +57,7 @@
         var payload = flight.utils.merge({},d.payload);
         parent[action](html);
         require(['component/'+comp],function(Cmp) {
+          //var comp = new (Cmp.bind.apply(Cmp,[]))();
           Cmp.attachTo(d.selector,d.attrs);
           self.trigger(target,cbEvt,payload);
         });
