@@ -1,9 +1,10 @@
 --Datasources
-DELETE from YADA_QUERY_CONF where APP in ('NOAA','BLS','CYC','EXP','SLP');
-DELETE from YADA_QUERY where APP in ('NOAA','BLS','CYC','EXP','SLP');
-DELETE from YADA_UG where APP in ('NOAA','BLS','CYC','EXP','SLP');
+DELETE from YADA_QUERY_CONF where APP in ('NOAA','BLS','BLSCDB','CYC','EXP','SLP');
+DELETE from YADA_QUERY where APP in ('NOAA','BLS','BLSCDB','CYC','EXP','SLP');
+DELETE from YADA_UG where APP in ('NOAA','BLS','BLSCDB','CYC','EXP','SLP');
 
 INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('BLS','https://api.bls.gov/publicAPI/v2/timeseries/data/APUA10374714?startYear=2011&endYear=');  --Gas prices
+INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('BLSCDB','http://localhost:5984/gas/_design');
 INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('NOAA','jdbcUrl=jdbc:postgresql://localhost/weather
 username=yada
 password=yada
@@ -48,12 +49,14 @@ driverClassName=org.sqlite.JDBC'
 -- Privs
 INSERT INTO YADA_UG (APP,UID,ROLE) VALUES ('NOAA','YADA','ADMIN');
 INSERT INTO YADA_UG (APP,UID,ROLE) VALUES ('BLS','YADA','ADMIN');
+INSERT INTO YADA_UG (APP,UID,ROLE) VALUES ('BLSCDB','YADA','ADMIN');
 INSERT INTO YADA_UG (APP,UID,ROLE) VALUES ('CYC','YADA','ADMIN');
 INSERT INTO YADA_UG (APP,UID,ROLE) VALUES ('EXP','YADA','ADMIN');
 INSERT INTO YADA_UG (APP,UID,ROLE) VALUES ('SLP','YADA','ADMIN');
 
 --Queries
 INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('BLS','BLS select to date','?i','YADABOT');
+INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('BLSCDB','BLSCDB all rows','/allRows/_view/all','YADABOT');
 INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('SLP','SLP select all','SELECT * FROM SLEEP','YADABOT');
 INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('NOAA','NOAA select all','SELECT "M","D","YR","HR","MIN",
 "WIND.SPD" as WINDSPD,
