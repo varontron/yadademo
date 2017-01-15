@@ -314,13 +314,13 @@ define(
         var yDom  = [];
         for(let i=0;i<p.data.length;i++)
         {
-          p.data[i].Date = this.getDateFromOracleString(p.data[i].PurchaseDate);
+          p.data[i].Date = this.getDateFromOracleString(p.data[i].PURCHASEDATE);
         }
         p.data = _.sortBy(p.data,"Date")
         for(let i=0;i<p.data.length;i++)
         {
-          if(i==0) p.data[i].total = parseFloat(p.data[i].Price)
-          else p.data[i].total = parseFloat(p.data[i].Price) + p.data[i-1].total;
+          if(i==0) p.data[i].total = parseFloat(p.data[i].PRICE)
+          else p.data[i].total = parseFloat(p.data[i].PRICE) + p.data[i-1].total;
           yDom.push(p.data[i].total);
         }
         var xDom = _.map(p.data,function(o){return o.Date;});

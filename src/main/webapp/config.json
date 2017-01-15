@@ -25,12 +25,12 @@
               "colDefs":[{"targets":[0,1,2],"orderData":[0,1,2]}]
               },
       "expenses":{"q":"EXP select all",
-                  "cols":[{"data":"Location","name":"location","title":"Location"},
-                          {"data":"PurchaseDate","name":"date","title":"Date","type":"date","className":"dt-body-right dt-body-nowrap"},
-                          {"data":"Product","name":"product","title":"Product"},
-                          {"data":"Qty","name":"qty","title":"Qty","className":"dt-body-right","visible":false},
-                          {"data":"Price","name":"price","title":"Price","className":"dt-body-right"},
-                          {"data":"Category","name":"category","title":"Category"}],
+                  "cols":[{"data":"LOCATION","name":"location","title":"Location"},
+                          {"data":"PURCHASEDATE","name":"date","title":"Date","type":"date","className":"dt-body-right dt-body-nowrap"},
+                          {"data":"PRODUCT","name":"product","title":"Product"},
+                          {"data":"QTY","name":"qty","title":"Qty","className":"dt-body-right","visible":false},
+                          {"data":"PRICE","name":"price","title":"Price","className":"dt-body-right"},
+                          {"data":"CATEGORY","name":"category","title":"Category"}],
                   "colDefs":[ {"targets": 1,"render": "function (data,type,full,meta) {if(type=='display') {var moment = require('moment'); return moment(new Date(data)).format('DD-MMM-YYYY');} else return data;}"} ]
                   },
       "weather":{"ajax":{"j":"[{'qname':'NOAA select all','DATA':[{}]},{'qname':'CYC select startTime','DATA':[{}]}]","join":true},

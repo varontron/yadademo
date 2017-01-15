@@ -535,9 +535,9 @@ define(
         {
           // populate each record with the 'total' spend so far
           if(i==0)
-            p.data[i].total = parseFloat(p.data[i].Price)
+            p.data[i].total = parseFloat(p.data[i].PRICE)
           else
-            p.data[i].total = parseFloat(p.data[i].Price) + p.data[i-1].total;
+            p.data[i].total = parseFloat(p.data[i].PRICE) + p.data[i-1].total;
           yDom.push(p.data[i].total);
         }
         // calculate cumulative savings

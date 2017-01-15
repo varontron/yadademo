@@ -20,7 +20,7 @@ d = []
 c = []
 
 for i in range(0,len(rows)):
-    matchObj = re.match( r'C(I|O)',rows[i]['route'] )
+    matchObj = re.match( r'C',rows[i]['route'] )
     if matchObj:
         c.append(rows[i])
     else:
