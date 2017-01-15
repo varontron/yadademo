@@ -60,7 +60,7 @@ INSERT INTO YADA_UG (APP,UID,ROLE) VALUES ('SLP','YADA','ADMIN');
 INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('BLS','BLS select to date','?i','YADABOT');
 INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('BLSCDB','BLSCDB all rows','/allRows/_view/all','YADABOT');
 INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('SLP','SLP select all','SELECT * FROM SLEEP','YADABOT');
-INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('NOAA','select to_timestamp(to_char(yr*10000+m*100+d,''99999999'')||'' ''||hr||'':00:00'',''YYYYMMDD HH24:MI:SS'')::timestamp without time zone as starttime,
+INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('NOAA','NOAA select all','select to_timestamp(to_char(yr*10000+m*100+d,''99999999'')||'' ''||hr||'':00:00'',''YYYYMMDD HH24:MI:SS'')::timestamp without time zone as starttime,
 round(avg(windspd),2) as windspd, round(avg(temp),2) as temp
 FROM weather
 group by yr, m, d, hr
