@@ -19,6 +19,8 @@ do
   esac
 done
 
+# YADA index processing
+
 
 # build templates
 hulk $RSRC_DIR/template/*.hogan > $WEBAPP_SRCDIR/templates.js

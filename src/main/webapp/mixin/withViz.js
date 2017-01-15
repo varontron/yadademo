@@ -314,7 +314,7 @@ define(
         var yDom  = [];
         for(let i=0;i<p.data.length;i++)
         {
-          p.data[i].Date = this.getDateFromOracleString(p.data[i].Date);
+          p.data[i].Date = this.getDateFromOracleString(p.data[i].PurchaseDate);
         }
         p.data = _.sortBy(p.data,"Date")
         for(let i=0;i<p.data.length;i++)

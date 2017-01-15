@@ -14,36 +14,38 @@ idleTimeout=600000
 maxLifetime=1800000
 minimumIdle=5
 maximumPoolSize=100
-poolName=HikariPool-YADA
+poolName=HikariPool-NOAA
 driverClassName=org.postgresql.Driver'); --Weather data
 
-INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('CYC','jdbcUrl=jdbc:sqlite:/Users/varonda1/Documents/workspace-git/yadademo/src/main/resources/db/Meter.db
+INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('CYC','jdbcUrl=jdbc:mysql://localhost/meter
+username=yada
+password=yada
 autoCommit=true
 connectionTimeout=300000
 idleTimeout=600000
 maxLifetime=1800000
 minimumIdle=5
 maximumPoolSize=100
-poolName=HikariPool-YADA
-driverClassName=org.sqlite.JDBC');  --Cycling performance
-INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('EXP','jdbcUrl=jdbc:sqlite:/Users/varonda1/Documents/workspace-git/yadademo/src/main/resources/db/Expenses.db
+poolName=HikariPool-CYC
+driverClassName=com.mysql.jdbc.Driver');  --Cycling performance
+INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('EXP','jdbcUrl=jdbc:hsqldb:hsql://localhost/expenses
 autoCommit=true
 connectionTimeout=300000
 idleTimeout=600000
 maxLifetime=1800000
 minimumIdle=5
 maximumPoolSize=100
-poolName=HikariPool-YADA
-driverClassName=org.sqlite.JDBC');  --Cycling expenses
-INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('SLP','jdbcUrl=jdbc:sqlite:/Users/varonda1/Documents/workspace-git/yadademo/src/main/resources/db/Sleep.db
+poolName=HikariPool-EXP
+driverClassName=org.hsqldb.jdbc.JDBCDriver');  --Cycling expenses
+INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('SLP','jdbcUrl=jdbc:hsqldb:hsql://localhost/sleep
 autoCommit=true
 connectionTimeout=300000
 idleTimeout=600000
 maxLifetime=1800000
 minimumIdle=5
 maximumPoolSize=100
-poolName=HikariPool-YADA
-driverClassName=org.sqlite.JDBC'
+poolName=HikariPool-SLP
+driverClassName=org.hsqldb.jdbc.JDBCDriver'
 );  --Sleep data
 
 -- Privs
@@ -77,6 +79,24 @@ a.runTime, a.stoppedTime, a.runTime+a.stoppedTime as elapsedTime, a.distance, a.
 FROM run a
 where a.routeId in (1,2,3,15,18,21,24,25,26,28,7)
 order by a.startTime asc','YADABOT');
+INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('CYC','CYC select round trips','select
+case
+when a.routeID = 7 then ''DO''
+when a.routeID = 1 then ''DI''
+when a.routeID = 2 then ''CI''
+when a.routeID in (3,15,18,21,24,25,26,28) then ''CO'' end as route,
+strftime(''%Y-%m-%d'',a.startTime,''localtime'') as date,
+sum(a.runTime+a.stoppedTime)/60 as elapsedTime
+FROM run a
+where a.routeId in (1,2,3,15,18,21,24,25,26,28,7)
+group by strftime(''%Y-%m-%d'',a.startTime,''localtime'')
+having sum(a.runTime+a.stoppedTime) > 5400
+order by a.startTime asc','YADABOT');
+INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('CYC','CYC select startTime','select strftime('%Y-%m-%d %H:00:00',startTime,'localtime') as starttime,
+sum(a.distance)/sum(a.runTime+a.stoppedTime)*2.2369362920544 as velocity
+from run a
+where a.routeId in (2,3,15,18,21,24,25,26,28)
+group by strftime(''%Y-%m-%d %H:00:00'',startTime,''localtime'')','YADABOT');
 INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('EXP','EXP select all','SELECT * FROM EXPENSES','YADABOT');
 
 COMMIT;

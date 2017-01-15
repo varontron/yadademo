@@ -26,7 +26,7 @@
               },
       "expenses":{"q":"EXP select all",
                   "cols":[{"data":"Location","name":"location","title":"Location"},
-                          {"data":"Date","name":"date","title":"Date","type":"date","className":"dt-body-right dt-body-nowrap"},
+                          {"data":"PurchaseDate","name":"date","title":"Date","type":"date","className":"dt-body-right dt-body-nowrap"},
                           {"data":"Product","name":"product","title":"Product"},
                           {"data":"Qty","name":"qty","title":"Qty","className":"dt-body-right","visible":false},
                           {"data":"Price","name":"price","title":"Price","className":"dt-body-right"},
