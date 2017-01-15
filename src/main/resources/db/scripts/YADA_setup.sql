@@ -67,7 +67,7 @@ group by yr, m, d, hr
 order by 1 desc','YADABOT');
 INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('CYC','CYC select all','SELECT * FROM RUN','YADABOT');
 INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('CYC','CYC select heart rate','SELECT * FROM heartRateData','YADABOT');
-INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('CYC','select
+INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('CYC','CYC select runs','select
 case
 when a.routeID = 7 then ''DO''
 when a.routeID = 1 then ''DI''
