@@ -92,7 +92,7 @@ where a.routeId in (1,2,3,15,18,21,24,25,26,28,7)
 group by strftime(''%Y-%m-%d'',a.startTime,''localtime'')
 having sum(a.runTime+a.stoppedTime) > 5400
 order by a.startTime asc','YADABOT');
-INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('CYC','CYC select startTime','select strftime('%Y-%m-%d %H:00:00',startTime,'localtime') as starttime,
+INSERT into YADA_QUERY (app,qname,query,created_by) VALUES ('CYC','CYC select startTime','select strftime(''%Y-%m-%d %H:00:00'',startTime,''localtime'') as starttime,
 sum(a.distance)/sum(a.runTime+a.stoppedTime)*2.2369362920544 as velocity
 from run a
 where a.routeId in (2,3,15,18,21,24,25,26,28)
