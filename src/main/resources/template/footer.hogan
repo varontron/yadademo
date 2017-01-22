@@ -1,1 +1,7 @@
-<footer></footer>
+<footer>
+<p>
+  Questions? Contact <a href="mailto:info@yadadata.com">info@yadadata.com</a>. 
+  Or download <a href="https://github.com/Novartis/YADA/releases/latest">YADA</a> to test with your own data.
+</p>
+<div class="gradient"></div>
+</footer>

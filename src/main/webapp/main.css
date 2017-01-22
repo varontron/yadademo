@@ -1,26 +1,6 @@
 body {
   margin: 6px;
 }
-
-.constants-box td.name {
-  white-space: nowrap;
-}
-
-.constants-box td.value {
-  text-overflow: ellipsis;
-  text-align: right;
-}
-
-.variables-box td.header {
-  background-color: #ddd;
-  font-weight: bold;
-}
-
-.variables-box td input {
-  width: 50px;
-  text-align: right;
-}
-
 .header {
   height:70px;
   width:100%;
@@ -44,7 +24,12 @@ body {
   height: 68px;
 }
 
-footer {
+footer p {
+  font-size: 12px;
+  padding-left: 4px;
+}
+
+footer div.gradient{
   height: 35px;
   width:100%;
   background: rgba(245, 94, 0, 0.5); /* For browsers that do not support gradients */
@@ -54,24 +39,16 @@ footer {
   background: linear-gradient(rgba(245, 94, 0, 0.01),#F55D00); /* Standard syntax (must be last) */
 }
 
-.right-panel .nav-pills {
-  background: #F2F2F2;
-  border: 1px solid #D5D5D5;
-  border-radius: 4px;
-  margin-right: 15px;
+.content-panel {
+  width: 100%;
 }
 
 .intro {
   margin-top: 15px;
 }
 
-.intro .panel-body{
+.intro .panel-body {
   max-height: 101px;
-  overflow-y: scroll;
-}
-
-.tab-content {
-  min-height: 600px;
 }
 
 .detail-panel {
@@ -83,30 +60,53 @@ footer {
   padding-top: 15px;
 }
 
-
-.var-header {
-  padding: 10px 15px;
-  line-height: 1.1;
-  font-weight: bold;
-  background: rgba(245, 94, 0, 0.1); /* For browsers that do not support gradients */
-  /*background: -webkit-linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* For Safari 5.1 to 6.0 */*/
-  /*background: -o-linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* For Opera 11.1 to 12.0 */*/
-  /*background: -moz-linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* For Firefox 3.6 to 15 */*/
-  /*background: linear-gradient(#F55D00, rgba(245, 94, 0, 0.01)); /* Standard syntax (must be last) */*/
-}
-
 .copy {
-  overflow-y: scroll;
-  display: inline-block;
-  float: right;
-  width: 450px;
-  height: 282px;
-  vertical-align: middle;
-  padding-top: 8px;
-  padding-right: 15px;
+  overflow-y: auto;
+  vertical-align: top;
+  padding-left: 7%;
+  padding-right: 4%;
 }
 
 /* Bootstrap Overrrides */
+
+.tab-content {
+padding:10px;
+border:1px solid #ddd;
+border-bottom:0px;
+display: none;
+}
+.nav-tabs {
+border-bottom: 0px;
+border-top: 1px solid #ddd;
+}
+.nav-tabs > li {
+margin-bottom:0;
+margin-top:-1px;
+}
+
+.nav-tabs > li > a {
+padding-top: 8px;
+padding-bottom: 8px;
+line-height: 20px;
+border: 1px solid transparent;
+-moz-border-radius:0px;
+-webkit-border-radius:0px;
+border-radius:0px;
+-moz-border-radius-bottomright: 5px;
+-webkit-border-bottom-right-radius: 5px;
+border-bottom-right-radius: 5px;
+-moz-border-radius-bottomleft: 5px;
+-webkit-border-bottom-left-radius: 5px;
+border-bottom-left-radius: 5px;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
+color: #555555;
+cursor: default;
+background-color: #ffffff;
+border: 1px solid #ddd;
+border-top-color: transparent;
+}
+
 .nav-pills>li>a {
     background-color: #FFE4CC;
 }
@@ -130,17 +130,8 @@ footer {
   opacity: 0.2;
 }
 
-#summary-look .viz-container {
-  border: 3px solid #D5D5D5;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  padding-top: 8px;
-  /*background-image: url(http://i.giphy.com/UXK1vi4MkTsxa.gif);*/
-  /*background-image: url(stick-figure-bicycle_large.gif);*/
-  background-repeat: no-repeat;
+.viz-container svg {
+  float: left;
 }
 
-#summary-look svg {
-  display: inline-block;
-}
 /* End */

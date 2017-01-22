@@ -1,7 +1,7 @@
 define(
   [
      'component/base',
-     'text!intro.html'
+     'text!html/intro.html'
   ],
   function(base,intro)
   {
@@ -81,30 +81,52 @@ define(
         $(html).appendTo(this.attr.left);
       };
 
-      this.attachDetailPanels = function() {
-        var that = this;
-        var tabs = window.yadademo.content.tabs;
-        for (let tab of _.keys(tabs))
+      // this.attachDetailPanels = function() {
+      //   var that = this;
+      //   var tabs = window.yadademo.content.tabs;
+      //   for (let tab of _.keys(tabs))
+      //   {
+      //     var renderPayload = {
+      //       'template':'detail-panel',
+      //       'selector':'#'+tab+'-detail-panel',
+      //       'parent':'#accordion',
+      //       'tmplvars':{
+      //         'tabid':tab,
+      //         'hdr':tabs[tab].hdr
+      //       }
+      //     };
+      //
+      //     // if(tab == "summary")
+      //     // {
+      //     //   renderPayload = _.merge(renderPayload,
+      //     //                       {"component" :"summaryViz",
+      //     //                        "selector" :"body"});
+      //     // }
+      //
+      //     this.trigger('request.renderer',renderPayload);
+      //   }
+      // }
+
+      this.enrichPanels = function() {
+        var panels = window.yadademo.content.panels;
+        for (let id of _.keys(panels))
         {
+          var attrs={panelId:id};
           var renderPayload = {
             'template':'detail-panel',
-            'selector':'#'+tab+'-detail-panel',
-            'parent':'#'+tab,
+            'selector':'#'+id,
+            'parent':'#accordion',
+            'attrs':attrs,
             'tmplvars':{
-              'tabid':tab
+              'tabid':id,
+              'hdr':panels[id].hdr,
+              'snark':panels[id].snark,
+              'in':id == 'cyc' ? 'in' : ''
             }
           };
-
-          if(tab == "summary")
-          {
-            renderPayload = _.merge(renderPayload,
-                                {"component" :"summaryViz",
-                                 "selector" :"body"});
-          }
-
           this.trigger('request.renderer',renderPayload);
         }
-      }
+      };
 
       this.enrichHeader = function() {
         var html = this.render('header',{});
@@ -123,22 +145,27 @@ define(
 
 
       this.enrichContent = function() {
-        var html = this.render('substrate',{intro:intro});
+        // render intro panel.
+        //TODO remove hdr-intro content from this script
+        var html = this.render('substrate',
+          {"hdr-intro":"Is commuting by bicycle economical?",
+          "intro":intro});
         $(html).appendTo(this.attr.nest);
+        this.enrichPanels();
         this.enrichFooter();
         this.attachVehicles();
         this.attachVariables();
         this.attachConstants();
-        this.attachDetailPanels();
+        //this.attachDetailPanels();
 
       };
-
 
 
       /**
        * bootstrap rich ui
        */
       this.enrich = function() {
+
         this.enrichHeader();
         // this.enrichNav();
         this.enrichContent();

@@ -5,10 +5,53 @@
                    "ec2-54-227-3-40.compute-1.amazonaws.com:8080":{"name":"DEMO","YADA":"ec2-54-227-3-40.compute-1.amazonaws.com:8080/yada.jsp"}
                  },
   "content": {
+    "data": [
+      {"i":0,"ajax":{"q":"CYC select round trips",
+               "pl":"ScriptPostprocessor,time_pdf.py"},
+           "data":{},
+           "loaded":false},
+      {"i":1,"q":"BLSCDB all rows","data":{},"loaded":false},
+      {"i":2,"q":"EXP select all","data":{},"loaded":false},
+      {"i":3,"ajax":{"j":"[{'qname':'NOAA select all','DATA':[{}]},{'qname':'CYC select startTime','DATA':[{}]}]","join":true},
+           "data":{},
+           "loaded":false},
+      {"i":4,"q":"SLP select all","data":{},"loaded":false},
+      {"i":5,"q":"CYC select runs","data":{},"loaded":false}
+    ],
+
+    "panels":{
+      "cyc":{"hdr":"Does cycling save time?",
+             "data":[0],
+             "fn":"cycVsDriveViz",
+             "viz":false,
+             "snark":"Yes."
+            },
+      "expenses":{"hdr":"Does cycling save money?",
+             "data":[1,2,5],
+             "fn":"cycExpensesViz",
+             "viz":false,
+             "snark":"Definitely."
+            },
+      "perf":{"hdr":"How fast can you ride?",
+                  "data":[5],
+                  "viz":false,
+                  "snark":"Around 15mph."
+                 },
+      "weather":{"hdr":"What about the weather?",
+                 "data":[3],
+                 "viz":false,
+                 "snark":"Meh"
+                },
+      "cost":{"hdr":"Show me the money!",
+              "data":[1],
+              "fn":"costPerDayViz",
+              "viz":false,
+              "snark":"Cycling can be spendy. But driving costs a lot more."
+             }
+    },
+
     "tabs":{
-      "summary":{"viz":true},
-      "cyc":{"q":"CYC select runs",
-             "cols":[{"data":"route","name":"route","title":"Route"},
+      "cyc":{"cols":[{"data":"route","name":"route","title":"Route"},
                      {"data":"distance","name":"distance","title":"Distance","className":"dt-body-center"},
                      {"data":"startTime","name":"starttime","title":"Start","className":"dt-body-center"},
                      {"data":"stoppedTime","name":"stoppedtime","title":"Stopped","className":"dt-body-center"},
@@ -18,14 +61,12 @@
                      {"data":"ascent","name":"ascent","title":"Ascent","visible":false},
                      {"data":"descent","name":"descent","title":"Descent","visible":false}]
             },
-      "gas": {"q":"BLSCDB all rows",
-              "cols":[{"data":"year","name":"year","title":"Year"},
+      "gas": {"cols":[{"data":"year","name":"year","title":"Year"},
                 {"data":"period","name":"period","title":"Period"},
                 {"data":"value","name":"value","title":"Value"}],
               "colDefs":[{"targets":[0,1,2],"orderData":[0,1,2]}]
               },
-      "expenses":{"q":"EXP select all",
-                  "cols":[{"data":"LOCATION","name":"location","title":"Location"},
+      "expenses":{"cols":[{"data":"LOCATION","name":"location","title":"Location"},
                           {"data":"PURCHASEDATE","name":"date","title":"Date","type":"date","className":"dt-body-right dt-body-nowrap"},
                           {"data":"PRODUCT","name":"product","title":"Product"},
                           {"data":"QTY","name":"qty","title":"Qty","className":"dt-body-right","visible":false},
@@ -33,13 +74,11 @@
                           {"data":"CATEGORY","name":"category","title":"Category"}],
                   "colDefs":[ {"targets": 1,"render": "function (data,type,full,meta) {if(type=='display') {var moment = require('moment'); return moment(new Date(data)).format('DD-MMM-YYYY');} else return data;}"} ]
                   },
-      "weather":{"ajax":{"j":"[{'qname':'NOAA select all','DATA':[{}]},{'qname':'CYC select startTime','DATA':[{}]}]","join":true},
-                 "cols":[{"data":"starttime","name":"hour","title":"Hour","className":"dt-body-center"},
+      "weather":{"cols":[{"data":"starttime","name":"hour","title":"Hour","className":"dt-body-center"},
                          {"data":"windspd","name":"wind.spd","title":"Wind Speed","className":"dt-body-right"},
                          {"data":"temp","name":"temp","title":"Temp ºC","className":"dt-body-right"}]
                        },
-      "sleep":{"q":"SLP select all",
-               "cols":[{"data":"Start","name":"start","title":"Start","className":"dt-body-center"},
+      "sleep":{"cols":[{"data":"Start","name":"start","title":"Start","className":"dt-body-center"},
                  {"data":"End","name":"end","title":"End","className":"dt-body-center"},
                  {"data":"Time in bed","name":"time","title":"Time","className":"dt-body-center"},
                  {"data":"Sleep quality","name":"quality","title":"Quality","className":"dt-body-center"},

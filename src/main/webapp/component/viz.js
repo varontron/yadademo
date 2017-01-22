@@ -11,9 +11,9 @@ define(
     function Viz()
     {
       this.addViz = function(e,d) {
-        if(!!d.fn)
+        if(!!d.fn && typeof this[d.fn] == 'function')
         {
-          d.fn(d);
+          this[d.fn](d);
         }
         else if(!!d.id)
         {
@@ -25,14 +25,7 @@ define(
         }
         if(!!d.tab)
           d.tab.viz = true;
-        this.trigger('executed.viz',d);
-        if(!!this.attr.id)
-        {
-          var id = this.attr.id;
-          require(['text!smry-'+id+'.html'],function(html) {
-            $(html).appendTo('#'+id+'-copy');
-          });
-        }
+        this.trigger('executed.viz',d);        
       };
 
       this.defaultAttrs({

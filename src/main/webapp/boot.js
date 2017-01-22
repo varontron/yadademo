@@ -46,11 +46,14 @@ define(
   				});
 
           // init renderer
-          var renderer = require('component/renderer');
-  				renderer.attachTo('body');
+          var Renderer = require('component/renderer');
+  				Renderer.attachTo('body');
           // init ui
   				var UI = require('component/ui');
   				UI.attachTo('.nest');
+          // get data
+          var Data = require('component/data');
+  				Data.attachTo('body');
         }
       );
     }

@@ -1,4 +1,4 @@
-define(
+  define(
   [
      'component/base',
      'datatables',
@@ -11,29 +11,43 @@ define(
     return base.mixin(DetailsPanel,withConfig);
     function DetailsPanel()
     {
+      var tabs   = window.yadademo.content.tabs;
+      var data   = window.yadademo.content.data;
+      var panels = window.yadademo.content.panels;
 
-
-      this.defaultAttrs({
-        'view': '.look-tab'
-      });
-
-      this.after('initialize', function() {
-        this.on('executed.viz',this.checkVizExecution);
-        this.on('request.table',this.enrichTableTab);
-        this.enrich();
-      });
+      this.checkDataLoaded = function() {
+        var that = this, loaded = false;
+        var interval = setInterval(check, 50);
+        function check() {
+          let arr = panels[that.attr.panelId].data;
+          loaded = arr.length == 1 ? data[arr[0]].loaded
+              : _.reduce(arr,function(e,o) {
+                  var e1 = typeof e == 'boolean' ? e : data[e].loaded;
+                  var x = e1 && data[o].loaded;
+                  return !!(x);
+                });
+          if(!!loaded)
+          {
+            clearInterval(interval);
+            console.log([that.attr.panelId,arr,"loaded"]);
+            that.trigger('request.view',{});
+          }
+        };
+      };
 
       this.checkVizExecution = function(e,d) {
-        var tabs = window.yadademo.content.tabs;
-        if(_.reduce(_.map(_.values(tabs),"viz"),function(e,o) {return !!(e&&o);}))
+        if(panels[d.id].viz)
+          this.enrichLearnTab(d.id);
+        if(_.reduce(_.map(_.values(panels),"viz"),function(e,o) {return !!(e&&o);}))
+        {
           this.enrichTableTabs();
+        }
         else
           return false;
       };
 
       this.enrichTableTabs = function() {
         var that = this;
-        var tabs = window.yadademo.content.tabs;
         _.each(_.keys(tabs),function(s) {
           that.trigger('.detail-panel','request.table',{id:s,tab:tabs[s]});
         });
@@ -73,17 +87,20 @@ define(
         }
       };
 
-      this.enrichViewTab = function(id,tab) {
+      this.enrichViewTab = function(e,d) {
+        var id = this.attr.panelId;
+        var panel = panels[id];
         var attrs = {};
         var tmplvars = {
           'id':id, // becomes 'id-viz', 'id-viz-box'
-          'width':($('.container')[0].offsetWidth < 970 ? 700 : 900),
-          'height':($('.container')[0].offsetWidth < 970 ? 525 : 675)
+          'width':$('.container')[0].offsetWidth *.48,
+          'height':$('.container')[0].offsetWidth *.48/1.33
         };
         var evtPayload ={
+          "fn":panel.fn,
           "id":id, // becomes 'idViz'
           "svgid":id+'-viz',
-          "tab":tab // tabe is the content of the tab
+          "tab":panel // tabe is the content of the tab
         };
         var renderPayload = {
           'template':'viz',
@@ -98,9 +115,9 @@ define(
         this.trigger('request.renderer',renderPayload);
       };
 
-      this.enrichLearnTab = function(id,tab) {
-        require(['text!learn_'+id+'.html'],function(html) {
-          $(html).appendTo('#'+id+'-learn');
+      this.enrichLearnTab = function(id) {
+        require(['text!html/smry-'+id+'.html'],function(html) {
+          $(html).appendTo('#'+id+'-copy');
         });
       };
 
@@ -108,44 +125,21 @@ define(
        * bootstrap rich ui
        */
       this.enrich = function() {
-        var that = this;
-        // id is like cyc-detail-panel
-        var id   = this.$node.attr('id').split('-')[0];
-        var tab  = window.yadademo.content.tabs[id];
-        var a    = null;
-        var aResolve = function(r) {
-          tab.loaded = true;
-          if(id == 'gas')
-          {
-            tab.data = _.map(JSON.parse(r.RESULTSET.ROWS[0]).rows,function(o) {
-              return o.value;
-            });
-          }
-          else
-          {
-            tab.data = r.RESULTSET.ROWS;
-          }
-          that.trigger(id+'.viz',{}); // summary tab events
-          that.enrichViewTab(id,tab);
-          //that.enrichTableTab(id,tab);
-          //that.enrichLearnTab(id,tab);
-        };
-        var aReject = function(e) {
-          alert("Problem with detail data query:" + e);
-        };
-        if(!!tab.q)
-        {
-          a = this.executeYADAQuery(tab.q,tab.p)
-          $.when(a).then(aResolve,aReject);
-        }
-        else if(!!tab.ajax)
-        {
-          a = $.ajax({
-            data:tab.ajax
-          });
-          $.when(a).then(aResolve,aReject);
-        }
+
       };
+
+      this.defaultAttrs({
+        'view': '.view-tab'
+      });
+
+      this.after('initialize', function() {
+        this.checkDataLoaded();
+        this.on('request.view',this.enrichViewTab);
+        this.on('executed.viz',this.checkVizExecution);
+        this.on('request.table',this.enrichTableTab);
+        this.enrich();
+      });
+
     }
   }
 );

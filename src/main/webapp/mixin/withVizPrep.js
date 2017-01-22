@@ -15,7 +15,8 @@ define(
 
         r.data   = opt.tab.data;
         r.svg    = d3.select('#'+id);
-        r.margin = {top: 20, right: 20, bottom: 30, left: 50};
+        r.W      = parseInt(r.svg.style("width"));
+        r.margin = {top: r.W*.02, right: r.W*.02, bottom: r.W*.05, left: r.W*.06};
         r.width  = +r.svg.attr("width") - r.margin.left - r.margin.right;
         r.height = +r.svg.attr("height") - r.margin.top - r.margin.bottom;
         r.g      = r.svg.append("g").attr("transform", "translate(" + r.margin.left + "," + r.margin.top + ")");
@@ -105,4 +106,6 @@ define(
       }
     }
   }
+
+
 );
