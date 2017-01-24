@@ -43,7 +43,7 @@
                  "snark":"Meh"
                 },
       "cost":{"hdr":"Show me the money!",
-              "data":[1],
+              "data":[0,1],
               "fn":"costPerDayViz",
               "viz":false,
               "snark":"Cycling can be spendy. But driving costs a lot more."

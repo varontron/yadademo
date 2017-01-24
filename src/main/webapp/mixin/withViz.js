@@ -10,6 +10,7 @@ define(
       flight.compose.mixin(this, [withVizPrep]);
       var conf = window.yadademo.content;
 
+      var colors = ["#f77300","#994700","#FFAC80"];
 
       this.getTextBox = function(selection) {
         selection.each(function(d) { d['bbox'] = this.getBBox(); })
@@ -86,7 +87,7 @@ define(
             .attr("cx", function(d) {return x(p.parseTime(d.startTime));})
             .attr("cy", function(d) {return y(d.actVelo)})
             .attr("data-legend","Observed Velocity")
-            .style("fill", function(d) { return "#FFAC80";});
+            .style("fill", function(d) { return colors[2];});
 
         // lines
         var actSma30 = d3.line()
@@ -96,9 +97,7 @@ define(
         p.g.append("path")
           .datum(p.data.slice(1))
           .attr("d",actSma30)
-          .style("fill","none")
-          .style("stroke","#994700")
-          .style("stroke-width","2px");
+          .attr("class","actSma30");
 
         var actMean = d3.line()
             .x(function(d) { return x(p.parseTime(d.startTime));})
@@ -107,10 +106,7 @@ define(
         p.g.append("path")
           .datum(p.data.slice(1))
           .attr("d",actMean)
-          .attr("stroke-dasharray","10,5")
-          .style("fill","none")
-          .style("stroke","#994700")
-          .style("stroke-width","2px")
+          .attr("class","actMean");
 
         var effSma30 = d3.line()
             .x(function(d) { return x(p.parseTime(d.startTime));})
@@ -119,9 +115,7 @@ define(
         p.g.append("path")
           .datum(p.data.slice(1))
           .attr("d",effSma30)
-          .style("fill","none")
-          .style("stroke","#f77300")
-          .style("stroke-width","2px");
+          .attr("class","effSma30");
 
         var effMean = d3.line()
             .x(function(d) { return x(p.parseTime(d.startTime));})
@@ -130,10 +124,7 @@ define(
         p.g.append("path")
           .datum(p.data.slice(1))
           .attr("d",effMean)
-          .attr("stroke-dasharray","10,5")
-          .style("fill","none")
-          .style("stroke","#f77300")
-          .style("stroke-width","2px")
+          .attr("class","effMean");
 
         // ---------------------------
         // Cyc Legend
@@ -157,7 +148,7 @@ define(
           .attr("r",3)
           .attr("cx",legend.x + 20)
           .attr("cy",legend.y + legend.yOffset)
-          .style("fill", function(d) { return "#FFAC80";});
+          .style("fill", function(d) { return colors[2];});
 
         legendG.append("text")
           .attr("class", "source")
@@ -174,9 +165,7 @@ define(
           .attr("y1",legend.y+legend.yOffset + legend.yBaseline)
           .attr("x2",legend.x+30)
           .attr("y2",legend.y+legend.yOffset + legend.yBaseline)
-          .style("fill","none")
-          .style("stroke","#994700")
-          .style("stroke-width","2px");
+          .attr("class","actSma30");
 
         legendG.append("text")
           .attr("class", "source")
@@ -193,10 +182,7 @@ define(
           .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*2))
           .attr("x2",legend.x+30)
           .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*2))
-          .attr("stroke-dasharray","10,5")
-          .style("fill","none")
-          .style("stroke","#994700")
-          .style("stroke-width","2px");
+          .attr("class","actMean");
 
         legendG.append("text")
           .attr("class", "source")
@@ -213,9 +199,7 @@ define(
           .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*3))
           .attr("x2",legend.x+30)
           .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*3))
-          .style("fill","none")
-          .style("stroke","#f77300")
-          .style("stroke-width","2px");
+          .attr("class","effSma30");
 
         legendG.append("text")
           .attr("class", "source")
@@ -232,10 +216,7 @@ define(
           .attr("y1",legend.y+75)
           .attr("x2",legend.x+30)
           .attr("y2",legend.y+75)
-          .attr("stroke-dasharray","10,5")
-          .style("fill","none")
-          .style("stroke","#f77300")
-          .style("stroke-width","2px");
+          .attr("class","effMean");
 
         legendG.append("text")
           .attr("class", "source")
@@ -265,7 +246,7 @@ define(
         var fontSize  = 10;
         p.g.append("text")
               .attr("class", "source")
-              .attr("fill", "#994700")
+              .attr("fill", colors[1])
               .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
               .attr("font-size", fontSize)
               .style("text-anchor", "left")
@@ -273,7 +254,7 @@ define(
         lineLabel = Math.round(p.data[p.data.length-1].actVeloMean*100)/100;
         p.g.append("text")
               .attr("class", "source")
-              .attr("fill", "#994700")
+              .attr("fill", colors[1])
               .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
               .attr("font-size", fontSize)
               .style("text-anchor", "left")
@@ -281,7 +262,7 @@ define(
         lineLabel = Math.round(p.data[p.data.length-1].effVeloSMA*100)/100;
         p.g.append("text")
               .attr("class", "source")
-              .attr("fill", "#f77300")
+              .attr("fill", colors[0])
               .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
               .attr("font-size", fontSize)
               .style("text-anchor", "left")
@@ -289,7 +270,7 @@ define(
         lineLabel = Math.round(p.data[p.data.length-1].effVeloMean*100)/100;
         p.g.append("text")
               .attr("class", "source")
-              .attr("fill", "#f77300")
+              .attr("fill", colors[0])
               .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
               .attr("font-size", fontSize)
               .style("text-anchor", "left")
@@ -442,7 +423,7 @@ define(
             .attr("r", 1)
             .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
             .attr("cy", function(d) {return y(parseFloat(d.windspd))})
-            .style("fill", function(d) { return "#994700";})
+            .style("fill", function(d) { return colors[1];})
 
         var temp = p.g.append("g");
         temp.selectAll('.dot')
@@ -453,7 +434,7 @@ define(
             .attr("r", 1)
             .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
             .attr("cy", function(d) {return y(parseFloat(d.temp))})
-            .style("fill", function(d) { return "#F77300";})
+            .style("fill", function(d) { return colors[0];})
 
         // ---------------------------
         // Weather Legend
@@ -477,7 +458,7 @@ define(
           .attr("r",3)
           .attr("cx",legend.x + 20)
           .attr("cy",legend.y + legend.yOffset)
-          .style("fill", function(d) { return "#F77300";})
+          .style("fill", function(d) { return colors[0];})
 
         legendG.append("text")
           .attr("class", "source")
@@ -491,7 +472,7 @@ define(
           .attr("r",3)
           .attr("cx",legend.x + 140)
           .attr("cy",legend.y + legend.yOffset)
-          .style("fill", function(d) { return "#994700";})
+          .style("fill", function(d) { return colors[1];})
 
         legendG.append("text")
           .attr("class", "source")
@@ -546,7 +527,7 @@ define(
             .attr("r", 1)
             .attr("cx", function(d) {return x(p.parseTime(d.End));})
             .attr("cy", function(d) {return y(moment.duration(d["Time in bed"]).asHours())})
-            .style("fill", function(d) { return "#F77300";})
+            .style("fill", function(d) { return colors[0];})
 
         // citation: exec last to keep on top
         p.citation();
@@ -597,28 +578,28 @@ define(
           .transition()
           .duration(2)
           .attr("d",line)
-          .style("fill","#f77300")
+          .style("fill",colors[0])
           .style("opacity","0.7")
-          .style("stroke","#f77300")
+          .style("stroke",colors[0])
           .style("stroke-width","1px");
         p.g.append("path")
           .datum(drv) // driving
           .attr("d",line)
-          .style("fill","#994700")
+          .style("fill",colors[1])
           .style("opacity","0.7")
-          .style("stroke","#994700")
+          .style("stroke",colors[1])
           .style("stroke-width","1px");
         p.g.append("path")
           .datum(cyc) // cycling
           .attr("d",line)
           .style("fill","none")
-          .style("stroke","#f77300")
+          .style("stroke",colors[0])
           .style("stroke-width","2px");
         p.g.append("path")
           .datum(drv) // driving
           .attr("d",line)
           .style("fill","none")
-          .style("stroke","#994700")
+          .style("stroke",colors[1])
           .style("stroke-width","2px");
 
         // ---------------------------
@@ -633,7 +614,7 @@ define(
           .attr("y2",y2)
           .attr("stroke-dasharray","10,5")
           .style("fill","none")
-          .style("stroke","#f77300")
+          .style("stroke",colors[0])
           .style("stroke-width","2px");
           var item   = cyc[bisect(cyc,r.med_cyc)];
           var y2     = y(item.y);
@@ -646,7 +627,7 @@ define(
           .attr("y2",y2)
           .attr("stroke-dasharray","10,5")
           .style("fill","none")
-          .style("stroke","#994700")
+          .style("stroke",colors[1])
           .style("stroke-width","2px");
         // End Cyc Medians
         // ---------------------------
@@ -659,7 +640,7 @@ define(
           .attr("x2",x(r.med_cyc+30))
           .attr("y2",y(0.0175))
           .style("fill","none")
-          .style("stroke","#f77300")
+          .style("stroke",colors[0])
           .style("stroke-width","1px");
         p.g.append("line")
           .attr("x1",x(r.med_drive))
@@ -667,25 +648,24 @@ define(
           .attr("x2",x(r.med_drive-30))
           .attr("y2",y(0.0175))
           .style("fill","none")
-          .style("stroke","#994700")
+          .style("stroke",colors[1])
           .style("stroke-width","1px");
         p.g.append("rect")
           .attr("transform","translate("+x(r.med_cyc+30)+","+y(0.0195)+")")
           .attr("width",50)
           .attr("height",40)
           .attr("fill","#FFF")
-          .style("stroke","#f77300")
+          .style("stroke",colors[0])
           .style("stoke-width","1px");
         p.g.append("rect")
           .attr("transform","translate("+x(r.med_drive-55)+","+y(0.0195)+")")
           .attr("width",50)
           .attr("height",40)
           .attr("fill","#FFF")
-          .style("stroke","#994700")
+          .style("stroke",colors[1])
           .style("stoke-width","1px");
         p.g.append("text")
-          .attr("class", "source")
-          .attr("fill", "#f77300")
+          .attr("fill", colors[0])
           .attr("transform", "translate("+
             (x(r.med_cyc+30)+25)+","+
             (y(0.0173))+")")
@@ -693,8 +673,7 @@ define(
           .style("text-anchor", "middle")
           .text("Median");
         p.g.append("text")
-          .attr("class", "source")
-          .attr("fill", "#f77300")
+          .attr("fill", colors[0])
           .attr("transform", "translate("+
             (x(r.med_cyc+30)+25)+","+
             (y(0.013))+")")
@@ -702,8 +681,7 @@ define(
           .style("text-anchor", "middle")
           .text(Math.round(r.med_cyc));
         p.g.append("text")
-          .attr("class", "source")
-          .attr("fill", "#994700")
+          .attr("fill", colors[1])
           .attr("transform", "translate("+
             (x(r.med_drive-55)+25)+","+
             (y(0.0173))+")")
@@ -711,8 +689,7 @@ define(
           .style("text-anchor", "middle")
           .text("Median");
         p.g.append("text")
-          .attr("class", "source")
-          .attr("fill", "#994700")
+          .attr("fill", colors[1])
           .attr("transform", "translate("+
             (x(r.med_drive-55)+25)+","+
             (y(0.013))+")")
@@ -747,7 +724,7 @@ define(
           .attr("x2",legend.x+30)
           .attr("y2",legend.y+legend.yOffset + legend.yBaseline)
           .style("fill","none")
-          .style("stroke","#994700")
+          .style("stroke",colors[1])
           .style("stroke-width","2px");
 
         legendG.append("text")
@@ -766,7 +743,7 @@ define(
           .attr("x2",legend.x+30)
           .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*3))
           .style("fill","none")
-          .style("stroke","#f77300")
+          .style("stroke",colors[0])
           .style("stroke-width","2px");
 
         legendG.append("text")
@@ -977,13 +954,10 @@ define(
         p.g.append("path")
           .datum(expenses)
           .attr("d",expenseLine)
-          .style("fill","none")
-          .style("stroke","#f77300")
-          .style("stroke-width","3px");
+          .attr("class","expensesLine");
 
         p.g.append("text")
-          .attr("class", "source")
-          .attr("fill", "#f77300")
+          .attr("fill", colors[0])
           .attr("transform", "translate("+
             (x(p.parseTime(offsets[offsets.length-1].date)))+","+
             (y(5700))+")")
@@ -994,13 +968,10 @@ define(
         p.g.append("path")
           .datum(offsets)
           .attr("d",diffsLine)
-          .style("fill","none")
-          .style("stroke","#994700")
-          .style("stroke-width","2px");
+          .attr("class","diffsLine");
 
         p.g.append("text")
-          .attr("class", "source")
-          .attr("fill", "#994700")
+          .attr("fill", colors[1])
           .attr("transform", "translate("+
             (x(p.parseTime(offsets[offsets.length-1].date)))+","+
             (y(1000))+")")
@@ -1011,9 +982,7 @@ define(
         p.g.append("path")
           .datum(offsets)
           .attr("d",offsetsLine)
-          .style("fill","none")
-          .style("stroke","#000")
-          .style("stroke-width","2px");
+          .attr("class","offsetsLine");
 
         p.g.append("text")
           .attr("class", "source")
@@ -1055,9 +1024,7 @@ define(
         p.g.append("path")
           .datum(p.data)
           .attr("d",line)
-          .style("fill","none")
-          .style("stroke","#f77300")
-          .style("stroke-width","3px");
+          .attr("class","costLine");
       };
     }
   }

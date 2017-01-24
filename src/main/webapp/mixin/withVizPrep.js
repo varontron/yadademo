@@ -16,20 +16,18 @@ define(
         r.data   = opt.tab.data;
         r.svg    = d3.select('#'+id);
         r.W      = parseInt(r.svg.style("width"));
-        r.margin = {top: r.W*.02, right: r.W*.02, bottom: r.W*.05, left: r.W*.06};
+        r.margin = {top: r.W*.1, right: r.W*.1, bottom: r.W*.1, left: r.W*.135};
         r.width  = +r.svg.attr("width") - r.margin.left - r.margin.right;
         r.height = +r.svg.attr("height") - r.margin.top - r.margin.bottom;
         r.g      = r.svg.append("g").attr("transform", "translate(" + r.margin.left + "," + r.margin.top + ")");
         r.parseTime   = d3.timeParse(opt.timeParseFormat);
-        r.titleOffset = 15;
+        r.titleOffset = 15,
+        r.axisOffset  = 10;
 
         // title
         r.g.append("text")
-            .attr("fill", "#000")
             .attr("transform", "translate("+(r.width/2)+",0)")
-            .attr("font-size", "16")
-            .attr("font-weight", "bold")
-            .style("text-anchor","middle")
+            .attr("class","title")
             .text(opt.title);
 
 
@@ -49,16 +47,15 @@ define(
         r.xAxis = function(x,ticks) {
           r.g.append("g")
               .attr("class", "axis axis--x")
-              .attr("transform", "translate(0," + r.height + ")")
-              .style("font-size",12)
-              .call(d3.axisBottom(x).ticks(ticks).tickSizeOuter(0).tickSizeInner(-r.height+r.titleOffset))
+              .attr("transform", "translate(0," + (r.height + r.axisOffset) + ")")
+              .call(d3.axisBottom(x)
+                      .ticks(ticks)
+                      .tickSizeOuter(0)
+                      .tickSizeInner(-r.height))   //-10+r.titleOffset
             .append("text")
-              .attr("fill", "#000")
               .attr("y", -10)
               .attr("x", r.width-10)
               .attr("dy", "0.71em")
-              .style("font-size", 12)
-              .style("text-anchor", "end")
               .text(opt.xLabel);
 
         };
@@ -67,16 +64,16 @@ define(
         r.yAxis = function(y) {
           r.g.append("g")
               .attr("class", "axis axis--y")
-              .style("font-size",12)
-              .call(d3.axisLeft(y).tickSizeOuter(0).tickSizeInner(-r.width+10))
+              .attr("transform", "translate(-10,0)")
+              .call(d3.axisLeft(y)
+                      .tickSizeOuter(0)
+                      .tickSizeInner(-r.width))
             .append("text")
               .attr("fill", "#000")
               .attr("transform", "rotate(-90)")
               .attr("y", 6)
               .attr("x", -r.titleOffset)
               .attr("dy", "0.71em")
-              .style("font-size", 12)
-              .style("text-anchor", "end")
               .text(opt.yLabel);
         };
 
@@ -85,16 +82,11 @@ define(
           var g = r.g.append("g");
           g.append("text")
               .attr("class", "source")
-              .attr("fill", "#000")
               .attr("transform", "translate(5,"+(r.height-18)+")")
-              .attr("font-size", "10")
-              .style('background-color','#FFF')
               .text("Source:")
           g.append("text")
               .attr("class", "source")
-              .attr("fill", "#000")
               .attr("transform", "translate(5,"+(r.height-8)+")")
-              .attr("font-size", "10")
               .text(opt.citation)
         };
         r.citation    = gCite;

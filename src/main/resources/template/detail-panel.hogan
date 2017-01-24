@@ -9,18 +9,6 @@
       <div id="{{tabid}}-view" class="view-tab">
         <p class="snark">{{snark}}</p>
       </div>
-      <!-- <div id="{{tabid}}-detail-panel" class="detail-panel" role="navigation">
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="" role="presentation"><a href="#{{tabid}}-browse" aria-controls="" role="tab" data-toggle="tab">Browse the Data</a></li>
-          <li class="" role="presentation"><a href="#{{tabid}}-learn" aria-controls="" role="tab" data-toggle="tab">Learn More</a></li>
-        </ul>
-        <div class="tab-content">
-          <div id="{{tabid}}-browse" class="browse-tab tab-pane fade" role="tabpanel" >
-            <table class="display cell-border"></table>
-          </div>
-          <div id="{{tabid}}-learn" class="learn-tab tab-pane fade" role="tabpanel"></div>
-        </div>
-      </div> -->
     </div>
   </div>
 </div>
