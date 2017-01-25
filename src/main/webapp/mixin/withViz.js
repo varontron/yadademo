@@ -573,129 +573,205 @@ define(
             .x(function(d) { return x(d.x);})
             .y(function(d) { return y(d.y);});
         // viz
-        p.g.append("path")
-          .datum(cyc) // cycling
-          .transition()
-          .duration(2)
-          .attr("d",line)
-          .style("fill",colors[0])
-          .style("opacity","0.7")
-          .style("stroke",colors[0])
-          .style("stroke-width","1px");
-        p.g.append("path")
-          .datum(drv) // driving
-          .attr("d",line)
-          .style("fill",colors[1])
-          .style("opacity","0.7")
-          .style("stroke",colors[1])
-          .style("stroke-width","1px");
-        p.g.append("path")
-          .datum(cyc) // cycling
-          .attr("d",line)
-          .style("fill","none")
-          .style("stroke",colors[0])
-          .style("stroke-width","2px");
-        p.g.append("path")
-          .datum(drv) // driving
-          .attr("d",line)
-          .style("fill","none")
-          .style("stroke",colors[1])
-          .style("stroke-width","2px");
+
+        var pathPre1 = p.g.append("path")
+            .attr("d",line(cyc))
+            .style("fill",colors[0])
+            .style("opacity","0.0")
+            .style("stroke",colors[1])
+            .style("stroke-width","1px");
+
+        var path1 = p.g.append("path")
+            .attr("d",line(cyc))
+            .style("fill","none")
+            .style("opacity","0.7")
+            .style("stroke",colors[0])
+            .style("stroke-width","2px");
+
+        var totalLength = path1.node().getTotalLength();
+
+        path1.attr("stroke-dasharray", totalLength + ", " + totalLength)
+            .attr("stroke-dashoffset", totalLength)
+            .transition()
+              .duration(1500)
+              .attr("stroke-dashoffset", 0);
+
+        pathPre1.transition()
+            .delay(1500)
+            .duration(1000)
+            .style("opacity","0.7");
+
+        var pathPre2 = p.g.append("path")
+            .attr("d",line(drv))
+            .style("fill",colors[1])
+            .style("opacity","0.0")
+            .style("stroke",colors[1])
+            .style("stroke-width","1px");
+
+        var path2 = p.g.append("path")
+            .attr("d",line(drv))
+            .style("fill","none")
+            .style("opacity","0.7")
+            .style("stroke",colors[1])
+            .style("stroke-width","1px");
+
+        totalLength = path2.node().getTotalLength();
+        path2.attr("stroke-dasharray", totalLength + " " + totalLength)
+            .attr("stroke-dashoffset", totalLength)
+            .transition()
+              .duration(1500)
+              .attr("stroke-dashoffset", 0);
+
+        pathPre2.transition()
+            .delay(1500)
+            .duration(1000)
+            .style("opacity","0.7");
+
 
         // ---------------------------
         // Cyc Medians
         var bisect = d3.bisector(function(d) { return d.x; }).left;
         var item   = cyc[bisect(cyc,r.med_cyc)];
-        var y2     = y(item.y);
-        p.g.append("line")
+        var y2Cyc     = y(item.y);
+        var med1 = p.g.append("line")
           .attr("x1",x(r.med_cyc))
           .attr("y1",p.height)
           .attr("x2",x(r.med_cyc))
-          .attr("y2",y2)
+          .attr("y2",p.height)
           .attr("stroke-dasharray","10,5")
           .style("fill","none")
           .style("stroke",colors[0])
-          .style("stroke-width","2px");
-          var item   = cyc[bisect(cyc,r.med_cyc)];
-          var y2     = y(item.y);
+          .style("stroke-width","2px")
+          .transition()
+              .delay(1500)
+              .duration(1500)
+              .attr("y2",y2Cyc);
+
+
         item = drv[bisect(drv,r.med_drive)];
-        y2   = y(item.y);
-        p.g.append("line")
+        var y2Drv   = y(item.y);
+        var med2 = p.g.append("line")
           .attr("x1",x(r.med_drive))
           .attr("y1",p.height)
           .attr("x2",x(r.med_drive))
-          .attr("y2",y2)
+          .attr("y2",p.height)
           .attr("stroke-dasharray","10,5")
           .style("fill","none")
           .style("stroke",colors[1])
-          .style("stroke-width","2px");
+          .style("stroke-width","2px")
+          .transition()
+              .delay(1500)
+              .duration(1500)
+              .attr("y2",y2Drv);
         // End Cyc Medians
         // ---------------------------
 
         // ---------------------------
         // Cyc Median Callouts
-        p.g.append("line")
-          .attr("x1",x(r.med_cyc))
-          .attr("y1",y(0.0175))
-          .attr("x2",x(r.med_cyc+30))
-          .attr("y2",y(0.0175))
-          .style("fill","none")
-          .style("stroke",colors[0])
-          .style("stroke-width","1px");
-        p.g.append("line")
-          .attr("x1",x(r.med_drive))
-          .attr("y1",y(0.0175))
-          .attr("x2",x(r.med_drive-30))
-          .attr("y2",y(0.0175))
-          .style("fill","none")
-          .style("stroke",colors[1])
-          .style("stroke-width","1px");
-        p.g.append("rect")
-          .attr("transform","translate("+x(r.med_cyc+30)+","+y(0.0195)+")")
-          .attr("width",50)
-          .attr("height",40)
-          .attr("fill","#FFF")
-          .style("stroke",colors[0])
-          .style("stoke-width","1px");
-        p.g.append("rect")
-          .attr("transform","translate("+x(r.med_drive-55)+","+y(0.0195)+")")
-          .attr("width",50)
-          .attr("height",40)
-          .attr("fill","#FFF")
-          .style("stroke",colors[1])
-          .style("stoke-width","1px");
-        p.g.append("text")
-          .attr("fill", colors[0])
-          .attr("transform", "translate("+
-            (x(r.med_cyc+30)+25)+","+
-            (y(0.0173))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "middle")
-          .text("Median");
-        p.g.append("text")
-          .attr("fill", colors[0])
-          .attr("transform", "translate("+
-            (x(r.med_cyc+30)+25)+","+
-            (y(0.013))+")")
-          .attr("font-size", 16)
-          .style("text-anchor", "middle")
-          .text(Math.round(r.med_cyc));
-        p.g.append("text")
-          .attr("fill", colors[1])
-          .attr("transform", "translate("+
-            (x(r.med_drive-55)+25)+","+
-            (y(0.0173))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "middle")
-          .text("Median");
-        p.g.append("text")
-          .attr("fill", colors[1])
-          .attr("transform", "translate("+
-            (x(r.med_drive-55)+25)+","+
-            (y(0.013))+")")
-          .attr("font-size", 16)
-          .style("text-anchor", "middle")
-          .text(Math.round(r.med_drive));
+        var t3k = d3.transition().delay(3000);
+
+        var medCalloutCyc = p.g.append("g");
+        var medCalloutDrv = p.g.append("g");
+
+        medCalloutCyc.append("line")
+            .attr("x1","0").attr("y1","0")
+            .attr("x2","30").attr("y2","0")
+            .classed("color0Line1px",true)
+            .style("opacity",0.0);
+        medCalloutCyc.append("rect")
+            .attr("x","30").attr("y","-20")
+            .attr("width","50").attr("height","40")
+            .classed("color0Rect",true)
+            .style("opacity","0.0");
+        medCalloutCyc.append("text")
+            .attr("x",(30+50/2)).attr("y",(-4))
+            .text("Median")
+            .style("opacity","0.0");
+        medCalloutCyc.append("text")
+            .attr("x",(30+50/2)).attr("y",(20-6))
+            .text(Math.round(r.med_cyc))
+            .style("opacity","0.0");
+        medCalloutCyc.selectAll("text").classed("color0callout",true);
+
+        medCalloutCyc.selectAll("*")
+            .transition(t3k)
+            .attr("transform","translate("
+                +(x(r.med_cyc))+","+(p.height-y2Cyc/2-20)+")")
+            .transition()
+            .delay(100)
+            .style("opacity","1.0");
+
+
+        medCalloutDrv.append("line")
+            .attr("x1",0).attr("y1",0)
+            .attr("x2",-30).attr("y2",0)
+            .classed("color1Line1px",true)
+            .style("opacity","0.0");
+        medCalloutDrv.append("rect")
+            .attr("x",-80).attr("y",-20)
+            .attr("width",50).attr("height",40)
+            .classed("color1Rect",true)
+            .style("opacity","0.0");
+        medCalloutDrv.append("text")
+            .attr("x",(-80+50/2)).attr("y",(-4))
+            .text("Median")
+            .style("opacity","0.0");
+        medCalloutDrv.append("text")
+            .attr("x",(-80+50/2)).attr("y",(20-6))
+            .text(Math.round(r.med_drive))
+            .style("opacity","0.0");;
+
+        medCalloutDrv.selectAll("text").classed("color1callout",true);
+
+        medCalloutDrv.selectAll("*")
+            .transition(t3k)
+            .attr("transform","translate("
+                +(x(r.med_drive))+","+(p.height-y2Cyc/2-20)+")")
+            .transition()
+            .delay(100)
+            .style("opacity","1.0");
+
+
+
+        // Cycling median label text
+        // medRectCyc.append("text")
+        //   .transition(t3000)
+        //   .attr("fill", colors[0])
+        //   .attr("transform", "translate("+
+        //     (x(r.med_cyc+30)+25)+","+
+        //     (y(0.0173))+")")
+        //   .attr("font-size", 12)
+        //   .attr("text-anchor", "middle")
+        //   .text("Median");
+        // medRectCyc.append("text")
+        //   .transition(t3000)
+        //   .attr("fill", colors[0])
+        //   .attr("transform", "translate("+
+        //     (x(r.med_cyc+30)+25)+","+
+        //     (y(0.0173)+19)+")")
+        //   .attr("font-size", 16)
+        //   .attr("text-anchor", "middle")
+        //   .text(Math.round(r.med_cyc));
+        //
+        // // Driving Median label text
+        // medRectDrv.append("text")
+        //   .transition(t3000)
+        //   .attr("fill", colors[1])
+        //   .attr("transform", "translate("+
+        //     (x(r.med_drive-55)+25+p.axisOffset)+","+ // 55 + half rect width + offset
+        //     (y(0.0173))+")")
+        //   .attr("font-size", 12)
+        //   .attr("text-anchor", "middle")
+        //   .text("Median");
+        // pmedRectDrv.append("text")
+        // .transition(t3000)
+        //   .attr("fill", colors[1])
+        //   .attr("transform", "translate("+
+        //     (x(r.med_drive-55)+25+p.axisOffset)+","+ // 55 + half rect width + offset
+        //     (y(0.0173)+19)+")")
+        //   .attr("font-size", 16)
+        //   .attr("text-anchor", "middle")
+        //   .text(Math.round(r.med_drive));
         // End Cyc Median Callouts
         // ---------------------------
 
@@ -720,40 +796,30 @@ define(
 
         legendG.append("line")
           .attr("x1",legend.x+10)
-          .attr("y1",legend.y+legend.yOffset + legend.yBaseline)
+          .attr("y1",legend.y+legend.height*.25)
           .attr("x2",legend.x+30)
-          .attr("y2",legend.y+legend.yOffset + legend.yBaseline)
-          .style("fill","none")
-          .style("stroke",colors[1])
-          .style("stroke-width","2px");
+          .attr("y2",legend.y+legend.height*.25)
+          .attr("class", "color1Line");
 
         legendG.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
+          .attr("class","legend")
           .attr("transform", "translate("+
-            (legend.x+40)+","+
-            (legend.y+(legend.yBaseline*2))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
+            (legend.x+35)+","+
+            (legend.y+legend.height*.25+4)+")")
           .text("Driving");
 
         legendG.append("line")
           .attr("x1",legend.x+10)
-          .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*3))
+          .attr("y1",legend.y+legend.height*.75)
           .attr("x2",legend.x+30)
-          .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*3))
-          .style("fill","none")
-          .style("stroke",colors[0])
-          .style("stroke-width","2px");
+          .attr("y2",legend.y+legend.height*.75)
+          .attr("class", "color0Line");
 
         legendG.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
+          .attr("class","legend")
           .attr("transform", "translate("+
-            (legend.x+40)+","+
-            (legend.y+(legend.yBaseline*4))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
+            (legend.x+35)+","+
+            (legend.y+legend.height*.75+4)+")")
           .text("Cycling");
         // End Cyc Legend
         // ---------------------------

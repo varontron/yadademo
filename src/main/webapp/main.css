@@ -126,6 +126,7 @@ border-top-color: transparent;
   stroke-width: 3px;
 }
 
+.color1Line,
 .diffsLine,
 .actSma30 {
   fill: none;
@@ -140,12 +141,43 @@ border-top-color: transparent;
   stroke-dasharray: 10,5;
 }
 
+.color0Line,
 .costLine,
 .expensesLine,
 .effSma30 {
   fill: none;
   stroke: #f77300;
   stroke-width: 2px;
+}
+
+.color0Line1px {
+  fill: none;
+  stroke: #f77300;
+  stroke-width: 1px;
+  /*opacity: 0.0;*/
+}
+
+.color1Line1px {
+  fill: none;
+  stroke: #994700;
+  stroke-width: 1px;
+  /*opacity: 0.0;*/
+}
+
+.color1Rect,
+.color0Rect {
+  fill: #FFF;
+}
+
+.color1Rect {
+  stroke: #994700;
+  stroke-width: 1px;
+  /*opacity: 0.0;*/
+}
+.color0Rect {
+  stroke: #f77300;
+  stroke-width: 1px;
+  /*opacity: 0.0;*/
 }
 
 .effMean {
@@ -155,6 +187,7 @@ border-top-color: transparent;
   stroke-dasharray: 10,5;
 }
 
+.blackLine,
 .offsetsLine {
   fill: none;
   stroke: #000;
@@ -192,6 +225,25 @@ svg .axis--y .tick text {
   fill: #000;
   font-size: 12px;
   text-anchor: end;
+}
+
+.legend {
+  font-size: 12px;
+  fill: #000;
+  text-anchor: start;
+}
+
+.color1callout {
+  font-size: 12px;
+  fill: #994700;
+  text-anchor: middle;
+}
+
+.color0callout {
+  font-size: 12px;
+  fill: #f77300;
+  text-anchor: middle;
+  opacity: 0.0;
 }
 
 .source {
