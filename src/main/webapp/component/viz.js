@@ -25,14 +25,23 @@ define(
         }
         if(!!d.tab)
           d.tab.viz = true;
-        this.trigger('executed.viz',d);        
+
+
+        this.trigger('executed.viz',d);
+      };
+
+      this.redraw = function(e,d) {
+        //console.log([e,d]);
+
       };
 
       this.defaultAttrs({
+
       });
 
       this.after('initialize', function() {
         this.on('request.viz',this.addViz);
+        this.on('request-redraw.viz',this.addViz);
         this.enrich();
       });
 

@@ -25,11 +25,12 @@ define(
         r.axisOffset  = 10;
 
         // title
-        r.g.append("text")
+        r.title = function() {
+          r.g.append("text")
             .attr("transform", "translate("+(r.width/2)+",0)")
             .attr("class","title")
             .text(opt.title);
-
+        }
 
         r.scaleX = function(min,max) {
           return d3.scaleTime()
@@ -51,7 +52,7 @@ define(
               .call(d3.axisBottom(x)
                       .ticks(ticks)
                       .tickSizeOuter(0)
-                      .tickSizeInner(-r.height))   //-10+r.titleOffset
+                      .tickSizeInner(-r.height))
             .append("text")
               .attr("y", -10)
               .attr("x", r.width-10)
@@ -92,7 +93,7 @@ define(
         r.citation    = gCite;
 
         // merge opt in for arbitrary settings
-        r = _.merge(r,_.omit(opt,["tab","timeParseFormat","citation","xAxis","yAxis"]));
+        r = _.merge(r,_.omit(opt,["title","tab","timeParseFormat","citation","xAxis","yAxis"]));
 
         return r;
       }

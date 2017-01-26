@@ -150,6 +150,14 @@ border-top-color: transparent;
   stroke-width: 2px;
 }
 
+.effMean {
+  fill: none;
+  stroke: #f77300;
+  stroke-width: 2px;
+  stroke-dasharray: 10,5;
+}
+
+
 .color0Line1px {
   fill: none;
   stroke: #f77300;
@@ -178,13 +186,6 @@ border-top-color: transparent;
   stroke: #f77300;
   stroke-width: 1px;
   /*opacity: 0.0;*/
-}
-
-.effMean {
-  fill: none;
-  stroke: #f77300;
-  stroke-width: 2px;
-  stroke-dasharray: 10,5;
 }
 
 .blackLine,
@@ -243,7 +244,6 @@ svg .axis--y .tick text {
   font-size: 12px;
   fill: #f77300;
   text-anchor: middle;
-  opacity: 0.0;
 }
 
 .source {

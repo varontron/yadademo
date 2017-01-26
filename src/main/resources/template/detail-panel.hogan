@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div id="{{tabid}}-panel" class="panel panel-default">
   <div class="panel-heading" role="tab" id="hdr-{{tabid}}"  data-toggle="collapse" data-parent="#accordion" href="#{{tabid}}" aria-expanded="true" aria-controls="{{tabid}}">
     <h4 class="panel-title">
       {{hdr}}

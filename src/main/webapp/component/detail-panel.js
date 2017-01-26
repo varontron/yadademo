@@ -116,9 +116,12 @@
       };
 
       this.enrichLearnTab = function(id) {
-        require(['text!html/smry-'+id+'.html'],function(html) {
-          $(html).appendTo('#'+id+'-copy');
-        });
+        if($('#'+id+'-copy').children().length == 0)
+        {
+          require(['text!html/smry-'+id+'.html'],function(html) {
+            $(html).appendTo('#'+id+'-copy');
+          });
+        }
       };
 
       /**
@@ -128,15 +131,34 @@
 
       };
 
+      this.requestRedraw = function(e,d) {
+        var id = this.attr.panelId;
+        var panel = panels[id];
+        var evtPayload ={
+          "fn":panel.fn,
+          "id":id, // becomes 'idViz'
+          "svgid":id+'-viz',
+          "tab":panel // tabe is the content of the tab
+        };
+        this.trigger(this.select('view'), 'request-redraw.viz', evtPayload );
+      }
+
       this.defaultAttrs({
-        'view': '.view-tab'
+        'view': '.view-tab',
+        'hdr' : '.panel-heading',
+        'svg' : 'svg'
+
       });
 
       this.after('initialize', function() {
+        var that = this;
         this.checkDataLoaded();
         this.on('request.view',this.enrichViewTab);
         this.on('executed.viz',this.checkVizExecution);
         this.on('request.table',this.enrichTableTab);
+        this.on('click',{
+          'hdr': this.requestRedraw
+        });
         this.enrich();
       });
 

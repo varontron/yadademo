@@ -114,7 +114,7 @@ define(
           var attrs={panelId:id};
           var renderPayload = {
             'template':'detail-panel',
-            'selector':'#'+id,
+            'selector':'#'+id+'-panel',
             'parent':'#accordion',
             'attrs':attrs,
             'tmplvars':{

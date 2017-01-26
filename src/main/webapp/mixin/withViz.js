@@ -17,6 +17,9 @@ define(
       }
 
       this.perfViz = function(d) {
+        var meatyBit = d3.select('#'+d.svgid+' .meaty-bit');
+        var that = this;
+
         var p = this.vizPrep({
           "svgId":d.svgid,
           "tab": d.tab,
@@ -70,213 +73,274 @@ define(
                          moment(p.parseTime(d3.max(xDom))).add(30,'days'));
         var y = p.scaleY(d3.min(yDom)-.5,d3.max(yDom)+.5);
 
-        // axes
-        p.xAxis(x);
-        p.yAxis(y);
+        if(!!meatyBit.node())
+        {
+          meatyBit.remove();
+        }
+        else
+        {
+          p.title();
 
-        // data
-        p.svg.data(p.data);
+          // axes
+          p.xAxis(x);
+          p.yAxis(y);
+        }
 
-        // dots
-        p.g.selectAll('.dot')
-            .data(p.data)
-            .enter()
-            .append("circle")
-            .attr('class','dot')
-            .attr("r", 1)
-            .attr("cx", function(d) {return x(p.parseTime(d.startTime));})
-            .attr("cy", function(d) {return y(d.actVelo)})
-            .attr("data-legend","Observed Velocity")
+        function redraw() {
+
+          var meatyBit = d3.select('#'+d.svgid+' g').append('g').attr('class','meaty-bit');
+
+          // data
+          p.svg.data(p.data);
+
+          // dots
+          p.g.selectAll('.dot')
+              .data(p.data)
+              .enter()
+              .append("circle")
+              .attr('class','dot')
+              .attr("r", 1)
+              .attr("cx", function(d) {return x(p.parseTime(d.startTime));})
+              .attr("cy", function(d) {return y(d.actVelo)})
+              .attr("data-legend","Observed Velocity")
+              .style("fill", function(d) { return colors[2];});
+
+
+          // lines
+          var actSma30 = d3.line()
+              .x(function(d) { return x(p.parseTime(d.startTime));})
+              .y(function(d) { return y(d.actVeloSMA); });
+
+          var actSma30Path = p.g.append("path")
+            .datum(p.data.slice(1))
+            .attr("d",actSma30)
+            .attr("class","actSma30");
+          var totalLength = actSma30Path.node().getTotalLength();
+          actSma30Path.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .duration(1500)
+                .attr("stroke-dashoffset", 0);
+
+          var actMean = d3.line()
+              .x(function(d) { return x(p.parseTime(d.startTime));})
+              .y(function(d) { return y(d.actVeloMean); });
+
+          var actMeanPath = p.g.append("path")
+            .datum(p.data.slice(1))
+            .attr("d",actMean)
+            .attr("class","actMean");
+          totalLength = actMeanPath.node().getTotalLength();
+          // actMeanPath.attr("stroke-dasharray", totalLength + ", " + totalLength)
+          //     .attr("stroke-dashoffset", totalLength)
+          //     .transition()
+          //       .duration(1500)
+          //       .attr("stroke-dashoffset", 0);
+
+          var effSma30 = d3.line()
+              .x(function(d) { return x(p.parseTime(d.startTime));})
+              .y(function(d) { return y(d.effVeloSMA); });
+
+          var effSma30Path = p.g.append("path")
+            .datum(p.data.slice(1))
+            .attr("d",effSma30)
+            .attr("class","effSma30");
+          totalLength = effSma30Path.node().getTotalLength();
+          effSma30Path.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .duration(1500)
+                .attr("stroke-dashoffset", 0);
+
+          var effMean = d3.line()
+              .x(function(d) { return x(p.parseTime(d.startTime));})
+              .y(function(d) { return y(d.effVeloMean); });
+
+          var effMeanPath = p.g.append("path")
+            .datum(p.data.slice(1))
+            .attr("d",effMean)
+            .attr("class","effMean");
+          totalLength = effMeanPath.node().getTotalLength();
+          // effMeanPath.attr("stroke-dasharray", totalLength + ", " + totalLength)
+          //     .attr("stroke-dashoffset", totalLength)
+          //     .transition()
+          //       .duration(1500)
+          //       .attr("stroke-dashoffset", 0);
+
+          // ---------------------------
+          // Cyc Legend
+          var legend = {"x": x(p.parseTime("2013-02-01 00:00:00")),"y":y(11.00)};
+          legend.width   = x(p.parseTime("2015-05-01 00:00:00")) - legend.x;
+          legend.height  = y(9.10)-legend.y;
+          legend.yOffset = 11;
+          legend.yBaseline = 16;
+          var legendG = p.g.append("g")
+
+          legendG.append("rect")
+            .attr("transform","translate("+legend.x+","+legend.y+")")
+            .attr("width",legend.width)
+            .attr("height",legend.height)
+            .attr("fill","#FFF")
+            .style("stroke","#CCC")
+            .style("stoke-width","1px")
+            .style("opacity",0.8);
+
+          legendG.append("circle")
+            .attr("r",3)
+            .attr("cx",legend.x + 20)
+            .attr("cy",legend.y + legend.yOffset)
             .style("fill", function(d) { return colors[2];});
 
-        // lines
-        var actSma30 = d3.line()
-            .x(function(d) { return x(p.parseTime(d.startTime));})
-            .y(function(d) { return y(d.actVeloSMA); });
+          legendG.append("text")
+            .attr("class", "source")
+            .attr("fill", "#000")
+            .attr("transform", "translate("+
+              (legend.x+40)+","+
+              (legend.y+legend.yBaseline)+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "left")
+            .text("Mean observed actual velocity per round trip");
 
-        p.g.append("path")
-          .datum(p.data.slice(1))
-          .attr("d",actSma30)
-          .attr("class","actSma30");
+          legendG.append("line")
+            .attr("x1",legend.x+10)
+            .attr("y1",legend.y+legend.yOffset + legend.yBaseline)
+            .attr("x2",legend.x+30)
+            .attr("y2",legend.y+legend.yOffset + legend.yBaseline)
+            .attr("class","actSma30");
 
-        var actMean = d3.line()
-            .x(function(d) { return x(p.parseTime(d.startTime));})
-            .y(function(d) { return y(d.actVeloMean); });
+          legendG.append("text")
+            .attr("class", "source")
+            .attr("fill", "#000")
+            .attr("transform", "translate("+
+              (legend.x+40)+","+
+              (legend.y+(legend.yBaseline*2))+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "left")
+            .text("Actual velocity, 30-period simple moving average");
 
-        p.g.append("path")
-          .datum(p.data.slice(1))
-          .attr("d",actMean)
-          .attr("class","actMean");
+          legendG.append("line")
+            .attr("x1",legend.x+10)
+            .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*2))
+            .attr("x2",legend.x+30)
+            .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*2))
+            .attr("class","actMean");
 
-        var effSma30 = d3.line()
-            .x(function(d) { return x(p.parseTime(d.startTime));})
-            .y(function(d) { return y(d.effVeloSMA); });
+          legendG.append("text")
+            .attr("class", "source")
+            .attr("fill", "#000")
+            .attr("transform", "translate("+
+              (legend.x+40)+","+
+              (legend.y+(legend.yBaseline*3))+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "left")
+            .text("Actual velocity, overall running average");
 
-        p.g.append("path")
-          .datum(p.data.slice(1))
-          .attr("d",effSma30)
-          .attr("class","effSma30");
+          legendG.append("line")
+            .attr("x1",legend.x+10)
+            .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*3))
+            .attr("x2",legend.x+30)
+            .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*3))
+            .attr("class","effSma30");
 
-        var effMean = d3.line()
-            .x(function(d) { return x(p.parseTime(d.startTime));})
-            .y(function(d) { return y(d.effVeloMean); });
+          legendG.append("text")
+            .attr("class", "source")
+            .attr("fill", "#000")
+            .attr("transform", "translate("+
+              (legend.x+40)+","+
+              (legend.y+(legend.yBaseline*4))+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "left")
+            .text("Effective velocity, 30-period simple moving average");
 
-        p.g.append("path")
-          .datum(p.data.slice(1))
-          .attr("d",effMean)
-          .attr("class","effMean");
+          legendG.append("line")
+            .attr("x1",legend.x+10)
+            .attr("y1",legend.y+75)
+            .attr("x2",legend.x+30)
+            .attr("y2",legend.y+75)
+            .attr("class","effMean");
 
-        // ---------------------------
-        // Cyc Legend
-        var legend = {"x": x(p.parseTime("2013-02-01 00:00:00")),"y":y(11.00)};
-        legend.width   = x(p.parseTime("2015-05-01 00:00:00")) - legend.x;
-        legend.height  = y(9.10)-legend.y;
-        legend.yOffset = 11;
-        legend.yBaseline = 16;
-        var legendG = p.g.append("g")
+          legendG.append("text")
+            .attr("class", "source")
+            .attr("fill", "#000")
+            .attr("transform", "translate("+
+              (legend.x+40)+","+
+              (legend.y+(legend.yBaseline*5))+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "left")
+            .text("Effective velocity, overall running average");
 
-        legendG.append("rect")
-          .attr("transform","translate("+legend.x+","+legend.y+")")
-          .attr("width",legend.width)
-          .attr("height",legend.height)
-          .attr("fill","#FFF")
-          .style("stroke","#CCC")
-          .style("stoke-width","1px")
-          .style("opacity",0.8);
+          p.g.append("text")
+            .attr("class", "source")
+            .attr("fill", "#000")
+            //.attr("transform", "translate("+(p.width-10)+","+((p.height+p.margin.top))+")")
+            .attr("transform", "translate("+
+              (legend.x+10)+","+
+              (legend.y+(legend.yBaseline*6))+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "left")
+            .text("*Effective velocity = distance / elapsed time");
 
-        legendG.append("circle")
-          .attr("r",3)
-          .attr("cx",legend.x + 20)
-          .attr("cy",legend.y + legend.yOffset)
-          .style("fill", function(d) { return colors[2];});
 
-        legendG.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
-          .attr("transform", "translate("+
-            (legend.x+40)+","+
-            (legend.y+legend.yBaseline)+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
-          .text("Mean observed actual velocity per round trip");
+          // End Cyc Legend
+          // ---------------------------
 
-        legendG.append("line")
-          .attr("x1",legend.x+10)
-          .attr("y1",legend.y+legend.yOffset + legend.yBaseline)
-          .attr("x2",legend.x+30)
-          .attr("y2",legend.y+legend.yOffset + legend.yBaseline)
-          .attr("class","actSma30");
+          var lineLabel = Math.round(p.data[p.data.length-1].actVeloSMA*100)/100;
+          var fontSize  = 10;
+          p.g.append("text")
+                .attr("class", "source")
+                .attr("fill", colors[1])
+                .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
+                .attr("font-size", fontSize)
+                .style("text-anchor", "left")
+                .style("opacity","0.0")
+                .text(lineLabel)
+                .transition()
+                .delay(1500)
+                  .style("opacity","1.0")
 
-        legendG.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
-          .attr("transform", "translate("+
-            (legend.x+40)+","+
-            (legend.y+(legend.yBaseline*2))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
-          .text("Actual velocity, 30-period simple moving average");
+          lineLabel = Math.round(p.data[p.data.length-1].actVeloMean*100)/100;
+          p.g.append("text")
+                .attr("class", "source")
+                .attr("fill", colors[1])
+                .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
+                .attr("font-size", fontSize)
+                .style("text-anchor", "left")
+                .style("opacity","0.0")
+                .text(lineLabel)
+                .transition()
+                .delay(1500)
+                  .style("opacity","1.0")
 
-        legendG.append("line")
-          .attr("x1",legend.x+10)
-          .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*2))
-          .attr("x2",legend.x+30)
-          .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*2))
-          .attr("class","actMean");
+          lineLabel = Math.round(p.data[p.data.length-1].effVeloSMA*100)/100;
+          p.g.append("text")
+                .attr("class", "source")
+                .attr("fill", colors[0])
+                .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
+                .attr("font-size", fontSize)
+                .style("text-anchor", "left")
+                .style("opacity","0.0")
+                .text(lineLabel)
+                .transition()
+                .delay(1500)
+                  .style("opacity","1.0")
 
-        legendG.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
-          .attr("transform", "translate("+
-            (legend.x+40)+","+
-            (legend.y+(legend.yBaseline*3))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
-          .text("Actual velocity, overall running average");
+          lineLabel = Math.round(p.data[p.data.length-1].effVeloMean*100)/100;
+          p.g.append("text")
+                .attr("class", "source")
+                .attr("fill", colors[0])
+                .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
+                .attr("font-size", fontSize)
+                .style("text-anchor", "left")
+                .style("opacity","0.0")
+                .text(lineLabel)
+                .transition()
+                .delay(1500)
+                  .style("opacity","1.0")
 
-        legendG.append("line")
-          .attr("x1",legend.x+10)
-          .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*3))
-          .attr("x2",legend.x+30)
-          .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*3))
-          .attr("class","effSma30");
-
-        legendG.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
-          .attr("transform", "translate("+
-            (legend.x+40)+","+
-            (legend.y+(legend.yBaseline*4))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
-          .text("Effective velocity, 30-period simple moving average");
-
-        legendG.append("line")
-          .attr("x1",legend.x+10)
-          .attr("y1",legend.y+75)
-          .attr("x2",legend.x+30)
-          .attr("y2",legend.y+75)
-          .attr("class","effMean");
-
-        legendG.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
-          .attr("transform", "translate("+
-            (legend.x+40)+","+
-            (legend.y+(legend.yBaseline*5))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
-          .text("Effective velocity, overall running average");
-
-        p.g.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
-          //.attr("transform", "translate("+(p.width-10)+","+((p.height+p.margin.top))+")")
-          .attr("transform", "translate("+
-            (legend.x+10)+","+
-            (legend.y+(legend.yBaseline*6))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
-          .text("*Effective velocity = distance / elapsed time");
-
-        // End Cyc Legend
-        // ---------------------------
-
-        var lineLabel = Math.round(p.data[p.data.length-1].actVeloSMA*100)/100;
-        var fontSize  = 10;
-        p.g.append("text")
-              .attr("class", "source")
-              .attr("fill", colors[1])
-              .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
-              .attr("font-size", fontSize)
-              .style("text-anchor", "left")
-              .text(lineLabel);
-        lineLabel = Math.round(p.data[p.data.length-1].actVeloMean*100)/100;
-        p.g.append("text")
-              .attr("class", "source")
-              .attr("fill", colors[1])
-              .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
-              .attr("font-size", fontSize)
-              .style("text-anchor", "left")
-              .text(lineLabel);
-        lineLabel = Math.round(p.data[p.data.length-1].effVeloSMA*100)/100;
-        p.g.append("text")
-              .attr("class", "source")
-              .attr("fill", colors[0])
-              .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
-              .attr("font-size", fontSize)
-              .style("text-anchor", "left")
-              .text(lineLabel);
-        lineLabel = Math.round(p.data[p.data.length-1].effVeloMean*100)/100;
-        p.g.append("text")
-              .attr("class", "source")
-              .attr("fill", colors[0])
-              .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
-              .attr("font-size", fontSize)
-              .style("text-anchor", "left")
-              .text(lineLabel);
-        // citation: exec last to keep on top
-        p.citation();
+          // citation: exec last to keep on top
+          p.citation();
+        }
+        redraw();
       };
 
       this.expensesViz = function(d) {
@@ -383,6 +447,9 @@ define(
       };
 
       this.weatherViz = function(d) {
+        var meatyBit = d3.select('#'+d.svgid+' .meaty-bit');
+        var that = this;
+
         var p = this.vizPrep({
           "svgId":d.svgid,
           "tab": d.tab,
@@ -402,90 +469,118 @@ define(
         var xDom = _.map(p.data,function(o){return o.starttime;})
 
         // scales
-        var x = p.scaleX(moment(p.parseTime(d3.min(xDom))).subtract(30,'days'),
-                         moment(p.parseTime(d3.max(xDom))).add(30,'days'));
-        var y = p.scaleY(d3.min(yDom)-5,d3.max(yDom)+5);
+        var xMin = moment(p.parseTime(d3.min(xDom))).subtract(30,'days');
+        var xMax = moment(p.parseTime(d3.max(xDom))).add(30,'days');
+        var yMin = d3.min(yDom)-5;
+        var yMax = d3.max(yDom)+5;
+        var x = p.scaleX(xMin,xMax);
+        var y = p.scaleY(yMin,yMax);
 
-        // axes
-        p.xAxis(x);
-        p.yAxis(y);
+        if(!!meatyBit.node())
+        {
+          meatyBit.remove();
+        }
+        else
+        {
+          //title
+          p.title();
+          // axes
+          p.xAxis(x);
+          p.yAxis(y);
+        }
 
-        // data
-        p.svg.data(p.data);
+        function redraw() {
+          // data
+          p.svg.data(p.data);
 
-        // dots
-        var wind = p.g.append("g");
-        wind.selectAll('.dot')
-            .data(p.data)
-            .enter()
-            .append("circle")
-            .attr('class','dot')
-            .attr("r", 1)
-            .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
-            .attr("cy", function(d) {return y(parseFloat(d.windspd))})
-            .style("fill", function(d) { return colors[1];})
+          var meatyBit = d3.select('#'+d.svgid+' g').append('g').attr('class','meaty-bit');
 
-        var temp = p.g.append("g");
-        temp.selectAll('.dot')
-            .data(p.data)
-            .enter()
-            .append("circle")
-            .attr('class','dot')
-            .attr("r", 1)
-            .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
-            .attr("cy", function(d) {return y(parseFloat(d.temp))})
+          // dots
+          var wind = meatyBit.append("g");
+          wind.selectAll('.dot')
+              .data(p.data)
+              .enter()
+              .append("circle")
+              .attr('class','dot')
+              .attr("r", 1)
+              .attr("cx", function(d) {return x(xMax-(xMax-xMin)/2);})//x();})
+              .attr("cy", function(d) {return y(yMax-(yMax-yMin)/2);})//y();})
+              .style("fill", function(d) { return colors[1];})
+              .transition()
+              .delay(100)
+              .duration(2000)
+              .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
+              .attr("cy", function(d) {return y(parseFloat(d.windspd));})
+
+
+          var temp = meatyBit.append("g");
+          temp.selectAll('.dot')
+              .data(p.data)
+              .enter()
+              .append("circle")
+              .attr('class','dot')
+              .attr("r", 1)
+              .attr("cx", function(d) {return x(xMax-(xMax-xMin)/2);})//x((xMax-xMin)/2);})
+              .attr("cy", function(d) {return y(yMax-(yMax-yMin)/2);})//y((yMax-yMin)/2);})
+              .style("fill", function(d) { return colors[0];})
+              .transition()
+              .delay(100)
+              .duration(2000)
+              .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
+              .attr("cy", function(d) {return y(parseFloat(d.temp));});
+
+          // ---------------------------
+          // Weather Legend
+          var legend = {"x": x(p.parseTime("2014-04-01 00:00:00")),"y":y(-11.40)};
+          legend.width     = x(p.parseTime("2015-12-01 00:00:00")) - legend.x;
+          legend.height    = y(-14.75)-legend.y;
+          legend.yOffset   = 15;
+          legend.yBaseline = legend.yOffset + 5;
+          var legendG = p.g.append("g")
+
+          legendG.append("rect")
+            .attr("transform","translate("+legend.x+","+legend.y+")")
+            .attr("width",legend.width)
+            .attr("height",legend.height)
+            .attr("fill","#FFF")
+            .style("stroke","#000")
+            .style("stoke-width","1px")
+            .style("opacity",0.9);
+
+          legendG.append("circle")
+            .attr("r",3)
+            .attr("cx",legend.x + 20)
+            .attr("cy",legend.y + legend.yOffset)
             .style("fill", function(d) { return colors[0];})
 
-        // ---------------------------
-        // Weather Legend
-        var legend = {"x": x(p.parseTime("2014-04-01 00:00:00")),"y":y(-11.40)};
-        legend.width     = x(p.parseTime("2015-12-01 00:00:00")) - legend.x;
-        legend.height    = y(-14.75)-legend.y;
-        legend.yOffset   = 15;
-        legend.yBaseline = legend.yOffset + 5;
-        var legendG = p.g.append("g")
+          legendG.append("text")
+            .attr("class", "source")
+            .attr("fill", "#000")
+            .attr("transform", "translate("+(legend.x+30)+","+(legend.y+legend.yBaseline)+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "left")
+            .text("Temperature (ºC)");
 
-        legendG.append("rect")
-          .attr("transform","translate("+legend.x+","+legend.y+")")
-          .attr("width",legend.width)
-          .attr("height",legend.height)
-          .attr("fill","#FFF")
-          .style("stroke","#000")
-          .style("stoke-width","1px")
-          .style("opacity",0.9);
+          legendG.append("circle")
+            .attr("r",3)
+            .attr("cx",legend.x + 140)
+            .attr("cy",legend.y + legend.yOffset)
+            .style("fill", function(d) { return colors[1];})
 
-        legendG.append("circle")
-          .attr("r",3)
-          .attr("cx",legend.x + 20)
-          .attr("cy",legend.y + legend.yOffset)
-          .style("fill", function(d) { return colors[0];})
+          legendG.append("text")
+            .attr("class", "source")
+            .attr("fill", "#000")
+            .attr("transform", "translate("+(legend.x+150)+","+(legend.y+legend.yBaseline)+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "left")
+            .text("Wind Speed (MPH)");
 
-        legendG.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
-          .attr("transform", "translate("+(legend.x+30)+","+(legend.y+legend.yBaseline)+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
-          .text("Temperature (ºC)");
-
-        legendG.append("circle")
-          .attr("r",3)
-          .attr("cx",legend.x + 140)
-          .attr("cy",legend.y + legend.yOffset)
-          .style("fill", function(d) { return colors[1];})
-
-        legendG.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
-          .attr("transform", "translate("+(legend.x+150)+","+(legend.y+legend.yBaseline)+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "left")
-          .text("Wind Speed (MPH)");
-
-        // End Weather Legend
-        // ---------------------------
-        // citation: exec last to keep on top
-        p.citation();
+          // End Weather Legend
+          // ---------------------------
+          // citation: exec last to keep on top
+          p.citation();
+        }
+        redraw();
       };
 
       this.sleepViz = function(d) {
@@ -534,11 +629,17 @@ define(
       };
 
       this.cycVsDriveViz = function(d) {
-        // Elapsed Time Cycling vs Driving
+        var meatyBit = d3.select('#'+d.svgid+' .meaty-bit');
         var that = this;
+        // data
         var r    = conf.data[conf.panels[d.id].data].data;
         var cyc=r.KDE_cyc,
             drv=r.KDE_drive;
+        // domains
+        var xDomCyc = _.map(cyc,function(o){return o.x;})
+        var xDomDrv = _.map(drv,function(o){return o.x;})
+        var yDomCyc = _.map(cyc,function(o){return o.y;})
+        var yDomDrv = _.map(drv,function(o){return parseFloat(o.y);})
 
         var p = that.vizPrep({
           "svgId":d.svgid,
@@ -550,12 +651,6 @@ define(
           "citation": "See other tabs for source information."
         });
 
-        // domains
-        var xDomCyc = _.map(cyc,function(o){return o.x;})
-        var xDomDrv = _.map(drv,function(o){return o.x;})
-        var yDomCyc = _.map(cyc,function(o){return o.y;})
-        var yDomDrv = _.map(drv,function(o){return parseFloat(o.y);})
-
         // scales
         p.scaleX = function(min,max) {
           return d3.scaleLinear()
@@ -565,264 +660,239 @@ define(
         var x = p.scaleX(d3.min(xDomDrv)-10,d3.max(xDomCyc)+10);
         var y = p.scaleY(0,d3.max(yDomCyc)+.01);
 
-        // axes
-        p.xAxis(x);
-        p.yAxis(y);
-        // line
-        var line = d3.line()
-            .x(function(d) { return x(d.x);})
-            .y(function(d) { return y(d.y);});
-        // viz
+        // Elapsed Time Cycling vs Driving
+        if(!!meatyBit.node())
+        {
+          meatyBit.remove();
+        }
+        else
+        {
+          //title
+          p.title();
+          // axes
+          p.xAxis(x);
+          p.yAxis(y);
+        }
 
-        var pathPre1 = p.g.append("path")
-            .attr("d",line(cyc))
-            .style("fill",colors[0])
-            .style("opacity","0.0")
-            .style("stroke",colors[1])
-            .style("stroke-width","1px");
+        function redraw() {
+          // line
+          var line = d3.line()
+              .x(function(d) { return x(d.x);})
+              .y(function(d) { return y(d.y);});
+          // viz
+          var meatyBit = d3.select('#'+d.svgid+' g').append('g').attr('class','meaty-bit');
 
-        var path1 = p.g.append("path")
-            .attr("d",line(cyc))
+          var pathPre1 = meatyBit.append("path")
+              .attr("d",line(cyc))
+              .style("fill",colors[0])
+              .style("opacity","0.0")
+              .style("stroke",colors[1])
+              .style("stroke-width","1px");
+
+          var path1 = meatyBit.append("path")
+              .attr("d",line(cyc))
+              .style("fill","none")
+              .style("opacity","0.7")
+              .style("stroke",colors[0])
+              .style("stroke-width","2px");
+
+          var totalLength = path1.node().getTotalLength();
+
+          path1.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .duration(1500)
+                .attr("stroke-dashoffset", 0);
+
+          pathPre1.transition()
+              .delay(1500)
+              .duration(1000)
+              .style("opacity","0.7");
+
+          var pathPre2 = meatyBit.append("path")
+              .attr("d",line(drv))
+              .style("fill",colors[1])
+              .style("opacity","0.0")
+              .style("stroke",colors[1])
+              .style("stroke-width","1px");
+
+          var path2 = meatyBit.append("path")
+              .attr("d",line(drv))
+              .style("fill","none")
+              .style("opacity","0.7")
+              .style("stroke",colors[1])
+              .style("stroke-width","1px");
+
+          totalLength = path2.node().getTotalLength();
+          path2.attr("stroke-dasharray", totalLength + " " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .duration(1500)
+                .attr("stroke-dashoffset", 0);
+
+          pathPre2.transition()
+              .delay(1500)
+              .duration(1000)
+              .style("opacity","0.7");
+
+
+          // ---------------------------
+          // Cyc Medians
+          var bisect = d3.bisector(function(d) { return d.x; }).left;
+          var item   = cyc[bisect(cyc,r.med_cyc)];
+          var y2Cyc     = y(item.y);
+          var med1 = meatyBit.append("line")
+            .attr("x1",x(r.med_cyc))
+            .attr("y1",p.height)
+            .attr("x2",x(r.med_cyc))
+            .attr("y2",p.height)
+            .attr("stroke-dasharray","10,5")
             .style("fill","none")
-            .style("opacity","0.7")
             .style("stroke",colors[0])
-            .style("stroke-width","2px");
-
-        var totalLength = path1.node().getTotalLength();
-
-        path1.attr("stroke-dasharray", totalLength + ", " + totalLength)
-            .attr("stroke-dashoffset", totalLength)
+            .style("stroke-width","2px")
             .transition()
-              .duration(1500)
-              .attr("stroke-dashoffset", 0);
+                .delay(1500)
+                .duration(1500)
+                .attr("y2",y2Cyc);
 
-        pathPre1.transition()
-            .delay(1500)
-            .duration(1000)
-            .style("opacity","0.7");
 
-        var pathPre2 = p.g.append("path")
-            .attr("d",line(drv))
-            .style("fill",colors[1])
-            .style("opacity","0.0")
-            .style("stroke",colors[1])
-            .style("stroke-width","1px");
-
-        var path2 = p.g.append("path")
-            .attr("d",line(drv))
+          item = drv[bisect(drv,r.med_drive)];
+          var y2Drv   = y(item.y);
+          var med2 = meatyBit.append("line")
+            .attr("x1",x(r.med_drive))
+            .attr("y1",p.height)
+            .attr("x2",x(r.med_drive))
+            .attr("y2",p.height)
+            .attr("stroke-dasharray","10,5")
             .style("fill","none")
-            .style("opacity","0.7")
             .style("stroke",colors[1])
-            .style("stroke-width","1px");
-
-        totalLength = path2.node().getTotalLength();
-        path2.attr("stroke-dasharray", totalLength + " " + totalLength)
-            .attr("stroke-dashoffset", totalLength)
+            .style("stroke-width","2px")
             .transition()
-              .duration(1500)
-              .attr("stroke-dashoffset", 0);
+                .delay(1500)
+                .duration(1500)
+                .attr("y2",y2Drv);
+          // End Cyc Medians
+          // ---------------------------
 
-        pathPre2.transition()
-            .delay(1500)
-            .duration(1000)
-            .style("opacity","0.7");
+          // ---------------------------
+          // Cyc Median Callouts
+          var t3k = d3.transition().delay(3000);
 
+          var medCalloutCyc = meatyBit.append("g");
+          var medCalloutDrv = meatyBit.append("g");
 
-        // ---------------------------
-        // Cyc Medians
-        var bisect = d3.bisector(function(d) { return d.x; }).left;
-        var item   = cyc[bisect(cyc,r.med_cyc)];
-        var y2Cyc     = y(item.y);
-        var med1 = p.g.append("line")
-          .attr("x1",x(r.med_cyc))
-          .attr("y1",p.height)
-          .attr("x2",x(r.med_cyc))
-          .attr("y2",p.height)
-          .attr("stroke-dasharray","10,5")
-          .style("fill","none")
-          .style("stroke",colors[0])
-          .style("stroke-width","2px")
-          .transition()
-              .delay(1500)
-              .duration(1500)
-              .attr("y2",y2Cyc);
+          medCalloutCyc.append("line")
+              .attr("x1","0").attr("y1","0")
+              .attr("x2","30").attr("y2","0")
+              .classed("color0Line1px",true)
+              .style("opacity",0.0);
+          medCalloutCyc.append("rect")
+              .attr("x","30").attr("y","-20")
+              .attr("width","50").attr("height","40")
+              .classed("color0Rect",true)
+              .style("opacity","0.0");
+          medCalloutCyc.append("text")
+              .attr("x",(30+50/2)).attr("y",(-4))
+              .text("Median")
+              .style("opacity","0.0");
+          medCalloutCyc.append("text")
+              .attr("x",(30+50/2)).attr("y",(20-6))
+              .text(Math.round(r.med_cyc))
+              .style("opacity","0.0");
+          medCalloutCyc.selectAll("text").classed("color0callout",true);
 
-
-        item = drv[bisect(drv,r.med_drive)];
-        var y2Drv   = y(item.y);
-        var med2 = p.g.append("line")
-          .attr("x1",x(r.med_drive))
-          .attr("y1",p.height)
-          .attr("x2",x(r.med_drive))
-          .attr("y2",p.height)
-          .attr("stroke-dasharray","10,5")
-          .style("fill","none")
-          .style("stroke",colors[1])
-          .style("stroke-width","2px")
-          .transition()
-              .delay(1500)
-              .duration(1500)
-              .attr("y2",y2Drv);
-        // End Cyc Medians
-        // ---------------------------
-
-        // ---------------------------
-        // Cyc Median Callouts
-        var t3k = d3.transition().delay(3000);
-
-        var medCalloutCyc = p.g.append("g");
-        var medCalloutDrv = p.g.append("g");
-
-        medCalloutCyc.append("line")
-            .attr("x1","0").attr("y1","0")
-            .attr("x2","30").attr("y2","0")
-            .classed("color0Line1px",true)
-            .style("opacity",0.0);
-        medCalloutCyc.append("rect")
-            .attr("x","30").attr("y","-20")
-            .attr("width","50").attr("height","40")
-            .classed("color0Rect",true)
-            .style("opacity","0.0");
-        medCalloutCyc.append("text")
-            .attr("x",(30+50/2)).attr("y",(-4))
-            .text("Median")
-            .style("opacity","0.0");
-        medCalloutCyc.append("text")
-            .attr("x",(30+50/2)).attr("y",(20-6))
-            .text(Math.round(r.med_cyc))
-            .style("opacity","0.0");
-        medCalloutCyc.selectAll("text").classed("color0callout",true);
-
-        medCalloutCyc.selectAll("*")
-            .transition(t3k)
-            .attr("transform","translate("
-                +(x(r.med_cyc))+","+(p.height-y2Cyc/2-20)+")")
-            .transition()
-            .delay(100)
-            .style("opacity","1.0");
+          medCalloutCyc.selectAll("*")
+              .transition(t3k)
+              .attr("transform","translate("
+                  +(x(r.med_cyc))+","+(p.height-y2Cyc/2-20)+")")
+              .transition()
+              .delay(100)
+              .style("opacity","1.0");
 
 
-        medCalloutDrv.append("line")
-            .attr("x1",0).attr("y1",0)
-            .attr("x2",-30).attr("y2",0)
-            .classed("color1Line1px",true)
-            .style("opacity","0.0");
-        medCalloutDrv.append("rect")
-            .attr("x",-80).attr("y",-20)
-            .attr("width",50).attr("height",40)
-            .classed("color1Rect",true)
-            .style("opacity","0.0");
-        medCalloutDrv.append("text")
-            .attr("x",(-80+50/2)).attr("y",(-4))
-            .text("Median")
-            .style("opacity","0.0");
-        medCalloutDrv.append("text")
-            .attr("x",(-80+50/2)).attr("y",(20-6))
-            .text(Math.round(r.med_drive))
-            .style("opacity","0.0");;
+          medCalloutDrv.append("line")
+              .attr("x1",0).attr("y1",0)
+              .attr("x2",-30).attr("y2",0)
+              .classed("color1Line1px",true)
+              .style("opacity","0.0");
+          medCalloutDrv.append("rect")
+              .attr("x",-80).attr("y",-20)
+              .attr("width",50).attr("height",40)
+              .classed("color1Rect",true)
+              .style("opacity","0.0");
+          medCalloutDrv.append("text")
+              .attr("x",(-80+50/2)).attr("y",(-4))
+              .text("Median")
+              .style("opacity","0.0");
+          medCalloutDrv.append("text")
+              .attr("x",(-80+50/2)).attr("y",(20-6))
+              .text(Math.round(r.med_drive))
+              .style("opacity","0.0");;
 
-        medCalloutDrv.selectAll("text").classed("color1callout",true);
+          medCalloutDrv.selectAll("text").classed("color1callout",true);
 
-        medCalloutDrv.selectAll("*")
-            .transition(t3k)
-            .attr("transform","translate("
-                +(x(r.med_drive))+","+(p.height-y2Cyc/2-20)+")")
-            .transition()
-            .delay(100)
-            .style("opacity","1.0");
-
-
-
-        // Cycling median label text
-        // medRectCyc.append("text")
-        //   .transition(t3000)
-        //   .attr("fill", colors[0])
-        //   .attr("transform", "translate("+
-        //     (x(r.med_cyc+30)+25)+","+
-        //     (y(0.0173))+")")
-        //   .attr("font-size", 12)
-        //   .attr("text-anchor", "middle")
-        //   .text("Median");
-        // medRectCyc.append("text")
-        //   .transition(t3000)
-        //   .attr("fill", colors[0])
-        //   .attr("transform", "translate("+
-        //     (x(r.med_cyc+30)+25)+","+
-        //     (y(0.0173)+19)+")")
-        //   .attr("font-size", 16)
-        //   .attr("text-anchor", "middle")
-        //   .text(Math.round(r.med_cyc));
-        //
-        // // Driving Median label text
-        // medRectDrv.append("text")
-        //   .transition(t3000)
-        //   .attr("fill", colors[1])
-        //   .attr("transform", "translate("+
-        //     (x(r.med_drive-55)+25+p.axisOffset)+","+ // 55 + half rect width + offset
-        //     (y(0.0173))+")")
-        //   .attr("font-size", 12)
-        //   .attr("text-anchor", "middle")
-        //   .text("Median");
-        // pmedRectDrv.append("text")
-        // .transition(t3000)
-        //   .attr("fill", colors[1])
-        //   .attr("transform", "translate("+
-        //     (x(r.med_drive-55)+25+p.axisOffset)+","+ // 55 + half rect width + offset
-        //     (y(0.0173)+19)+")")
-        //   .attr("font-size", 16)
-        //   .attr("text-anchor", "middle")
-        //   .text(Math.round(r.med_drive));
-        // End Cyc Median Callouts
-        // ---------------------------
+          medCalloutDrv.selectAll("*")
+              .transition(t3k)
+              .attr("transform","translate("
+                  +(x(r.med_drive))+","+(p.height-y2Cyc/2-20)+")")
+              .transition()
+              .delay(100)
+              .style("opacity","1.0");
 
 
-        // ---------------------------
-        // Cyc Legend
-        var legend = {"x":x(165),"y":y(0.0425)};
-        legend.width   = x(218) - legend.x;
-        legend.height  = y(.0325) - legend.y;
-        legend.yOffset = 5;
-        legend.yBaseline = 10;
-        var legendG = p.g.append("g")
+          // End Cyc Median Callouts
+          // ---------------------------
 
-        legendG.append("rect")
-          .attr("transform","translate("+legend.x+","+legend.y+")")
-          .attr("width",legend.width)
-          .attr("height",legend.height)
-          .attr("fill","#FFF")
-          .style("stroke","#CCC")
-          .style("stoke-width","1px")
-          .style("opacity",0.8);
 
-        legendG.append("line")
-          .attr("x1",legend.x+10)
-          .attr("y1",legend.y+legend.height*.25)
-          .attr("x2",legend.x+30)
-          .attr("y2",legend.y+legend.height*.25)
-          .attr("class", "color1Line");
+          // ---------------------------
+          // Cyc Legend
+          var legend = {"x":x(165),"y":y(0.0425)};
+          legend.width   = x(205) - legend.x;
+          legend.height  = y(.0325) - legend.y;
+          legend.yOffset = 5;
+          legend.yBaseline = 10;
+          var legendG = meatyBit.append("g")
 
-        legendG.append("text")
-          .attr("class","legend")
-          .attr("transform", "translate("+
-            (legend.x+35)+","+
-            (legend.y+legend.height*.25+4)+")")
-          .text("Driving");
+          legendG.append("rect")
+            .attr("transform","translate("+legend.x+","+legend.y+")")
+            .attr("width",legend.width)
+            .attr("height",legend.height)
+            .attr("fill","#FFF")
+            .style("stroke","#CCC")
+            .style("stoke-width","1px")
+            .style("opacity",0.8);
 
-        legendG.append("line")
-          .attr("x1",legend.x+10)
-          .attr("y1",legend.y+legend.height*.75)
-          .attr("x2",legend.x+30)
-          .attr("y2",legend.y+legend.height*.75)
-          .attr("class", "color0Line");
+          legendG.append("line")
+            .attr("x1",legend.x+10)
+            .attr("y1",legend.y+legend.height*.25)
+            .attr("x2",legend.x+30)
+            .attr("y2",legend.y+legend.height*.25)
+            .attr("class", "color1Line");
 
-        legendG.append("text")
-          .attr("class","legend")
-          .attr("transform", "translate("+
-            (legend.x+35)+","+
-            (legend.y+legend.height*.75+4)+")")
-          .text("Cycling");
-        // End Cyc Legend
-        // ---------------------------
+          legendG.append("text")
+            .attr("class","legend")
+            .attr("transform", "translate("+
+              (legend.x+35)+","+
+              (legend.y+legend.height*.25+4)+")")
+            .text("Driving");
+
+          legendG.append("line")
+            .attr("x1",legend.x+10)
+            .attr("y1",legend.y+legend.height*.75)
+            .attr("x2",legend.x+30)
+            .attr("y2",legend.y+legend.height*.75)
+            .attr("class", "color0Line");
+
+          legendG.append("text")
+            .attr("class","legend")
+            .attr("transform", "translate("+
+              (legend.x+35)+","+
+              (legend.y+legend.height*.75+4)+")")
+            .text("Cycling");
+          // End Cyc Legend
+          // ---------------------------
+        }
+        redraw();
       };
 
       this.buildGasMap = function() {
@@ -937,6 +1007,8 @@ define(
       };
 
       this.cycExpensesViz = function(opt) {
+        var meatyBit = d3.select('#'+opt.svgid+' .meaty-bit');
+
         this.cycGasPrep();
         var that = this;
         // Cycling Expenses vs Driving costs
@@ -1003,66 +1075,123 @@ define(
         var x = p.scaleX(moment(d3.min(xDom)).subtract(30,'days'),
                          moment(d3.max(xDom)).add(30,'days'));
         var y = p.scaleY(_.minBy(offsets,"offset").offset-1000,yDom[yDom.length-1]+1000);
-        // axes
-        p.xAxis(x);
-        p.yAxis(y);
-        // line
-        var expenseLine = d3.line()
-            .x(function(d) { return x(d.Date);})
-            .y(function(d) { return y(d.total);});//y(parseFloat(d.total)); });
-        var diffsLine = d3.line()
-            .x(function(d) { return x(p.parseTime(d.date));})
-            .y(function(d) { return y(d.diff);});//y(parseFloat(d.diff))});
-        var offsetsLine = d3.line()
-            .x(function(d) { return x(p.parseTime(d.date));})
-            .y(function(d) { return y(d.offset);});//y(parseFloat(d.diff))});
-        // viz
-        p.g.append("path")
-          .datum(expenses)
-          .attr("d",expenseLine)
-          .attr("class","expensesLine");
 
-        p.g.append("text")
-          .attr("fill", colors[0])
-          .attr("transform", "translate("+
-            (x(p.parseTime(offsets[offsets.length-1].date)))+","+
-            (y(5700))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "end")
-          .text("Expenses $"+Math.round(expenses[expenses.length-1].total));
+        if(!!meatyBit.node())
+        {
+          meatyBit.remove();
+        }
+        else
+        {
+          p.title();
+          // axes
+          p.xAxis(x);
+          p.yAxis(y);
+        }
 
-        p.g.append("path")
-          .datum(offsets)
-          .attr("d",diffsLine)
-          .attr("class","diffsLine");
+        function redraw() {
+          // line
+          var expenseLine = d3.line()
+              .x(function(d) { return x(d.Date);})
+              .y(function(d) { return y(d.total);});//y(parseFloat(d.total)); });
+          var diffsLine = d3.line()
+              .x(function(d) { return x(p.parseTime(d.date));})
+              .y(function(d) { return y(d.diff);});//y(parseFloat(d.diff))});
+          var offsetsLine = d3.line()
+              .x(function(d) { return x(p.parseTime(d.date));})
+              .y(function(d) { return y(d.offset);});//y(parseFloat(d.diff))});
+          // viz
+          var meatyBit = d3.select('#'+opt.svgid+' g').append('g').attr('class','meaty-bit');
 
-        p.g.append("text")
-          .attr("fill", colors[1])
-          .attr("transform", "translate("+
-            (x(p.parseTime(offsets[offsets.length-1].date)))+","+
-            (y(1000))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "end")
-          .text("Savings $"+Math.round(offsets[offsets.length-1].diff));
+          var expPath = meatyBit.append("path")
+            .datum(expenses)
+            .attr("d",expenseLine)
+            .attr("class","expensesLine");
 
-        p.g.append("path")
-          .datum(offsets)
-          .attr("d",offsetsLine)
-          .attr("class","offsetsLine");
+          var totalLength = expPath.node().getTotalLength();
 
-        p.g.append("text")
-          .attr("class", "source")
-          .attr("fill", "#000")
-          .attr("transform", "translate("+
-            (x(p.parseTime(offsets[offsets.length-1].date)))+","+
-            (y(-6000))+")")
-          .attr("font-size", 12)
-          .style("text-anchor", "end")
-          .text("Offsets $"+Math.round(offsets[offsets.length-1].offset));
+          expPath.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .duration(1500)
+                .attr("stroke-dashoffset", 0);
+
+          meatyBit.append("text")
+            .attr("fill", colors[0])
+            .attr("transform", "translate("+
+              (x(p.parseTime(offsets[offsets.length-1].date)))+","+
+              (y(5700))+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "end")
+            .style("opacity","0.0")
+            .text("Expenses $"+Math.round(expenses[expenses.length-1].total))
+            .transition()
+            .delay(1500)
+              .style("opacity","1.0");
+
+
+          var diffPath = meatyBit.append("path")
+            .datum(offsets)
+            .attr("d",diffsLine)
+            .attr("class","diffsLine");
+
+          totalLength = diffPath.node().getTotalLength();
+
+          diffPath.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .duration(1500)
+                .attr("stroke-dashoffset", 0);
+
+          meatyBit.append("text")
+            .attr("fill", colors[1])
+            .attr("transform", "translate("+
+              (x(p.parseTime(offsets[offsets.length-1].date)))+","+
+              (y(1000))+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "end")
+            .style("opacity","0.0")
+            .text("Savings $"+Math.round(offsets[offsets.length-1].diff))
+            .transition()
+            .delay(1500)
+              .style("opacity","1.0");
+
+
+          var offPath = meatyBit.append("path")
+            .datum(offsets)
+            .attr("d",offsetsLine)
+            .attr("class","offsetsLine");
+
+          totalLength = offPath.node().getTotalLength();
+
+          offPath.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .duration(1500)
+                .attr("stroke-dashoffset", 0);
+
+          meatyBit.append("text")
+            .attr("class", "source")
+            .attr("fill", "#000")
+            .attr("transform", "translate("+
+              (x(p.parseTime(offsets[offsets.length-1].date)))+","+
+              (y(-6000))+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "end")
+            .style("opacity","0.0")
+            .text("Offsets $"+Math.round(offsets[offsets.length-1].offset))
+            .transition()
+            .delay(1500)
+              .style("opacity","1.0");
+        }
+        redraw();
       }
 
       this.costPerDayViz = function(opt) {
+        var meatyBit = d3.select('#'+opt.svgid+' .meaty-bit');
+
         this.cycGasPrep();
+        var that = this;
+
         var p = this.vizPrep({
           "svgId":opt.svgid,
           "tab": opt.tab,
@@ -1079,19 +1208,39 @@ define(
         var x = p.scaleX(moment(p.parseTime(d3.min(xDom))).subtract(30,'days'),
                          moment(p.parseTime(d3.max(xDom))).add(30,'days'));
         var y = p.scaleY(d3.min(yDom)-.5,d3.max(yDom)+.5);
-        // axes
-        p.xAxis(x);
-        p.yAxis(y);
-        // line
-        var line = d3.line()
-            .x(function(d) { return x(p.parseTime(d.date));})
-            .y(function(d) { return y(d.cost); });
-        // viz
-        p.g.append("path")
-          .datum(p.data)
-          .attr("d",line)
-          .attr("class","costLine");
-      };
+        if(!!meatyBit.node())
+        {
+          meatyBit.remove();
+        }
+        else
+        {
+          p.title();
+          // axes
+          p.xAxis(x);
+          p.yAxis(y);
+        }
+        function redraw() {
+          // line
+          var line = d3.line()
+              .x(function(d) { return x(p.parseTime(d.date));})
+              .y(function(d) { return y(d.cost); });
+          var meatyBit = d3.select('#'+opt.svgid+' g').append('g').attr('class','meaty-bit');
+          // viz
+          var path = meatyBit.append("path")
+            .datum(p.data)
+            .attr("d",line)
+            .attr("class","costLine");
+
+          var totalLength = path.node().getTotalLength();
+
+          path.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .duration(1500)
+                .attr("stroke-dashoffset", 0);
+        };
+        redraw();
+      }
     }
   }
 );
