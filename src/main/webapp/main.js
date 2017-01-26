@@ -10,7 +10,7 @@ require.config({
     	flight:       "lib/flight.min",//"https://cdnjs.cloudflare.com/ajax/libs/flight/1.1.4/flight.min",
     	jquery:       "lib/jquery.min",//"http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min",
     	lodash:		    "lib/lodash.min",//"http://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.min",
-    	d3:           "https://cdnjs.cloudflare.com/ajax/libs/d3/4.4.0/d3",//"lib/d3.min",
+    	d3:           "lib/d3.min", //"https://cdnjs.cloudflare.com/ajax/libs/d3/4.4.0/d3",
       moment:       "lib/moment.min"//"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min"
     },
     shim: {

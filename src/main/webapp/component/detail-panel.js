@@ -94,7 +94,8 @@
         var tmplvars = {
           'id':id, // becomes 'id-viz', 'id-viz-box'
           'width':$('.container')[0].offsetWidth *.48,
-          'height':$('.container')[0].offsetWidth *.48/1.33
+          'height':$('.container')[0].offsetWidth *.48/1.33,
+          'snark':panels[id].snark,
         };
         var evtPayload ={
           "fn":panel.fn,
@@ -116,7 +117,7 @@
       };
 
       this.enrichLearnTab = function(id) {
-        if($('#'+id+'-copy').children().length == 0)
+        if($('#'+id+'-copy').children().length == 1)
         {
           require(['text!html/smry-'+id+'.html'],function(html) {
             $(html).appendTo('#'+id+'-copy');

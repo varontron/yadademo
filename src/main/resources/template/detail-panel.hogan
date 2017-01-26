@@ -7,7 +7,7 @@
   <div id="{{tabid}}" class="panel-collapse collapse {{in}}" role="tabpanel" aria-labelledby="hdr-{{tabid}}">
     <div class="panel-body">
       <div id="{{tabid}}-view" class="view-tab">
-        <p class="snark">{{snark}}</p>
+
       </div>
     </div>
   </div>

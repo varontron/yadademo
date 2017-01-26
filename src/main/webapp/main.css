@@ -63,8 +63,10 @@ footer div.gradient{
 .copy {
   overflow-y: auto;
   vertical-align: top;
-  padding-left: 7%;
   padding-right: 4%;
+  padding-left: 4%;
+  width: 48%;
+  display: inline-block;
 }
 
 /* Bootstrap Overrrides */
@@ -126,66 +128,62 @@ border-top-color: transparent;
   stroke-width: 3px;
 }
 
-.color1Line,
-.diffsLine,
-.actSma30 {
+.color0Line,
+.color1Line {
   fill: none;
-  stroke: #994700;
   stroke-width: 2px;
+}
+
+.color0Line {
+  stroke: #f77300;
+}
+
+.color1Line {
+  stroke: #994700;
+}
+
+.effMean,
+.actMean {
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 10,5;
 }
 
 .actMean {
-  fill: none;
   stroke: #994700;
-  stroke-width: 2px;
-  stroke-dasharray: 10,5;
-}
-
-.color0Line,
-.costLine,
-.expensesLine,
-.effSma30 {
-  fill: none;
-  stroke: #f77300;
-  stroke-width: 2px;
 }
 
 .effMean {
-  fill: none;
   stroke: #f77300;
-  stroke-width: 2px;
-  stroke-dasharray: 10,5;
 }
+
 
 
 .color0Line1px {
   fill: none;
   stroke: #f77300;
   stroke-width: 1px;
-  /*opacity: 0.0;*/
 }
 
 .color1Line1px {
   fill: none;
   stroke: #994700;
   stroke-width: 1px;
-  /*opacity: 0.0;*/
 }
 
-.color1Rect,
-.color0Rect {
+.color0Rect,
+.color1Rect {
   fill: #FFF;
+}
+
+.color0Rect {
+  stroke: #f77300;
+  stroke-width: 1px;
 }
 
 .color1Rect {
   stroke: #994700;
   stroke-width: 1px;
-  /*opacity: 0.0;*/
-}
-.color0Rect {
-  stroke: #f77300;
-  stroke-width: 1px;
-  /*opacity: 0.0;*/
 }
 
 .blackLine,
@@ -201,7 +199,7 @@ border-top-color: transparent;
 }
 
 .viz-container svg {
-  float: left;
+  float: right;
 }
 
 svg .title {
@@ -234,15 +232,15 @@ svg .axis--y .tick text {
   text-anchor: start;
 }
 
-.color1callout {
-  font-size: 12px;
-  fill: #994700;
-  text-anchor: middle;
-}
-
 .color0callout {
   font-size: 12px;
   fill: #f77300;
+  text-anchor: middle;
+}
+
+.color1callout {
+  font-size: 12px;
+  fill: #994700;
   text-anchor: middle;
 }
 

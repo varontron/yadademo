@@ -119,7 +119,7 @@ define(
           var actSma30Path = meatyBit.append("path")
             .datum(p.data.slice(1))
             .attr("d",actSma30)
-            .attr("class","actSma30");
+            .attr("class","color1Line");
           var totalLength = actSma30Path.node().getTotalLength();
           actSma30Path.attr("stroke-dasharray", totalLength + ", " + totalLength)
               .attr("stroke-dashoffset", totalLength)
@@ -151,7 +151,7 @@ define(
           var effSma30Path = meatyBit.append("path")
             .datum(p.data.slice(1))
             .attr("d",effSma30)
-            .attr("class","effSma30");
+            .attr("class","color0Line");
           totalLength = effSma30Path.node().getTotalLength();
           effSma30Path.attr("stroke-dasharray", totalLength + ", " + totalLength)
               .attr("stroke-dashoffset", totalLength)
@@ -215,7 +215,7 @@ define(
             .attr("y1",legend.y+legend.yOffset + legend.yBaseline)
             .attr("x2",legend.x+30)
             .attr("y2",legend.y+legend.yOffset + legend.yBaseline)
-            .attr("class","actSma30");
+            .attr("class","color1Line");
 
           legendG.append("text")
             .attr("class", "source")
@@ -249,7 +249,7 @@ define(
             .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*3))
             .attr("x2",legend.x+30)
             .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*3))
-            .attr("class","effSma30");
+            .attr("class","color0Line");
 
           legendG.append("text")
             .attr("class", "source")
@@ -1126,7 +1126,7 @@ define(
           var expPath = meatyBit.append("path")
             .datum(expenses)
             .attr("d",expenseLine)
-            .attr("class","expensesLine");
+            .attr("class","color0Line");
 
           var totalLength = expPath.node().getTotalLength();
 
@@ -1153,7 +1153,7 @@ define(
           var diffPath = meatyBit.append("path")
             .datum(offsets)
             .attr("d",diffsLine)
-            .attr("class","diffsLine");
+            .attr("class","color1Line");
 
           totalLength = diffPath.node().getTotalLength();
 
@@ -1250,7 +1250,7 @@ define(
           var path = meatyBit.append("path")
             .datum(p.data)
             .attr("d",line)
-            .attr("class","costLine");
+            .attr("class","color0Line");
 
           var totalLength = path.node().getTotalLength();
 

@@ -120,7 +120,7 @@ define(
             'tmplvars':{
               'tabid':id,
               'hdr':panels[id].hdr,
-              'snark':panels[id].snark,
+              // 'snark':panels[id].snark,
               'in':id == 'cyc' ? 'in' : ''
             }
           };
