@@ -84,6 +84,8 @@ define(
           // axes
           p.xAxis(x);
           p.yAxis(y);
+
+          p.citation();
         }
 
         function redraw() {
@@ -94,16 +96,19 @@ define(
           p.svg.data(p.data);
 
           // dots
-          p.g.selectAll('.dot')
+          meatyBit.selectAll('.dot')
               .data(p.data)
               .enter()
               .append("circle")
-              .attr('class','dot')
               .attr("r", 1)
               .attr("cx", function(d) {return x(p.parseTime(d.startTime));})
               .attr("cy", function(d) {return y(d.actVelo)})
               .attr("data-legend","Observed Velocity")
-              .style("fill", function(d) { return colors[2];});
+              .style("fill", function(d) { return colors[2];})
+              .style("opacity","0.0")
+              .transition()
+              .duration(1000)
+                .style("opacity","1.0")
 
 
           // lines
@@ -111,7 +116,7 @@ define(
               .x(function(d) { return x(p.parseTime(d.startTime));})
               .y(function(d) { return y(d.actVeloSMA); });
 
-          var actSma30Path = p.g.append("path")
+          var actSma30Path = meatyBit.append("path")
             .datum(p.data.slice(1))
             .attr("d",actSma30)
             .attr("class","actSma30");
@@ -119,6 +124,7 @@ define(
           actSma30Path.attr("stroke-dasharray", totalLength + ", " + totalLength)
               .attr("stroke-dashoffset", totalLength)
               .transition()
+                .delay(500)
                 .duration(1500)
                 .attr("stroke-dashoffset", 0);
 
@@ -126,22 +132,23 @@ define(
               .x(function(d) { return x(p.parseTime(d.startTime));})
               .y(function(d) { return y(d.actVeloMean); });
 
-          var actMeanPath = p.g.append("path")
+          var actMeanPath = meatyBit.append("path")
             .datum(p.data.slice(1))
             .attr("d",actMean)
-            .attr("class","actMean");
+            .attr("class","actMean")
+            .style("opacity","0.0")
           totalLength = actMeanPath.node().getTotalLength();
-          // actMeanPath.attr("stroke-dasharray", totalLength + ", " + totalLength)
-          //     .attr("stroke-dashoffset", totalLength)
-          //     .transition()
-          //       .duration(1500)
-          //       .attr("stroke-dashoffset", 0);
+          actMeanPath.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .delay(2000)
+                .style("opacity","1.0")
 
           var effSma30 = d3.line()
               .x(function(d) { return x(p.parseTime(d.startTime));})
               .y(function(d) { return y(d.effVeloSMA); });
 
-          var effSma30Path = p.g.append("path")
+          var effSma30Path = meatyBit.append("path")
             .datum(p.data.slice(1))
             .attr("d",effSma30)
             .attr("class","effSma30");
@@ -149,6 +156,7 @@ define(
           effSma30Path.attr("stroke-dasharray", totalLength + ", " + totalLength)
               .attr("stroke-dashoffset", totalLength)
               .transition()
+                .delay(500)
                 .duration(1500)
                 .attr("stroke-dashoffset", 0);
 
@@ -156,16 +164,17 @@ define(
               .x(function(d) { return x(p.parseTime(d.startTime));})
               .y(function(d) { return y(d.effVeloMean); });
 
-          var effMeanPath = p.g.append("path")
+          var effMeanPath = meatyBit.append("path")
             .datum(p.data.slice(1))
             .attr("d",effMean)
-            .attr("class","effMean");
+            .attr("class","effMean")
+            .style("opacity","0.0")
           totalLength = effMeanPath.node().getTotalLength();
-          // effMeanPath.attr("stroke-dasharray", totalLength + ", " + totalLength)
-          //     .attr("stroke-dashoffset", totalLength)
-          //     .transition()
-          //       .duration(1500)
-          //       .attr("stroke-dashoffset", 0);
+          effMeanPath.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .delay(2000)
+                .style("opacity","1.0")
 
           // ---------------------------
           // Cyc Legend
@@ -338,7 +347,7 @@ define(
                   .style("opacity","1.0")
 
           // citation: exec last to keep on top
-          p.citation();
+          //p.citation();
         }
         redraw();
       };
@@ -503,15 +512,21 @@ define(
               .append("circle")
               .attr('class','dot')
               .attr("r", 1)
-              .attr("cx", function(d) {return x(xMax-(xMax-xMin)/2);})//x();})
-              .attr("cy", function(d) {return y(yMax-(yMax-yMin)/2);})//y();})
+              .attr("cx", function(d) {return x(p.parseTime(d.starttime));})//x();})
+              .attr("cy", function(d) {return y(yMax);})//y();})
               .style("fill", function(d) { return colors[1];})
-              .transition()
-              .delay(100)
-              .duration(2000)
+              .style("opacity","0.0")
+
+          wind.selectAll("circle").each(function(o,j) {
+              d3.select(this).transition()
+              // .delay(100)
+              .delay(parseInt(Math.random()*1000))
+              .ease(d3.easeBounceOut)
+              .duration(1000)
               .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
               .attr("cy", function(d) {return y(parseFloat(d.windspd));})
-
+              .style("opacity","1.0")
+            });
 
           var temp = meatyBit.append("g");
           temp.selectAll('.dot')
@@ -520,15 +535,21 @@ define(
               .append("circle")
               .attr('class','dot')
               .attr("r", 1)
-              .attr("cx", function(d) {return x(xMax-(xMax-xMin)/2);})//x((xMax-xMin)/2);})
-              .attr("cy", function(d) {return y(yMax-(yMax-yMin)/2);})//y((yMax-yMin)/2);})
+              .attr("cx", function(d) {return x(p.parseTime(d.starttime));})//x((xMax-xMin)/2);})
+              .attr("cy", function(d) {return y(yMax);})//y((yMax-yMin)/2);})
               .style("fill", function(d) { return colors[0];})
-              .transition()
-              .delay(100)
-              .duration(2000)
-              .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
-              .attr("cy", function(d) {return y(parseFloat(d.temp));});
+              .style("opacity","0.0")
 
+          temp.selectAll("circle").each(function(o,j){
+              d3.select(this).transition()
+              // .delay(100)
+              .delay(parseInt(Math.random()*1000))
+              .ease(d3.easeBounceOut)
+              .duration(1000)
+              .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
+              .attr("cy", function(d) {return y(parseFloat(d.temp));})
+              .style("opacity","1.0")
+          })
           // ---------------------------
           // Weather Legend
           var legend = {"x": x(p.parseTime("2014-04-01 00:00:00")),"y":y(-11.40)};
