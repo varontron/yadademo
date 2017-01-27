@@ -1157,7 +1157,7 @@ define(
                 .attr("stroke-dashoffset", 0);
 
           meatyBit.append("text")
-            .attr("class", "source")
+            //.attr("class", "source")
             .attr("fill", "#000")
             .attr("transform", "translate("+
               (x(p.parseTime(offsets[offsets.length-1].date)))+","+
