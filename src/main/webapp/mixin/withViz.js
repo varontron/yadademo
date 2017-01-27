@@ -1183,7 +1183,7 @@ define(
           "svgId":opt.svgid,
           "tab": opt.tab,
           "timeParseFormat": "%Y-%m-%d",
-          "title": "Daily Average Driving Cost",
+          "title": "Daily Average Cost, Cycling vs Driving",
           "yLabel": "Cost Per Day ($)",
           "citation": "See other tabs for source information."
         });
@@ -1232,12 +1232,12 @@ define(
           var path = meatyBit.append("path")
             .datum(p.data)
             .attr("d",line)
-            .attr("class","color0Line");
+            .attr("class","color1Line");
 
           var path2 = meatyBit.append("path")
             .datum(expenses)
             .attr("d",expLine)
-            .attr("class","color1Line");
+            .attr("class","color0Line");
 
           var totalLength = path.node().getTotalLength();
 
@@ -1254,6 +1254,33 @@ define(
               .transition()
                 .duration(1500)
                 .attr("stroke-dashoffset", 0);
+
+          meatyBit.append("text")
+            .attr("transform", "translate("+
+              (x(p.parseTime(d3.max(xDom))))+","+
+              (y(p.data[p.data.length-1].cost)+13)+")")
+            .attr("font-size", 12)
+            .attr("fill",colors[1])
+            .style("text-anchor", "end")
+            .style("opacity","0.0")
+            .text("Driving")
+            .transition()
+            .delay(1500)
+              .style("opacity","1.0");
+
+          meatyBit.append("text")
+            .attr("transform", "translate("+
+              (x(p.parseTime(d3.max(xDom))))+","+
+              (y(expenses[expenses.length-1].cpd)-5)+")")
+            .attr("font-size", 12)
+            .style("text-anchor", "end")
+            .attr("fill",colors[0])
+            .style("opacity","0.0")
+            .text("Cycling")
+            .transition()
+            .delay(1500)
+              .style("opacity","1.0");
+
         };
         redraw();
       }
