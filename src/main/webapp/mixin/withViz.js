@@ -13,7 +13,9 @@ define(
       var colors = ["#f77300","#994700","#FFAC80"];
 
       this.getTextBox = function(selection) {
-        selection.each(function(d) { d['bbox'] = this.getBBox(); })
+        selection.each(function(d) {
+          d['bbox'] = this.getBBox();
+        })
       }
 
       this.perfViz = function(d) {
@@ -178,17 +180,15 @@ define(
 
           // ---------------------------
           // Cyc Legend
-          var legend = {"x": x(p.parseTime("2013-02-01 00:00:00")),"y":y(11.00)};
-          legend.width   = x(p.parseTime("2015-05-01 00:00:00")) - legend.x;
-          legend.height  = y(9.10)-legend.y;
-          legend.yOffset = 11;
+
+          var legend = {x: 0, y: 0}
+          legend.yOffset = 12;
           legend.yBaseline = 16;
-          var legendG = p.g.append("g")
+          var legendG = meatyBit.append("g");
 
           legendG.append("rect")
-            .attr("transform","translate("+legend.x+","+legend.y+")")
-            .attr("width",legend.width)
-            .attr("height",legend.height)
+            .attr("width",300)
+            .attr("height",-5+(legend.yBaseline*7)-2)
             .attr("fill","#FFF")
             .style("stroke","#CCC")
             .style("stoke-width","1px")
@@ -196,99 +196,73 @@ define(
 
           legendG.append("circle")
             .attr("r",3)
-            .attr("cx",legend.x + 20)
-            .attr("cy",legend.y + legend.yOffset)
+            .attr("cx",20)
+            .attr("cy",legend.yOffset)
             .style("fill", function(d) { return colors[2];});
 
           legendG.append("text")
             .attr("class", "source")
-            .attr("fill", "#000")
-            .attr("transform", "translate("+
-              (legend.x+40)+","+
-              (legend.y+legend.yBaseline)+")")
-            .attr("font-size", 12)
-            .style("text-anchor", "left")
+            .attr("transform", "translate("+40+","+legend.yBaseline+")")
             .text("Mean observed actual velocity per round trip");
 
           legendG.append("line")
-            .attr("x1",legend.x+10)
-            .attr("y1",legend.y+legend.yOffset + legend.yBaseline)
-            .attr("x2",legend.x+30)
-            .attr("y2",legend.y+legend.yOffset + legend.yBaseline)
+            .attr("x1",10)
+            .attr("y1",legend.yOffset + legend.yBaseline)
+            .attr("x2",30)
+            .attr("y2",legend.yOffset + legend.yBaseline)
             .attr("class","color1Line");
 
           legendG.append("text")
             .attr("class", "source")
-            .attr("fill", "#000")
-            .attr("transform", "translate("+
-              (legend.x+40)+","+
-              (legend.y+(legend.yBaseline*2))+")")
-            .attr("font-size", 12)
-            .style("text-anchor", "left")
+            .attr("transform", "translate("+40+","+(legend.yBaseline*2)+")")
             .text("Actual velocity, 30-period simple moving average");
 
           legendG.append("line")
-            .attr("x1",legend.x+10)
-            .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*2))
-            .attr("x2",legend.x+30)
-            .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*2))
+            .attr("x1",10)
+            .attr("y1",legend.yOffset + (legend.yBaseline*2))
+            .attr("x2",30)
+            .attr("y2",legend.yOffset + (legend.yBaseline*2))
             .attr("class","actMean");
 
           legendG.append("text")
-            .attr("class", "source")
-            .attr("fill", "#000")
-            .attr("transform", "translate("+
-              (legend.x+40)+","+
-              (legend.y+(legend.yBaseline*3))+")")
-            .attr("font-size", 12)
-            .style("text-anchor", "left")
+            .attr("class","source")
+            .attr("transform", "translate("+40+","+(legend.yBaseline*3)+")")
             .text("Actual velocity, overall running average");
 
           legendG.append("line")
-            .attr("x1",legend.x+10)
-            .attr("y1",legend.y+legend.yOffset + (legend.yBaseline*3))
-            .attr("x2",legend.x+30)
-            .attr("y2",legend.y+legend.yOffset + (legend.yBaseline*3))
+            .attr("x1",10)
+            .attr("y1",legend.yOffset + (legend.yBaseline*3))
+            .attr("x2",30)
+            .attr("y2",legend.yOffset + (legend.yBaseline*3))
             .attr("class","color0Line");
 
           legendG.append("text")
             .attr("class", "source")
-            .attr("fill", "#000")
-            .attr("transform", "translate("+
-              (legend.x+40)+","+
-              (legend.y+(legend.yBaseline*4))+")")
-            .attr("font-size", 12)
-            .style("text-anchor", "left")
+            .attr("transform", "translate("+40+","+(legend.yBaseline*4)+")")
             .text("Effective velocity, 30-period simple moving average");
 
           legendG.append("line")
-            .attr("x1",legend.x+10)
-            .attr("y1",legend.y+75)
-            .attr("x2",legend.x+30)
-            .attr("y2",legend.y+75)
+            .attr("x1",10)
+            .attr("y1",75)
+            .attr("x2",30)
+            .attr("y2",75)
             .attr("class","effMean");
 
           legendG.append("text")
             .attr("class", "source")
-            .attr("fill", "#000")
-            .attr("transform", "translate("+
-              (legend.x+40)+","+
-              (legend.y+(legend.yBaseline*5))+")")
-            .attr("font-size", 12)
-            .style("text-anchor", "left")
+            .attr("transform", "translate("+40+","+(legend.yBaseline*5)+")")
             .text("Effective velocity, overall running average");
 
-          p.g.append("text")
+          legendG.append("text")
             .attr("class", "source")
-            .attr("fill", "#000")
-            //.attr("transform", "translate("+(p.width-10)+","+((p.height+p.margin.top))+")")
-            .attr("transform", "translate("+
-              (legend.x+10)+","+
-              (legend.y+(legend.yBaseline*6))+")")
-            .attr("font-size", 12)
-            .style("text-anchor", "left")
+            .attr("transform", "translate("+40+","+(legend.yBaseline*6)+")")
             .text("*Effective velocity = distance / elapsed time");
 
+          //var legend = {"x": x(p.parseTime("2013-02-01 00:00:00")),"y":y(11.00)};
+          legendG.attr("transform","translate("
+            +x(p.parseTime("2012-06-01 00:00:00"))+","
+            +y(12.50)
+            +")")
 
           // End Cyc Legend
           // ---------------------------
@@ -296,7 +270,6 @@ define(
           var lineLabel = Math.round(p.data[p.data.length-1].actVeloSMA*100)/100;
           var fontSize  = 10;
           p.g.append("text")
-                .attr("class", "source")
                 .attr("fill", colors[1])
                 .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
                 .attr("font-size", fontSize)
@@ -304,12 +277,11 @@ define(
                 .style("opacity","0.0")
                 .text(lineLabel)
                 .transition()
-                .delay(1500)
+                .delay(2000)
                   .style("opacity","1.0")
 
           lineLabel = Math.round(p.data[p.data.length-1].actVeloMean*100)/100;
           p.g.append("text")
-                .attr("class", "source")
                 .attr("fill", colors[1])
                 .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
                 .attr("font-size", fontSize)
@@ -317,12 +289,11 @@ define(
                 .style("opacity","0.0")
                 .text(lineLabel)
                 .transition()
-                .delay(1500)
+                .delay(2000)
                   .style("opacity","1.0")
 
           lineLabel = Math.round(p.data[p.data.length-1].effVeloSMA*100)/100;
           p.g.append("text")
-                .attr("class", "source")
                 .attr("fill", colors[0])
                 .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
                 .attr("font-size", fontSize)
@@ -335,7 +306,6 @@ define(
 
           lineLabel = Math.round(p.data[p.data.length-1].effVeloMean*100)/100;
           p.g.append("text")
-                .attr("class", "source")
                 .attr("fill", colors[0])
                 .attr("transform", "translate("+(p.width-10)+","+(y(lineLabel))+")")
                 .attr("font-size", fontSize)
@@ -552,49 +522,45 @@ define(
           })
           // ---------------------------
           // Weather Legend
-          var legend = {"x": x(p.parseTime("2014-04-01 00:00:00")),"y":y(-11.40)};
+          var legend = {"x": x(p.parseTime("2013-06-01 00:00:00")),"y":y(-11.40)};
           legend.width     = x(p.parseTime("2015-12-01 00:00:00")) - legend.x;
           legend.height    = y(-14.75)-legend.y;
-          legend.yOffset   = 15;
+          legend.yOffset   = 10;
           legend.yBaseline = legend.yOffset + 5;
-          var legendG = p.g.append("g")
+
+          var legendG = meatyBit.append("g")
 
           legendG.append("rect")
-            .attr("transform","translate("+legend.x+","+legend.y+")")
-            .attr("width",legend.width)
-            .attr("height",legend.height)
+            .attr("width",250)
+            .attr("height",25)
             .attr("fill","#FFF")
-            .style("stroke","#000")
+            .style("stroke","#CCC")
             .style("stoke-width","1px")
             .style("opacity",0.9);
 
           legendG.append("circle")
             .attr("r",3)
-            .attr("cx",legend.x + 20)
-            .attr("cy",legend.y + legend.yOffset)
+            .attr("cx",20)
+            .attr("cy",legend.yOffset)
             .style("fill", function(d) { return colors[0];})
 
           legendG.append("text")
             .attr("class", "source")
-            .attr("fill", "#000")
-            .attr("transform", "translate("+(legend.x+30)+","+(legend.y+legend.yBaseline)+")")
-            .attr("font-size", 12)
-            .style("text-anchor", "left")
+            .attr("transform", "translate("+(30)+","+(legend.yBaseline)+")")
             .text("Temperature (ºC)");
 
           legendG.append("circle")
             .attr("r",3)
-            .attr("cx",legend.x + 140)
-            .attr("cy",legend.y + legend.yOffset)
+            .attr("cx",140)
+            .attr("cy",legend.yOffset)
             .style("fill", function(d) { return colors[1];})
 
           legendG.append("text")
             .attr("class", "source")
-            .attr("fill", "#000")
-            .attr("transform", "translate("+(legend.x+150)+","+(legend.y+legend.yBaseline)+")")
-            .attr("font-size", 12)
-            .style("text-anchor", "left")
+            .attr("transform", "translate("+(150)+","+(legend.yBaseline)+")")
             .text("Wind Speed (MPH)");
+
+          legendG.attr("transform","translate("+legend.x+","+legend.y+")")
 
           // End Weather Legend
           // ---------------------------
@@ -928,7 +894,7 @@ define(
         }
       };
 
-      this.costPerDay = function(event) {
+      this.costPerDayDrv = function(event) {
         var scenarios             = [],
             MAX_DAYS_PER_WK_WAH   = conf.variables.parking['wah-days'],
             MIN_DAYS_PER_WEEK_PKG = 2,
@@ -1018,7 +984,7 @@ define(
             };
             _.each(months, function(o) {
               let d         = new Date(o.slice(0,4),parseInt(o.slice(4))-1,1)
-              let scenarios = that.costPerDay(d);
+              let scenarios = that.costPerDayDrv(d);
               let meanCost  = _.reduce(scenarios,function(sum,n) { return sum+n})/scenarios.length;
               that.costData.push({"date":moment(d).format("YYYY-MM-DD"),"cost":meanCost});
               that.costMap[o.toString()] = meanCost;
@@ -1222,13 +1188,24 @@ define(
           "citation": "See other tabs for source information."
         });
         p.data = this.costData;
+        var expenses = _.map(_.sortBy(conf.data[2].data,"Date"),_.clone);
+        var dates    = _.map(_(conf.data[5].data)
+                            .sortBy("startDate")
+                            .filter(function(o) { return /C(O|I)/.test(o.route)})
+                            .value(),"startDate");
+        _.each(expenses, function(o,i) {
+          o.Date = moment(o.Date).format('YYYY-MM-DD');
+          o.cpd  = o.total/(_.indexOf(dates, o.Date)+1)/2;
+        })
+        expenses = _.filter(expenses, function(o) { return o.cpd <= 25;});
         // domains
         var yDom = _.map(p.data,function(o){return o.cost;});
         var xDom = _.map(p.data,function(o){return o.date;})
         // scales
         var x = p.scaleX(moment(p.parseTime(d3.min(xDom))).subtract(30,'days'),
                          moment(p.parseTime(d3.max(xDom))).add(30,'days'));
-        var y = p.scaleY(d3.min(yDom)-.5,d3.max(yDom)+.5);
+        //var y = p.scaleY(d3.min(yDom)-.5,d3.max(yDom)+.5);
+        var y = p.scaleY(0,d3.max(yDom)+.5);
         if(!!meatyBit.node())
         {
           meatyBit.remove();
@@ -1245,6 +1222,11 @@ define(
           var line = d3.line()
               .x(function(d) { return x(p.parseTime(d.date));})
               .y(function(d) { return y(d.cost); });
+
+          var expLine = d3.line()
+              .x(function(d) { return x(p.parseTime(d.Date));})
+              .y(function(d) { return y(d.cpd);});
+
           var meatyBit = d3.select('#'+opt.svgid+' g').append('g').attr('class','meaty-bit');
           // viz
           var path = meatyBit.append("path")
@@ -1252,9 +1234,22 @@ define(
             .attr("d",line)
             .attr("class","color0Line");
 
+          var path2 = meatyBit.append("path")
+            .datum(expenses)
+            .attr("d",expLine)
+            .attr("class","color1Line");
+
           var totalLength = path.node().getTotalLength();
 
           path.attr("stroke-dasharray", totalLength + ", " + totalLength)
+              .attr("stroke-dashoffset", totalLength)
+              .transition()
+                .duration(1500)
+                .attr("stroke-dashoffset", 0);
+
+          totalLength = path2.node().getTotalLength();
+
+          path2.attr("stroke-dasharray", totalLength + ", " + totalLength)
               .attr("stroke-dashoffset", totalLength)
               .transition()
                 .duration(1500)

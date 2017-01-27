@@ -52,7 +52,7 @@ define(
               .call(d3.axisBottom(x)
                       .ticks(ticks)
                       .tickSizeOuter(0)
-                      .tickSizeInner(-r.height))
+                      .tickSizeInner(-r.height+5))
             .append("text")
               .attr("y", -10)
               .attr("x", r.width-10)
@@ -83,11 +83,11 @@ define(
           var g = r.g.append("g");
           g.append("text")
               .attr("class", "source")
-              .attr("transform", "translate(5,"+(r.height-18)+")")
+              .attr("transform", "translate(5,"+(r.height-10)+")")
               .text("Source:")
           g.append("text")
               .attr("class", "source")
-              .attr("transform", "translate(5,"+(r.height-8)+")")
+              .attr("transform", "translate(5,"+(r.height)+")")
               .text(opt.citation)
         };
         r.citation    = gCite;
