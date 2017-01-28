@@ -69,8 +69,17 @@ footer div.gradient{
   display: inline-block;
 }
 
-/* Bootstrap Overrrides */
+.panel-title {
+  font-weight: bold;
+  font-size: x-large;
+  color: #994700;
+}
 
+.panel-heading {
+  
+}
+
+/* Bootstrap Overrrides */
 .tab-content {
 padding:10px;
 border:1px solid #ddd;

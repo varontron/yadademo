@@ -20,13 +20,13 @@
     ],
 
     "panels":{
-      "cyc":{"hdr":"Does cycling save time?",
+      "cyc":{"hdr":"Does it save time?",
              "data":[0],
              "fn":"cycVsDriveViz",
              "viz":false,
              "snark":"Yes."
             },
-      "expenses":{"hdr":"Does cycling save money?",
+      "expenses":{"hdr":"Does it save money?",
              "data":[1,2,5],
              "fn":"cycExpensesViz",
              "viz":false,

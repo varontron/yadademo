@@ -3,12 +3,13 @@
      'component/base',
      'datatables',
      'moment',
-     'mixin/withConfig'
+     'mixin/withConfig',
+     'mixin/withFacts'
   ],
-  function(base,datatables,moment,withConfig)
+  function(base,datatables,moment,withConfig,withFacts)
   {
     'use strict';
-    return base.mixin(DetailsPanel,withConfig);
+    return base.mixin(DetailsPanel,withConfig,withFacts);
     function DetailsPanel()
     {
       var tabs   = window.yadademo.content.tabs;
@@ -117,11 +118,14 @@
       };
 
       this.enrichLearnTab = function(id) {
-        if($('#'+id+'-copy').children().length == 1)
+        var that = this;
+        if($('#'+id+'-copy').children().length == 0)
         {
-          require(['text!html/smry-'+id+'.html'],function(html) {
+          require(['text!html/smry-'+id+'.html'],function(h) {
+            var html = !!that[id+'Facts'] ? that[id+'Facts'](h) : h;
             $(html).appendTo('#'+id+'-copy');
           });
+
         }
       };
 

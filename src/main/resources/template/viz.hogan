@@ -1,6 +1,6 @@
 <div id="{{id}}-viz-box" class="viz-container">
   <div id="{{id}}-copy" class="copy">
-    <p class="snark">{{snark}}</p>
+    
   </div>
   <svg id="{{id}}-viz" width="{{width}}" height="{{height}}"></svg>
 </div>

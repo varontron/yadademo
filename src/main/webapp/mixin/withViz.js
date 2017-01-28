@@ -1102,6 +1102,15 @@ define(
                 .duration(1500)
                 .attr("stroke-dashoffset", 0);
 
+          var dataAttr = {"total": Math.round(expenses[expenses.length-1].total),
+                          "diff":Math.round(offsets[offsets.length-1].diff),
+                          "offset":Math.round(offsets[offsets.length-1].offset)};
+
+          var svg = d3.select('#'+p.svgId);
+          ['total','diff','offset'].forEach(function(key) {
+              svg.attr("data-"+key, dataAttr[key]);
+          });
+
           meatyBit.append("text")
             .attr("fill", colors[0])
             .attr("transform", "translate("+
@@ -1110,7 +1119,7 @@ define(
             .attr("font-size", 12)
             .style("text-anchor", "end")
             .style("opacity","0.0")
-            .text("Expenses $"+Math.round(expenses[expenses.length-1].total))
+            .text("Expenses $"+dataAttr.total)
             .transition()
             .delay(1500)
               .style("opacity","1.0");
@@ -1137,7 +1146,7 @@ define(
             .attr("font-size", 12)
             .style("text-anchor", "end")
             .style("opacity","0.0")
-            .text("Savings $"+Math.round(offsets[offsets.length-1].diff))
+            .text("Savings $"+dataAttr.diff)
             .transition()
             .delay(1500)
               .style("opacity","1.0");
@@ -1165,7 +1174,7 @@ define(
             .attr("font-size", 12)
             .style("text-anchor", "end")
             .style("opacity","0.0")
-            .text("Offsets $"+Math.round(offsets[offsets.length-1].offset))
+            .text("Offsets $"+dataAttr.offset)
             .transition()
             .delay(1500)
               .style("opacity","1.0");
@@ -1197,10 +1206,14 @@ define(
           o.Date = moment(o.Date).format('YYYY-MM-DD');
           o.cpd  = o.total/(_.indexOf(dates, o.Date)+1)/2;
         })
-        expenses = _.filter(expenses, function(o) { return o.cpd <= 25;});
+
         // domains
         var yDom = _.map(p.data,function(o){return o.cost;});
         var xDom = _.map(p.data,function(o){return o.date;})
+
+        // cyc domain dependent on drv domain
+        expenses = _.filter(expenses, function(o) { return o.cpd <= d3.max(yDom)+.5;});
+
         // scales
         var x = p.scaleX(moment(p.parseTime(d3.min(xDom))).subtract(30,'days'),
                          moment(p.parseTime(d3.max(xDom))).add(30,'days'));
