@@ -2,4 +2,4 @@ Definitely.  Over the years, Dave spent $<span id="expenses">8,193</span> on his
 
 **Datasource**: Bureau of Labor Statistics Historical Gas Prices (CouchDB), formula constants and variables (JSON)
 
-**YADA features**: YADA Admin, RESTAdapter
+**YADA features**: YADA Admin, RESTAdapter, HSQLdbAdaptor, MySQLAdaptor

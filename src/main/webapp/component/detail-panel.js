@@ -137,8 +137,13 @@
       };
 
       this.requestRedraw = function(e,d) {
+        // $('.panel-heading').removeClass('panel-header-selected');
+        $('.panel-body').removeClass('panel-body-selected');
         var id = this.attr.panelId;
         var panel = panels[id];
+        var $panel = $('#'+id+'-panel');
+        // $panel.find('.panel-heading').addClass('panel-header-selected');
+        $panel.find('.panel-body').addClass('panel-body-selected');
         var evtPayload ={
           "fn":panel.fn,
           "id":id, // becomes 'idViz'
