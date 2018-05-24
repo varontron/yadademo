@@ -1199,9 +1199,9 @@ define(
         p.data = this.costData;
         var expenses = _.map(_.sortBy(conf.data[2].data,"Date"),_.clone);
         var dates    = _.map(_(conf.data[5].data)
-                            .sortBy("startDate")
+                            .sortBy("startdate")
                             .filter(function(o) { return /C(O|I)/.test(o.route)})
-                            .value(),"startDate");
+                            .value(),"startdate");
         _.each(expenses, function(o,i) {
           o.Date = moment(o.Date).format('YYYY-MM-DD');
           o.cpd  = o.total/(_.indexOf(dates, o.Date)+1)/2;
