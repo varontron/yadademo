@@ -1040,7 +1040,7 @@ define(
           // current monthly cost
           var curCost = that.costMap[o.ym];
           // all expenses before current date
-          var toDates = _.filter(expenses,function(m) { return new Date(m.Date).getTime() < new Date(o.startDate).getTime(); });
+          var toDates = _.filter(expenses,function(m) { return new Date(m.Date).getTime() < new Date(o.startdate).getTime(); });
           // total from last index
           var total   = !!!toDates || toDates.length == 0 ? 0 : toDates[toDates.length-1].total;
           var diff    = 0;
@@ -1048,7 +1048,7 @@ define(
           {
             o.offset  = i == 0 ? curCost * -1 : cycData[i-1].offset - (curCost/2);
             diff      = total+o.offset;
-            offsets.push({"date":o.startDate,"offset":o.offset, "diff": diff });
+            offsets.push({"date":o.startdate,"offset":o.offset, "diff": diff });
           }
           else
           {
