@@ -36,11 +36,11 @@ define(
         // domains
         p.data = _(conf.data[5].data).filter(function(o) {
           return (o.route == "CI" || o.route == "CO")
-           && ((o.distance/o.runTime)*conf.constants["mps-to-mph"]) < 40;
+           && ((o.distance/o.runtime)*conf.constants["mps-to-mph"]) < 40;
         }).value();
         p.data = _(p.data).map(function(o,i) {
-          o.actVelo = (o.distance/o.runTime)*conf.constants["mps-to-mph"];
-          o.effVelo = (o.distance/o.elapsedTime)*conf.constants["mps-to-mph"];
+          o.actVelo = (o.distance/o.runtime)*conf.constants["mps-to-mph"];
+          o.effVelo = (o.distance/o.elapsedtime)*conf.constants["mps-to-mph"];
           // calc ma, ema here
           var sumn = function(sum,n){return sum+n;};
           if(i>=30)
