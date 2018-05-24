@@ -68,7 +68,7 @@ define(
         }).value();
 
         var yDom = _.map(p.data,function(o){return o.actVelo;});
-        var xDom = _.map(p.data,function(o){return o.startTime;})
+        var xDom = _.map(p.data,function(o){return o.starttime;})
 
         // scales
         var x = p.scaleX(moment(p.parseTime(d3.min(xDom))).subtract(30,'days'),
@@ -103,7 +103,7 @@ define(
               .enter()
               .append("circle")
               .attr("r", 1)
-              .attr("cx", function(d) {return x(p.parseTime(d.startTime));})
+              .attr("cx", function(d) {return x(p.parseTime(d.starttime));})
               .attr("cy", function(d) {return y(d.actVelo)})
               .attr("data-legend","Observed Velocity")
               .style("fill", function(d) { return colors[2];})
@@ -115,7 +115,7 @@ define(
 
           // lines
           var actSma30 = d3.line()
-              .x(function(d) { return x(p.parseTime(d.startTime));})
+              .x(function(d) { return x(p.parseTime(d.starttime));})
               .y(function(d) { return y(d.actVeloSMA); });
 
           var actSma30Path = meatyBit.append("path")
@@ -131,7 +131,7 @@ define(
                 .attr("stroke-dashoffset", 0);
 
           var actMean = d3.line()
-              .x(function(d) { return x(p.parseTime(d.startTime));})
+              .x(function(d) { return x(p.parseTime(d.starttime));})
               .y(function(d) { return y(d.actVeloMean); });
 
           var actMeanPath = meatyBit.append("path")
@@ -147,7 +147,7 @@ define(
                 .style("opacity","1.0")
 
           var effSma30 = d3.line()
-              .x(function(d) { return x(p.parseTime(d.startTime));})
+              .x(function(d) { return x(p.parseTime(d.starttime));})
               .y(function(d) { return y(d.effVeloSMA); });
 
           var effSma30Path = meatyBit.append("path")
@@ -163,7 +163,7 @@ define(
                 .attr("stroke-dashoffset", 0);
 
           var effMean = d3.line()
-              .x(function(d) { return x(p.parseTime(d.startTime));})
+              .x(function(d) { return x(p.parseTime(d.starttime));})
               .y(function(d) { return y(d.effVeloMean); });
 
           var effMeanPath = meatyBit.append("path")
