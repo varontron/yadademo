@@ -27,12 +27,12 @@ for i in range(0,len(rows)):
         d.append(rows[i])
 
 # extract elapsed drive time and create kde
-elapsedDrive = [float(o['elapsedTime']) for o in d]
+elapsedDrive = [float(o['elapsedtime']) for o in d]
 kernelDrive  = stats.gaussian_kde(elapsedDrive,.4)
 medDrive     = np.median(elapsedDrive);
 
 # extract elapsed cycling time and create kde
-elapsedCyc   = [float(o['elapsedTime']) for o in c]
+elapsedCyc   = [float(o['elapsedtime']) for o in c]
 kernelCyc    = stats.gaussian_kde(elapsedCyc,.4)
 medCyc       = np.median(elapsedCyc);
 
