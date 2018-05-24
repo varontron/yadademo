@@ -17,7 +17,7 @@ maximumPoolSize=100
 poolName=HikariPool-NOAA
 driverClassName=org.postgresql.Driver'); --Weather data
 
-INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('CYC','jdbcUrl=jdbc:mysql://localhost/meter
+INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('CYC','jdbcUrl=jdbc:postgresql://localhost/meter
 username=yada
 password=yada
 autoCommit=true
@@ -27,8 +27,8 @@ maxLifetime=1800000
 minimumIdle=5
 maximumPoolSize=100
 poolName=HikariPool-CYC
-driverClassName=com.mysql.jdbc.Driver');  --Cycling performance
-INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('EXP','jdbcUrl=jdbc:hsqldb:hsql://localhost/expenses
+driverClassName=org.postgresql.Driver');  --Cycling performance
+INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('EXP','jdbcUrl=jdbc:postgresql://localhost/expenses
 autoCommit=true
 connectionTimeout=300000
 idleTimeout=600000
@@ -36,8 +36,8 @@ maxLifetime=1800000
 minimumIdle=5
 maximumPoolSize=100
 poolName=HikariPool-EXP
-driverClassName=org.hsqldb.jdbc.JDBCDriver');  --Cycling expenses
-INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('SLP','jdbcUrl=jdbc:hsqldb:hsql://localhost/sleep
+driverClassName=org.postgresql.Driver');  --Cycling expenses
+INSERT INTO YADA_QUERY_CONF (APP,CONF) VALUES ('SLP','jdbcUrl=jdbc:postgresql://localhost/sleep
 autoCommit=true
 connectionTimeout=300000
 idleTimeout=600000
@@ -45,7 +45,7 @@ maxLifetime=1800000
 minimumIdle=5
 maximumPoolSize=100
 poolName=HikariPool-SLP
-driverClassName=org.hsqldb.jdbc.JDBCDriver'
+driverClassName=org.postgresql.Driver'
 );  --Sleep data
 
 -- Privs

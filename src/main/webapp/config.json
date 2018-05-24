@@ -1,7 +1,7 @@
 {
   "context": "yadademo",
   "version": "0.1.0",
-  "environment": { "localhost:7001": {"name":"LOCAL","YADA":"localhost:8081/yada.jsp"},
+  "environment": { "localhost:8000": {"name":"LOCAL","YADA":"localhost:8081/yada.jsp"},
                    "ec2-34-196-112-106.compute-1.amazonaws.com:8080":{"name":"DEMO","YADA":"ec2-34-196-112-106.compute-1.amazonaws.com:8080/yada.jsp"}
                  },
   "content": {
