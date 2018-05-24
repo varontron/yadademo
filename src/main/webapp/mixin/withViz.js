@@ -1021,7 +1021,7 @@ define(
         {
           for(let i=0;i<expenses.length;i++)
           {
-            expenses[i].Date = this.getDateFromOracleString(expenses[i].PURCHASEDATE);
+            expenses[i].Date = this.getDateFromOracleString(expenses[i].purchasedate);
           }
         }
         expenses = _.sortBy(expenses,"Date")
@@ -1029,9 +1029,9 @@ define(
         {
           // populate each record with the 'total' spend so far
           if(i==0)
-            expenses[i].total = parseFloat(expenses[i].PRICE)
+            expenses[i].total = parseFloat(expenses[i].price)
           else
-            expenses[i].total = parseFloat(expenses[i].PRICE) + expenses[i-1].total;
+            expenses[i].total = parseFloat(expenses[i].price) + expenses[i-1].total;
           yDom.push(expenses[i].total);
         }
         // calculate cumulative savings
