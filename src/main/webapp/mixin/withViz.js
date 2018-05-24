@@ -975,7 +975,7 @@ define(
             that.costData = [];
             that.costMap  = {};
             that.buildGasMap();
-            var minDate = moment(conf.data[5].data[0].startDate);
+            var minDate = moment(conf.data[5].data[0].startdate);
             var maxDate = moment();
             var months  = [];
             while (maxDate > minDate) {
