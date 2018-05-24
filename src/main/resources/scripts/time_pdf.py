@@ -44,4 +44,4 @@ kde_drive, kde_cyc = [],[];
 for i in range(0,1000):
     kde_drive.append({'x':float(x[i]),'y':float(yd[i])})
     kde_cyc.append({'x':float(x[i]),'y':float(yc[i])})
-print json.dumps({"KDE_drive":kde_drive,"med_drive":medDrive,"KDE_cyc":kde_cyc,"med_cyc":medCyc,"qname":"CYC select round trips"})
+print( json.dumps({"KDE_drive":kde_drive,"med_drive":medDrive,"KDE_cyc":kde_cyc,"med_cyc":medCyc,"qname":"CYC select round trips"}) )
