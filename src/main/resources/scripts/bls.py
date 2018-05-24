@@ -10,12 +10,12 @@ import datetime
 # }}
 
 # YADA config
-YADA_HOST = "localhost"
-YADA_PORT = "8081"
+YADA_HOST = "yada-test.qdss.io"
+YADA_PORT = ""
 YADA = "http://"+YADA_HOST+":"+YADA_PORT+"/yada.jsp?"
 
 # couchdb config
-COUCHDB_HOST = "localhost"
+COUCHDB_HOST = "yada-test.qdss.io"
 COUCHDB_PORT = "5984"
 COUCHDB = "http://"+COUCHDB_HOST+":"+COUCHDB_PORT
 
