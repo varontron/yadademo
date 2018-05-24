@@ -39,7 +39,7 @@ define(
   				var appContext = (config.context != "ROOT" ? config.context + '/': '');
   				//var defaultUrl = '/' + appContext + 'yada.jsp';
   				$.ajaxSetup({
-  					url: 'http://'+env.YADA,
+  					url: 'https://'+env.YADA,
   		      type: 'GET',
   		      dataType: 'json',
   		      data: { pz: -1, c:false } //, r: 'RESTPassThruResponse' }
